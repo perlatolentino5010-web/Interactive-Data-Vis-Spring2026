@@ -9,6 +9,7 @@ For more, see <https://observablehq.com/framework/getting-started>.
 ```js
 data = await d3.csv("https://raw.githubusercontent.com/InteractiveDataVis/Interactive-Data-Vis-Spring2026/refs/heads/main/src/lab_1/data/pollinator_activity_data.csv")
 ```
+
 ```js
 data
 ```
