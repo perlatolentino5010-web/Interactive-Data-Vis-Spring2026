@@ -20,6 +20,7 @@ const data = await d3.csv(
   })
 )
 ```
+
 ```js
 Inputs.table(data)
 ```
