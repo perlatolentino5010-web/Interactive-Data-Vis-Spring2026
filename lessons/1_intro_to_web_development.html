@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="generator" content="Observable Framework v1.13.3">
+<title>Intro to Web Development | Interactive Data Visualization (Spring 2026)</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="preload" as="style" href="../_observablehq/theme-air.aad62322.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="stylesheet" type="text/css" href="../_observablehq/theme-air.aad62322.css">
+<link rel="modulepreload" href="../_observablehq/client.dd4c3968.js">
+<link rel="modulepreload" href="../_observablehq/runtime.e080113b.js">
+<link rel="modulepreload" href="../_observablehq/stdlib.73a8ec5a.js">
+<link rel="modulepreload" href="../_npm/htl@0.3.1/72f4716c.js">
+<link rel="icon" href="../_file/observable.1af93621.png" type="image/png" sizes="32x32">
+<script type="module">
+
+import {define} from "../_observablehq/client.dd4c3968.js";
+
+define({id: "14729c47", inputs: ["html","display"], body: async (html,display) => {
+display(await(
+html.fragment`<button onclick="(()=>window.alert('BOO! AGAIN!'))()">submit</button>`
+))
+}});
+
+</script>
+</head>
+<body>
+<input id="observablehq-sidebar-toggle" type="checkbox" title="Toggle sidebar">
+<label id="observablehq-sidebar-backdrop" for="observablehq-sidebar-toggle"></label>
+<nav id="observablehq-sidebar">
+  <ol>
+    <label id="observablehq-sidebar-close" for="observablehq-sidebar-toggle"></label>
+    <li class="observablehq-link"><a href="../">Interactive Data Visualization (Spring 2026)</a></li>
+  </ol>
+  <section class="observablehq-section-active">
+    <summary>Lessons</summary>
+    <ol>
+    <li class="observablehq-link observablehq-link-active"><a href="./1_intro_to_web_development">Intro to Web Development</a></li>
+    <li class="observablehq-link"><a href="./2_working_in_cursor">Working in Cursor</a></li>
+    <li class="observablehq-link"><a href="./3_intro_to_observable_framework">Intro to Observable Framework</a></li>
+    <li class="observablehq-link"><a href="./4_confirming_spring_upstream">Confirming Spring Upstream</a></li>
+    <li class="observablehq-link"><a href="./5_intro_to_observable_plot">Intro to Observable Plot</a></li>
+    <li class="observablehq-link"><a href="./6_transforms_and_data_manipulation">Transforms and Data Manipulation</a></li>
+    </ol>
+  </section>
+  <details>
+    <summary>Lab 0: Getting Started</summary>
+    <ol>
+    <li class="observablehq-link"><a href="../lab_0/readme">Instructions</a></li>
+    <li class="observablehq-link"><a href="../lab_0/">Dashboard</a></li>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 1: Prolific Pollinators</summary>
+    <ol>
+    <li class="observablehq-link"><a href="../lab_1/readme">Instructions</a></li>
+    <li class="observablehq-link"><a href="../lab_1/">Dashboard</a></li>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 2: Subway Staffing</summary>
+    <ol>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 3: Mayoral Mystery</summary>
+    <ol>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 4: Clearwater Crisis</summary>
+    <ol>
+    </ol>
+  </details>
+</nav>
+<script>{const e=document.querySelector("#observablehq-sidebar"),o=document.querySelector("#observablehq-sidebar-toggle"),r=sessionStorage.getItem("observablehq-sidebar");r?o.checked=r==="true":o.indeterminate=!0;for(const t of document.querySelectorAll("#observablehq-sidebar summary")){const s=t.parentElement;switch(sessionStorage.getItem(`observablehq-sidebar:${t.textContent}`)){case"true":s.open=!0;break;case"false":s.classList.contains("observablehq-section-active")||(s.open=!1);break}}addEventListener("beforeunload",()=>sessionStorage.setItem("observablehq-sidebar-scrolly",`${e.scrollTop}`));const a=sessionStorage.getItem("observablehq-sidebar-scrolly");a!=null&&(e.style.cssText="overflow: hidden;",e.scrollTop=+a,e.style.cssText="");}</script>
+<div id="observablehq-center">
+<aside id="observablehq-toc" data-selector="h1:not(:first-of-type)[id], h2:first-child[id], :not(h1) + h2[id]">
+<nav>
+<div>Contents</div>
+<ol>
+<li class="observablehq-secondary-link"><a href="#infrastructure">Infrastructure</a></li>
+<li class="observablehq-secondary-link"><a href="#websites">Websites</a></li>
+<li class="observablehq-secondary-link"><a href="#version-control-git-git-hub-and-git-hub-pages">Version Control (Git, GitHub, and GitHub Pages)</a></li>
+</ol>
+</nav>
+</aside>
+<main id="observablehq-main" class="observablehq">
+<h1 id="intro-to-web-development" tabindex="-1"><a class="observablehq-header-anchor" href="#intro-to-web-development">Intro to Web Development</a></h1>
+<hr>
+<h2 id="infrastructure" tabindex="-1"><a class="observablehq-header-anchor" href="#infrastructure">Infrastructure</a></h2>
+<p>Technology has come so far that we don't need to understand web infrastructure <em>entirely</em> to get a good sense of what is happening when we use the internet, but it's important to have some context as we learn about how to build on it.</p>
+<p>The simple version is that the internet is an interconnected web of machines that can talk to each other. Data is sent from one machine to another. There are many more complicated things happening, of course, but at its core, it's just interconnected machines.</p>
+<p>Navigating this interconnected system is just a matter of seeking out "data" and rendering that returned data, which we typically see as websites. (Using "data" here to really just mean a collection of information, rather than a dataset of something like measurements.)</p>
+<p>To enter this world of web you go to a browser, like Chrome or Safari. In that browser, you ask for a website by entering its domain name or URL, like <code>https://google.com</code>, and your browser displays the response to you. A more technical way to describe this request-and-response flow is the relationship between clients and servers.</p>
+<h3 id="clients-servers" tabindex="-1"><a class="observablehq-header-anchor" href="#clients-servers">Clients &lt;&gt; Servers</a></h3>
+<p>The client/server distinction is primarily about communication patterns and responsibilities rather than different types of hardware. The technical differences emerge from their roles: servers are optimized for <strong>serving many clients reliably</strong>, while clients are optimized for <strong>user interaction and consuming services</strong>.</p>
+<p>They can be quite complicated, but for our use case in this class, we can simply think about them like this: clients are your <strong>browser making requests</strong>, and the server is either...</p>
+<ol>
+<li>your local server (computer) rendering local files (<code>http://127.0.0.1:3000/</code>), or</li>
+<li>an external server sending data to you via the web (<code>https://google.com</code>).</li>
+</ol>
+<p>We will use servers to render our code, and clients to view it.</p>
+<h2 id="websites" tabindex="-1"><a class="observablehq-header-anchor" href="#websites">Websites</a></h2>
+<p>When we create a website, we are writing a "document" that needs to be available to other machines. We can assume that a website will be read on a web browser, so we need to make it in such a way that it is readable on a browser. This requires a specific file type, and originally, this was just simple HTML.</p>
+<p>We can still make those simple HTML files, but then other file types were added, like JavaScript and CSS. HyperText Markup Language (HTML), Cascading Style Sheets (CSS), and JavaScript are the languages that run the web. They’re very closely related, but they’re also designed for very specific tasks.</p>
+<ul>
+<li>HTML is for adding <em>meaning</em> to raw content by marking it up.</li>
+<li>CSS is for <em>formatting</em> that marked up content.</li>
+<li>JavaScript is for making that content and formatting <em>interactive</em>.</li>
+</ul>
+<p>Think of HTML as the abstract text and images behind a web page, CSS as the page that actually gets displayed, and JavaScript as the behaviors that can manipulate both HTML and CSS.</p>
+<h3 id="html" tabindex="-1"><a class="observablehq-header-anchor" href="#html">HTML</a></h3>
+<p>HTML is composed of elements and their tags that give meaning to the content inside of them. Tags can be things like:</p>
+<ul>
+<li>Document structure (<code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, <code>&lt;body&gt;</code>, etc)</li>
+<li>Text elements (<code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code>, <code>&lt;p&gt;</code>)</li>
+<li>Links, images, lists (<code>&lt;a&gt;</code>, <code>&lt;img&gt;</code>, <code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code>)</li>
+<li>Containers, sections (<code>&lt;div&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;footer&gt;</code>)</li>
+<li>Interactive elements (<code>&lt;button&gt;</code>, <code>&lt;input&gt;</code>)</li>
+</ul>
+<p>For example, creating a button looks like this:</p>
+<pre data-language="html"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"(()=&gt;window.alert('BOO!'))()"</span>&gt;</span>submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+</code></pre>
+<p>and when rendered, it works like this:
+<button onclick="(()=>window.alert('BOO!'))()">submit</button></p>
+<h3 id="css" tabindex="-1"><a class="observablehq-header-anchor" href="#css">CSS</a></h3>
+<p>HTML represents the content of your web page, while CSS defines how that content is presented to the user. CSS actually "selects" elements on the page, and styles them as per the instructions in the CSS file. A style rule looks like:</p>
+<style>
+  .classname-of-thing {
+    color: pink;
+    font-weight: 700;
+    font-family: monospace;
+  }
+</style>
+<pre data-language="css"><code class="language-css">  <span class="hljs-selector-class">.classname-of-thing</span> {
+    <span class="hljs-attribute">color</span>: pink;
+    <span class="hljs-attribute">font-weight</span>: <span class="hljs-number">700</span>;
+    <span class="hljs-attribute">font-family</span>: monospace;
+  }
+</code></pre>
+<p>Then, an HTML element with that class will respect the style rules it was provided. This HTML element</p>
+<pre data-language="html"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"classname-of-thing"</span>&gt;</span>PINK THING<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+</code></pre>
+<p>...will render as:
+<span class="classname-of-thing">PINK THING</span></p>
+<p>This syntax in CSS is intuitive, but requires:</p>
+<ul>
+<li>Selector: This is the HTML element name or condition at the start of the ruleset. In this case, the classname of "classname-of-thing", designated by <code>.classname-of-thing</code>.</li>
+<li>Properties: These are ways in which you can style an HTML element (e.g., color, font weight, and font family).</li>
+<li>Property Value: This chooses one out of many possible appearances for a given property, like the designation of "pink" for color.</li>
+</ul>
+<img src="../_file/lessons/assets/css.26aab6e4.png" alt="CSS ruleset structure" width="400">
+<h3 id="java-script" tabindex="-1"><a class="observablehq-header-anchor" href="#java-script">JavaScript</a></h3>
+<p><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/What_is_JavaScript" target="_blank" rel="noopener noreferrer">JavaScript</a> is a scripting or programming language that allows you to implement complex features on web pages — every time a web page does more than just sit there and display static information for you to look at — displaying timely content updates, interactive maps, animated 2D/3D graphics, scrolling video jukeboxes, etc. — you can bet that JavaScript is probably involved.</p>
+<p>A very common use of JavaScript is to dynamically modify HTML and CSS to update a user interface, via the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model" target="_blank" rel="noopener noreferrer">Document Object Model API</a>.</p>
+<p>In the button we created before with HTML, we added JavaScript by creating a function that interacted with your rendering of the webpage. The HTML is the <code>&lt;button&gt;</code> tag, but the JavaScript is the function set to the <code>onclick</code> property of that button.</p>
+<ul>
+<li>HTML: <code>&lt;button&gt;submit&lt;/button&gt;</code></li>
+<li>JavaScript: <code>() =&gt; window.alert('BOO!')</code></li>
+</ul>
+<p>Combining them creates an HTML button with interactivity:</p>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:14729c47:--></div>
+<pre data-language="html"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"(()=&gt;window.alert('BOO! AGAIN!'))()"</span>&gt;</span>submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+</code></pre>
+<h3 id="markdown" tabindex="-1"><a class="observablehq-header-anchor" href="#markdown">Markdown</a></h3>
+<p>The final file format or syntax worth discussing in the context of what we are building together is Markdown. Markdown is a markup language for making formatted text in a plain-text editor. Markdown is simply a syntax, which is respected by some technologies (like Observable and GitHub) to render in a certain way.</p>
+<p>There are a <a href="https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Howto/Markdown_in_MDN" target="_blank" rel="noopener noreferrer">few rules to markdown</a>, but some of the simplest examples are:</p>
+<pre data-language="md"><code class="language-md"><span class="hljs-section"># Heading</span>
+<span class="hljs-section">## Sub heading</span>
+<span class="hljs-section">### Sub sub heading</span>
+
+this would be a [<span class="hljs-string">link</span>](<span class="hljs-link">https://google.com</span>)
+this is a list item: 
+<span class="hljs-bullet">-</span> one
+<span class="hljs-bullet">-</span> two 
+<span class="hljs-bullet">-</span> three
+
+and code blocks with back ticks <span class="hljs-code">`code`</span>
+</code></pre>
+<p>Markdown is typically helpful for things like text files within a GitHub repository, but even more helpful for us, as it is how Observable Framework structures its pages. This page that you are reading right now is written in (extended) markdown in a plain text editor. More on how that works in the next lesson, <a href="./2_intro_to_observable_framework.md">Intro to Observable Framework</a>.</p>
+<h2 id="version-control-git-git-hub-and-git-hub-pages" tabindex="-1"><a class="observablehq-header-anchor" href="#version-control-git-git-hub-and-git-hub-pages">Version Control (Git, GitHub, and GitHub Pages)</a></h2>
+<p>To help software engineers work together on projects, version control is a well-defined practice to organize and track the history of coding files. It acts like a google doc for coding files, where multiple people can access and edit the same files at the same time without loss of work. Although our work for this class is not necessarily code collaborative, we will still leverage <strong>Git</strong> and <strong>GitHub</strong> to manage our codebase and share our work with the world.</p>
+<h3 id="git" tabindex="-1"><a class="observablehq-header-anchor" href="#git">Git</a></h3>
+<p>Git is a version control system that intelligently tracks changes in files. It is particularly useful when you and a group of people are making changes to the same files at the same time. On your local computer, your work is organized into folders where you save your progress through "commits". Git is the system that we use to track code changes, while GitHub is the remote online platform that houses the code.</p>
+<h3 id="git-hub" tabindex="-1"><a class="observablehq-header-anchor" href="#git-hub">GitHub</a></h3>
+<p>GitHub is a cloud-based platform where you can store, share, and work together with others to write code. It acts as the remote "repository" for your project. We will use that word often -- repository, or "repo" -- to describe the code "folder". There will be a <strong>class</strong> repository, and you will have a <strong>personal</strong> repository.</p>
+<p>The class repository will include:</p>
+<ul>
+<li>a "template" of all the blank / uncompleted labs that you are assigned (on the <code>/main</code> branch)</li>
+<li>a place where I will store any code we do together in class (on a <code>/class</code> branch)</li>
+<li>a reference for class lessons in written form, just like this one. This lesson is written in markdown, <a href="https://github.com/InteractiveDataVis/Interactive-Data-Vis-Spring2026/blob/main/src/lessons/1_intro_to_web_development.md" target="_blank" rel="noopener noreferrer">in the class repository</a>, and deployed via GitHub Pages, just like your work will be.</li>
+</ul>
+<p>When you create your personal version of the class repository, you will do something called <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo" target="_blank" rel="noopener noreferrer"><strong>forking</strong></a>. By forking, it allows you to:</p>
+<ul>
+<li>start with a populated repository, that includes all the technical set up for this project</li>
+<li>continue to have connected visibility to the original class repository, and include updates from the original, upstream class repo with a simple command</li>
+<li>have your own playground that does not affect the class repository</li>
+<li>learn and get started with your own code working towards a portfolio</li>
+</ul>
+<p>There are way more in-depth details about these steps once you get started in the Lab 0 readme, but in theory, to move your work between your local computer and GitHub, you would do the following:</p>
+<ol>
+<li><strong>Stage</strong>: Set some of your saved changes as ready for commit.</li>
+<li><strong>Commit</strong>: Commit those changes with a message.</li>
+<li><strong>Push</strong>: Sending your local commits up to the GitHub repository.</li>
+</ol>
+<p>Your code would then be on GitHub, and subsequently build and push to your deployed site. If there are changes to the class repository, you can pull those to your machine with a <code>git pull</code>.</p>
+<ol start="4">
+<li><strong>Pull</strong>: Bringing the latest changes from the GitHub repository down to your local machine.</li>
+</ol>
+<p>This flow in action looks something like this:
+<img src="../_file/lessons/assets/git_flow.87c600a4.gif" alt="Pushing to GitHub" width="500"></p>
+<h3 id="git-hub-pages" tabindex="-1"><a class="observablehq-header-anchor" href="#git-hub-pages">GitHub Pages</a></h3>
+<p>GitHub Pages is an extension of GitHub, and it is a <strong>static site hosting service</strong>. It takes the files from your repository on GitHub, builds them into something renderable (from <code>.md</code> files to HTML/JS/CSS files), and publishes them as a live website. The service runs your files through a <strong>build</strong> process and then <strong>deploys</strong> them, making your work accessible to anyone via a public URL.</p>
+<p>This process can be complicated, so the class repository (and, subsequently, your forked repository) is already completely set up with the infrastructure to do this. You shouldn't have to change anything, and your page should build and deploy as soon as you push your code to GitHub. (If you're curious, the job that does this is located in the <code>.github/workflows/deploy.yml</code> file).</p>
+</main>
+<footer id="observablehq-footer">
+<nav><a rel="prev" href="../"><span>Interactive Data Visualization (Spring 2026)</span></a><a rel="next" href="./2_working_in_cursor"><span>Working in Cursor</span></a></nav>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-03-25T05:39:52">Mar 25, 2026</a>.</div>
+</footer>
+</div>
+</body>
+</html>

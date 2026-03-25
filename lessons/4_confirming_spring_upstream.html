@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="generator" content="Observable Framework v1.13.3">
+<title>Confirming Spring Upstream | Interactive Data Visualization (Spring 2026)</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="preload" as="style" href="../_observablehq/theme-air.aad62322.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="stylesheet" type="text/css" href="../_observablehq/theme-air.aad62322.css">
+<link rel="modulepreload" href="../_observablehq/client.dd4c3968.js">
+<link rel="modulepreload" href="../_observablehq/runtime.e080113b.js">
+<link rel="modulepreload" href="../_observablehq/stdlib.73a8ec5a.js">
+<link rel="icon" href="../_file/observable.1af93621.png" type="image/png" sizes="32x32">
+<script type="module">
+
+import "../_observablehq/client.dd4c3968.js";
+
+</script>
+</head>
+<body>
+<input id="observablehq-sidebar-toggle" type="checkbox" title="Toggle sidebar">
+<label id="observablehq-sidebar-backdrop" for="observablehq-sidebar-toggle"></label>
+<nav id="observablehq-sidebar">
+  <ol>
+    <label id="observablehq-sidebar-close" for="observablehq-sidebar-toggle"></label>
+    <li class="observablehq-link"><a href="../">Interactive Data Visualization (Spring 2026)</a></li>
+  </ol>
+  <section class="observablehq-section-active">
+    <summary>Lessons</summary>
+    <ol>
+    <li class="observablehq-link"><a href="./1_intro_to_web_development">Intro to Web Development</a></li>
+    <li class="observablehq-link"><a href="./2_working_in_cursor">Working in Cursor</a></li>
+    <li class="observablehq-link"><a href="./3_intro_to_observable_framework">Intro to Observable Framework</a></li>
+    <li class="observablehq-link observablehq-link-active"><a href="./4_confirming_spring_upstream">Confirming Spring Upstream</a></li>
+    <li class="observablehq-link"><a href="./5_intro_to_observable_plot">Intro to Observable Plot</a></li>
+    <li class="observablehq-link"><a href="./6_transforms_and_data_manipulation">Transforms and Data Manipulation</a></li>
+    </ol>
+  </section>
+  <details>
+    <summary>Lab 0: Getting Started</summary>
+    <ol>
+    <li class="observablehq-link"><a href="../lab_0/readme">Instructions</a></li>
+    <li class="observablehq-link"><a href="../lab_0/">Dashboard</a></li>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 1: Prolific Pollinators</summary>
+    <ol>
+    <li class="observablehq-link"><a href="../lab_1/readme">Instructions</a></li>
+    <li class="observablehq-link"><a href="../lab_1/">Dashboard</a></li>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 2: Subway Staffing</summary>
+    <ol>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 3: Mayoral Mystery</summary>
+    <ol>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 4: Clearwater Crisis</summary>
+    <ol>
+    </ol>
+  </details>
+</nav>
+<script>{const e=document.querySelector("#observablehq-sidebar"),o=document.querySelector("#observablehq-sidebar-toggle"),r=sessionStorage.getItem("observablehq-sidebar");r?o.checked=r==="true":o.indeterminate=!0;for(const t of document.querySelectorAll("#observablehq-sidebar summary")){const s=t.parentElement;switch(sessionStorage.getItem(`observablehq-sidebar:${t.textContent}`)){case"true":s.open=!0;break;case"false":s.classList.contains("observablehq-section-active")||(s.open=!1);break}}addEventListener("beforeunload",()=>sessionStorage.setItem("observablehq-sidebar-scrolly",`${e.scrollTop}`));const a=sessionStorage.getItem("observablehq-sidebar-scrolly");a!=null&&(e.style.cssText="overflow: hidden;",e.scrollTop=+a,e.style.cssText="");}</script>
+<div id="observablehq-center">
+<aside id="observablehq-toc" data-selector="h1:not(:first-of-type)[id], h2:first-child[id], :not(h1) + h2[id]">
+<nav>
+<div>Contents</div>
+<ol>
+<li class="observablehq-secondary-link"><a href="#if-you-forked-the-fall-repo">If you forked the Fall repo</a></li>
+<li class="observablehq-secondary-link"><a href="#if-your-upstream-is-the-fall-repo">If your upstream is the Fall repo</a></li>
+<li class="observablehq-secondary-link"><a href="#pulling-released-labs">Pulling Released Labs</a></li>
+</ol>
+</nav>
+</aside>
+<main id="observablehq-main" class="observablehq">
+<h1 id="confirming-spring-upstream" tabindex="-1"><a class="observablehq-header-anchor" href="#confirming-spring-upstream">Confirming Spring Upstream</a></h1>
+<hr>
+<p>You may have some references to the Fall 2025 repository -- and my apologies for not replacing the link when including the git instructions. The instructions are updated, but the following includes specific instructions for each circumstance.</p>
+<p>There are two scenarios you could fall into:</p>
+<ol>
+<li><strong>You forked the Fall repo</strong>, or</li>
+<li><strong>Your upstream is the Fall repo</strong>.</li>
+</ol>
+<p>You can determine if you fall into either of these scenarios from the following steps.</p>
+<p><strong>Check your repo name.</strong> It should be <code>Interactive-Data-Vis-Spring2026</code>. If the reference is <code>-Fall2025</code>, follow instructions for <a href="#if-you-forked-the-fall-repo">forking the correct repo</a>.</p>
+<p><strong>Check your remote repository links.</strong> You can do so by navigating to the project folder in your terminal and running:</p>
+<pre data-language="sh"><code class="language-sh">git remote -v
+</code></pre>
+<p>You should see both your origin and upstream remotes. Example:</p>
+<pre data-language="text"><code class="language-text">origin    https://github.com/[YOUR_USERNAME]/Interactive-Data-Vis-Spring2026.git (fetch)
+origin    https://github.com/[YOUR_USERNAME]/Interactive-Data-Vis-Spring2026.git (push)
+upstream  https://github.com/InteractiveDataVis/Interactive-Data-Vis-Spring2026.git (fetch)
+upstream  https://github.com/InteractiveDataVis/Interactive-Data-Vis-Spring2026.git (push)
+</code></pre>
+<p>If your upstream is not there, <strong>or it references the old repo</strong> at <code>https://github.com/InteractiveDataVis/Interactive-Data-Vis-Fall2025.git</code>, you'll need to re-do the upstream via <a href="#if-your-upstream-is-the-fall-repo">the instructions below</a>.</p>
+<p>Once you're done, you can pull Lab 1 into your fork. And I promise, no fall references this time...</p>
+<hr>
+<h2 id="if-you-forked-the-fall-repo" tabindex="-1"><a class="observablehq-header-anchor" href="#if-you-forked-the-fall-repo">If you forked the Fall repo</a></h2>
+<p>This does require a complete re-forking of the appropriate repo to include all the details you will need for this semester.</p>
+<p>You should first fork the appropriate repo before archiving the incorrect fork. That way, you can copy the work you've already done for Lab 0.</p>
+<ol>
+<li>Follow the instructions in the <a href="https://github.com/InteractiveDataVis/Interactive-Data-Vis-Spring2026/tree/main/src/lab_0" target="_blank" rel="noopener noreferrer">Lab 0 readme</a> to fork the correct repo. You probably already have all the installations if you completed them before.</li>
+<li>Confirm your upstream is correct by continuing to the following steps:</li>
+</ol>
+<hr>
+<h2 id="if-your-upstream-is-the-fall-repo" tabindex="-1"><a class="observablehq-header-anchor" href="#if-your-upstream-is-the-fall-repo">If your <code>upstream</code> is the Fall repo</a></h2>
+<p>Your fork of the class repo should stay connected to the correct Spring 2026 class repository. That way you can pull new labs, fixes, and content when I update the repo.</p>
+<p>You should be able to push and pull from your origin, as well as pull new content from the class repo.</p>
+<ul>
+<li><strong><code>origin</code></strong> → your fork (e.g. <code>https://github.com/[YOUR_USERNAME]/Interactive-Data-Vis-Spring2026.git</code>)</li>
+<li><strong><code>upstream</code></strong> → the class repo: <code>https://github.com/InteractiveDataVis/Interactive-Data-Vis-Spring2026.git</code></li>
+</ul>
+<p>If <strong><code>upstream</code></strong> is missing, add it:</p>
+<pre data-language="sh"><code class="language-sh">git remote add upstream https://github.com/InteractiveDataVis/Interactive-Data-Vis-Spring2026.git
+</code></pre>
+<p>If <strong><code>upstream</code></strong> already exists but points to the wrong URL, update it instead:</p>
+<pre data-language="sh"><code class="language-sh">git remote set-url upstream https://github.com/InteractiveDataVis/Interactive-Data-Vis-Spring2026.git
+</code></pre>
+<p>Then run <code>git remote -v</code> again to confirm.</p>
+<p>For the full GitHub setup (fork, clone, upstream, Pages, and syncing), see <a href="../lab_0/readme">Lab 0: Getting Started</a>.</p>
+<hr>
+<h2 id="pulling-released-labs" tabindex="-1"><a class="observablehq-header-anchor" href="#pulling-released-labs">Pulling Released Labs</a></h2>
+<p>After your upstream points to the Spring 2026 repo, pull the latest content (including Lab 1) into your local copy:</p>
+<pre data-language="sh"><code class="language-sh">git fetch upstream
+git merge upstream/main
+</code></pre>
+<p>Do this from your project folder, ideally before you start new work. If you have uncommitted changes, commit or stash them first (commit = <a href="https://docs.github.com/en/pull-requests/committing-changes-to-your-project" target="_blank" rel="noopener noreferrer">save changes to the repo</a>; stash = <a href="https://docs.github.com/en/desktop/making-changes-in-a-branch/stashing-changes-in-github-desktop" target="_blank" rel="noopener noreferrer">temporarily set them aside</a>). After merging, you should see the <code>lab_1</code> folder and any other updates from the class repo.</p>
+<p>You can repeat these two steps every time a new lab is released.</p>
+</main>
+<footer id="observablehq-footer">
+<nav><a rel="prev" href="./3_intro_to_observable_framework"><span>Intro to Observable Framework</span></a><a rel="next" href="./5_intro_to_observable_plot"><span>Intro to Observable Plot</span></a></nav>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-03-25T05:39:52">Mar 25, 2026</a>.</div>
+</footer>
+</div>
+</body>
+</html>

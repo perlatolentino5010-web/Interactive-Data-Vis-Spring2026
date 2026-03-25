@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="generator" content="Observable Framework v1.13.3">
+<title>Intro to Observable Plot | Interactive Data Visualization (Spring 2026)</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="preload" as="style" href="../_observablehq/theme-air.aad62322.css">
+<link rel="preload" as="style" href="../_observablehq/stdlib/inputs.ea9fd553.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="stylesheet" type="text/css" href="../_observablehq/theme-air.aad62322.css">
+<link rel="stylesheet" type="text/css" href="../_observablehq/stdlib/inputs.ea9fd553.css">
+<link rel="modulepreload" href="../_observablehq/client.dd4c3968.js">
+<link rel="modulepreload" href="../_observablehq/runtime.e080113b.js">
+<link rel="modulepreload" href="../_observablehq/stdlib.73a8ec5a.js">
+<link rel="modulepreload" href="../_observablehq/stdlib/inputs.4ef1d259.js">
+<link rel="modulepreload" href="../_npm/@observablehq/plot@0.6.17/a96a6bbb.js">
+<link rel="modulepreload" href="../_npm/htl@0.3.1/72f4716c.js">
+<link rel="modulepreload" href="../_npm/isoformat@0.2.1/18cbf477.js">
+<link rel="modulepreload" href="../_npm/d3@7.9.0/66d82917.js">
+<link rel="modulepreload" href="../_npm/interval-tree-1d@1.0.4/53fe8176.js">
+<link rel="modulepreload" href="../_npm/d3-array@3.2.4/e93ca09f.js">
+<link rel="modulepreload" href="../_npm/d3-axis@3.0.0/0f2de24d.js">
+<link rel="modulepreload" href="../_npm/d3-brush@3.0.0/65eb105b.js">
+<link rel="modulepreload" href="../_npm/d3-chord@3.0.1/7ef8fb2e.js">
+<link rel="modulepreload" href="../_npm/d3-color@3.1.0/aeb57b94.js">
+<link rel="modulepreload" href="../_npm/d3-contour@4.0.2/1d2aed74.js">
+<link rel="modulepreload" href="../_npm/d3-delaunay@6.0.4/87adea64.js">
+<link rel="modulepreload" href="../_npm/d3-dispatch@3.0.1/9ba9c7f3.js">
+<link rel="modulepreload" href="../_npm/d3-drag@3.0.0/4202580c.js">
+<link rel="modulepreload" href="../_npm/d3-dsv@3.0.1/9cffc2bd.js">
+<link rel="modulepreload" href="../_npm/d3-ease@3.0.1/cdd7e898.js">
+<link rel="modulepreload" href="../_npm/d3-fetch@3.0.1/b4e2ad9a.js">
+<link rel="modulepreload" href="../_npm/d3-force@3.0.0/5e804d15.js">
+<link rel="modulepreload" href="../_npm/d3-format@3.1.2/3785bf2d.js">
+<link rel="modulepreload" href="../_npm/d3-geo@3.1.1/40599fb3.js">
+<link rel="modulepreload" href="../_npm/d3-hierarchy@3.1.2/e49e792c.js">
+<link rel="modulepreload" href="../_npm/d3-interpolate@3.0.1/8d1e5425.js">
+<link rel="modulepreload" href="../_npm/d3-path@3.1.0/20d3f133.js">
+<link rel="modulepreload" href="../_npm/d3-polygon@3.0.1/7553081f.js">
+<link rel="modulepreload" href="../_npm/d3-quadtree@3.0.1/0dfd751c.js">
+<link rel="modulepreload" href="../_npm/d3-random@3.0.1/3c90ee06.js">
+<link rel="modulepreload" href="../_npm/d3-scale@4.0.2/720b7f0a.js">
+<link rel="modulepreload" href="../_npm/d3-scale-chromatic@3.1.0/ba24c2e7.js">
+<link rel="modulepreload" href="../_npm/d3-selection@3.0.0/4d94e5b7.js">
+<link rel="modulepreload" href="../_npm/d3-shape@3.2.0/6d3a6726.js">
+<link rel="modulepreload" href="../_npm/d3-time@3.1.0/9f03c579.js">
+<link rel="modulepreload" href="../_npm/d3-time-format@4.1.0/07c9626f.js">
+<link rel="modulepreload" href="../_npm/d3-timer@3.0.1/b58a267d.js">
+<link rel="modulepreload" href="../_npm/d3-transition@3.0.1/004da2ac.js">
+<link rel="modulepreload" href="../_npm/d3-zoom@3.0.0/b5786b3f.js">
+<link rel="modulepreload" href="../_npm/binary-search-bounds@2.0.5/cbf6ba23.js">
+<link rel="modulepreload" href="../_npm/internmap@2.0.3/e08981d9.js">
+<link rel="modulepreload" href="../_npm/delaunator@5.1.0/d4ec0aa1.js">
+<link rel="modulepreload" href="../_npm/robust-predicates@3.0.3/42820bfa.js">
+<link rel="icon" href="../_file/observable.1af93621.png" type="image/png" sizes="32x32">
+<script type="module">
+
+import {define} from "../_observablehq/client.dd4c3968.js";
+
+define({id: "432c498a", inputs: ["Plot","display"], body: async (Plot,display) => {
+display(await(
+Plot.plot()
+))
+}});
+
+define({id: "6882ba84", outputs: ["sample"], body: () => {
+const sample = [
+  { name: "A", value: 10, color: "blue" },
+  { name: "B", value: 25, color: "green" },
+  { name: "C", value: 15, color: "orange" },
+  { name: "D", value: 30, color: "red" }
+];
+return {sample};
+}});
+
+define({id: "c88e4c6f", inputs: ["Plot","sample","display"], body: async (Plot,sample,display) => {
+display(await(
+Plot.plot({
+  marginLeft: 50,
+  title: "Sample Bar Chart",
+  marks: [
+    Plot.barY(sample, {
+      x: "name",
+      y: "value",
+      fill: "steelblue",
+      tip: true
+    })
+  ]
+})
+))
+}});
+
+define({id: "6fcb9333", inputs: ["Plot","sample","display"], body: async (Plot,sample,display) => {
+display(await(
+Plot.plot({
+  grid: true,
+  marks: [
+    Plot.ruleY([0], { stroke: "gray", strokeDasharray: "2 2" }),
+    Plot.dot(sample, {
+      x: "name",      // ← which key to read for x positioning
+      y: "value",     // ← which key to read for y positioning
+      r: 6,           // ← set value for radius
+      fill: "color",  // ← which key to read for fill
+      tip: true
+    })
+  ]
+})
+))
+}});
+
+define({id: "3e8ad726", inputs: ["Plot","sample","display"], body: async (Plot,sample,display) => {
+display(await(
+Plot.plot({
+  grid: true,
+  marks: [
+    Plot.ruleY([0], { stroke: "gray", strokeDasharray: "2 2" }),
+    Plot.dot(sample, {
+      x: (d, i) => d["name"] + " element",
+      y: (d, i) => d["value"] * 100,
+      r: (d, i) => 10 + i * 15,
+      fill: (d, i) => ["red", "orange", "yellow", "green"][i],
+      tip: true
+    })
+  ]
+})
+))
+}});
+
+define({id: "7e0a226a", inputs: ["Inputs","penguins","display"], body: async (Inputs,penguins,display) => {
+display(await(
+Inputs.table(penguins)
+))
+}});
+
+define({id: "1402c972", inputs: ["Plot","penguins","display"], body: async (Plot,penguins,display) => {
+display(await(
+Plot.plot({
+  marks: [
+    Plot.barY(penguins, 
+      Plot.groupX(
+        { y: "count" },   // ← this is the "reducer", or, what aggregation/function/etc to apply
+        { x: "species" }  // ← this is the pivot point for the reducer -- what are we counting on?
+      )
+    )
+  ]
+})
+))
+}});
+
+define({id: "10adbea7", outputs: ["values","raw"], body: () => {
+const values = [3, 5, 2, 7, 4, 5, 4, 4, 6, 4, 5, 8, 4, 6];
+const raw = values.map((v, i) => ({ id: i, value: v }));
+return {values,raw};
+}});
+
+define({id: "9a797c29", inputs: ["Plot","raw","display"], body: async (Plot,raw,display) => {
+display(await(
+Plot.plot({
+  y: { grid: true },
+  marks: [
+    Plot.rectY(raw, Plot.binX(
+      { y: "count" }, 
+      { x: "value", thresholds: 6 }
+    )),
+    Plot.ruleY([0])
+  ]
+})
+))
+}});
+
+</script>
+</head>
+<body>
+<input id="observablehq-sidebar-toggle" type="checkbox" title="Toggle sidebar">
+<label id="observablehq-sidebar-backdrop" for="observablehq-sidebar-toggle"></label>
+<nav id="observablehq-sidebar">
+  <ol>
+    <label id="observablehq-sidebar-close" for="observablehq-sidebar-toggle"></label>
+    <li class="observablehq-link"><a href="../">Interactive Data Visualization (Spring 2026)</a></li>
+  </ol>
+  <section class="observablehq-section-active">
+    <summary>Lessons</summary>
+    <ol>
+    <li class="observablehq-link"><a href="./1_intro_to_web_development">Intro to Web Development</a></li>
+    <li class="observablehq-link"><a href="./2_working_in_cursor">Working in Cursor</a></li>
+    <li class="observablehq-link"><a href="./3_intro_to_observable_framework">Intro to Observable Framework</a></li>
+    <li class="observablehq-link"><a href="./4_confirming_spring_upstream">Confirming Spring Upstream</a></li>
+    <li class="observablehq-link observablehq-link-active"><a href="./5_intro_to_observable_plot">Intro to Observable Plot</a></li>
+    <li class="observablehq-link"><a href="./6_transforms_and_data_manipulation">Transforms and Data Manipulation</a></li>
+    </ol>
+  </section>
+  <details>
+    <summary>Lab 0: Getting Started</summary>
+    <ol>
+    <li class="observablehq-link"><a href="../lab_0/readme">Instructions</a></li>
+    <li class="observablehq-link"><a href="../lab_0/">Dashboard</a></li>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 1: Prolific Pollinators</summary>
+    <ol>
+    <li class="observablehq-link"><a href="../lab_1/readme">Instructions</a></li>
+    <li class="observablehq-link"><a href="../lab_1/">Dashboard</a></li>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 2: Subway Staffing</summary>
+    <ol>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 3: Mayoral Mystery</summary>
+    <ol>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 4: Clearwater Crisis</summary>
+    <ol>
+    </ol>
+  </details>
+</nav>
+<script>{const e=document.querySelector("#observablehq-sidebar"),o=document.querySelector("#observablehq-sidebar-toggle"),r=sessionStorage.getItem("observablehq-sidebar");r?o.checked=r==="true":o.indeterminate=!0;for(const t of document.querySelectorAll("#observablehq-sidebar summary")){const s=t.parentElement;switch(sessionStorage.getItem(`observablehq-sidebar:${t.textContent}`)){case"true":s.open=!0;break;case"false":s.classList.contains("observablehq-section-active")||(s.open=!1);break}}addEventListener("beforeunload",()=>sessionStorage.setItem("observablehq-sidebar-scrolly",`${e.scrollTop}`));const a=sessionStorage.getItem("observablehq-sidebar-scrolly");a!=null&&(e.style.cssText="overflow: hidden;",e.scrollTop=+a,e.style.cssText="");}</script>
+<div id="observablehq-center">
+<aside id="observablehq-toc" data-selector="h1:not(:first-of-type)[id], h2:first-child[id], :not(h1) + h2[id]">
+<nav>
+<div>Contents</div>
+<ol>
+<li class="observablehq-secondary-link"><a href="#what-is-observable-plot">What is Observable Plot?</a></li>
+<li class="observablehq-secondary-link"><a href="#plot-plot">Plot.plot()</a></li>
+<li class="observablehq-secondary-link"><a href="#marks">Marks</a></li>
+<li class="observablehq-secondary-link"><a href="#transforms">Transforms</a></li>
+<li class="observablehq-secondary-link"><a href="#plot-tips">Plot tips</a></li>
+</ol>
+</nav>
+</aside>
+<main id="observablehq-main" class="observablehq">
+<h1 id="intro-to-observable-plot" tabindex="-1"><a class="observablehq-header-anchor" href="#intro-to-observable-plot">Intro to Observable Plot</a></h1>
+<hr>
+<h2 id="what-is-observable-plot" tabindex="-1"><a class="observablehq-header-anchor" href="#what-is-observable-plot">What is Observable Plot?</a></h2>
+<p><strong>Observable Plot</strong> is a declarative JavaScript library for data visualization. In this course we use it for all charts. Unlike “chart type” libraries, but similar to the many recomendations of our readings, Plot is <strong>marks-based</strong>. That means you build a chart by combining <strong>marks</strong> (dots, bars, lines, areas, etc.) and binding them to data. There is no separate “scatter template” or “bar template”—you choose the marks and the scales do the rest.</p>
+<p>Note on using Plot in Framwork: Plot, similar to d3.js, is available globally in <code>.md</code> pages; you do not import it.</p>
+<hr>
+<h2 id="plot-plot" tabindex="-1"><a class="observablehq-header-anchor" href="#plot-plot">Plot.plot()</a></h2>
+<p>Every chart is created with <code>Plot.plot(options)</code>. Even without options, an SVG is rendered. You may not see anything here, but there is an SVG rendered from the <code>Plot.plot()</code> code below. You can inspect the window and see an svg.</p>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:432c498a:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>()
+</code></pre>
+<p>The most important option is <strong><code>marks</code></strong>: an array of marks drawn in order (last on top). Marks include things like dots, bars, lines, etc.</p>
+<p>Let's say our data is the following:</p>
+<div class="observablehq observablehq--block"><!--:6882ba84:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-keyword">const</span> sample = [
+  { <span class="hljs-attr">name</span>: <span class="hljs-string">"A"</span>, <span class="hljs-attr">value</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">color</span>: <span class="hljs-string">"blue"</span> },
+  { <span class="hljs-attr">name</span>: <span class="hljs-string">"B"</span>, <span class="hljs-attr">value</span>: <span class="hljs-number">25</span>, <span class="hljs-attr">color</span>: <span class="hljs-string">"green"</span> },
+  { <span class="hljs-attr">name</span>: <span class="hljs-string">"C"</span>, <span class="hljs-attr">value</span>: <span class="hljs-number">15</span>, <span class="hljs-attr">color</span>: <span class="hljs-string">"orange"</span> },
+  { <span class="hljs-attr">name</span>: <span class="hljs-string">"D"</span>, <span class="hljs-attr">value</span>: <span class="hljs-number">30</span>, <span class="hljs-attr">color</span>: <span class="hljs-string">"red"</span> }
+];
+</code></pre>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:c88e4c6f:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">marginLeft</span>: <span class="hljs-number">50</span>,
+  <span class="hljs-attr">title</span>: <span class="hljs-string">"Sample Bar Chart"</span>,
+  <span class="hljs-attr">marks</span>: [
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">barY</span>(sample, {
+      <span class="hljs-attr">x</span>: <span class="hljs-string">"name"</span>,
+      <span class="hljs-attr">y</span>: <span class="hljs-string">"value"</span>,
+      <span class="hljs-attr">fill</span>: <span class="hljs-string">"steelblue"</span>,
+      <span class="hljs-attr">tip</span>: <span class="hljs-literal">true</span>
+    })
+  ]
+})
+</code></pre>
+<p>Common top-level options include <strong><code>title</code></strong>, <strong><code>width</code></strong>, <strong><code>height</code></strong>, <strong><code>marginLeft</code></strong> (and other margins), <strong><code>grid: true</code></strong>, and <strong><code>marks</code></strong>. In Framework, you can pass the built-in <strong><code>width</code></strong> variable so the chart resizes with the page.</p>
+<hr>
+<h2 id="marks" tabindex="-1"><a class="observablehq-header-anchor" href="#marks">Marks</a></h2>
+<p>Common helpful marks include:</p>
+<table>
+<thead>
+<tr>
+<th>Mark</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Plot.dot()</code></td>
+<td>Scatter (one point per row)</td>
+</tr>
+<tr>
+<td><code>Plot.barY()</code> / <code>Plot.barX()</code></td>
+<td>Bar charts</td>
+</tr>
+<tr>
+<td><code>Plot.lineY()</code> / <code>Plot.lineX()</code></td>
+<td>Line / time series</td>
+</tr>
+<tr>
+<td><code>Plot.areaY()</code></td>
+<td>Area under a line</td>
+</tr>
+<tr>
+<td><code>Plot.rectY()</code></td>
+<td>Histograms (with a bin transform)</td>
+</tr>
+<tr>
+<td><code>Plot.ruleY()</code> / <code>Plot.ruleX()</code></td>
+<td>Reference lines (e.g. at zero)</td>
+</tr>
+<tr>
+<td><code>Plot.frame()</code></td>
+<td>Border around the plot</td>
+</tr>
+</tbody>
+</table>
+<p>Marks take <strong>data</strong> and <strong>options</strong>. The structure is something like this:</p>
+<pre><code>Plot.plot({
+  marks: [
+    Plot.[MARK]([DATA], [OPTIONS])
+  ]
+})
+</code></pre>
+<p>Each argument serves a specific purpose:</p>
+<ol>
+<li>Data - the data to be used to render the marks (e.g. <code>Plot.dot(sample, {...})</code>).</li>
+<li>Options - options about this specific mark, including channels and/or constants about how to tie the data to the mark.</li>
+</ol>
+<h3 id="data-join" tabindex="-1"><a class="observablehq-header-anchor" href="#data-join">Data join</a></h3>
+<p>Marks within Plot leverage something we can call a <strong>data join</strong>: in many instances, one row in your data array becomes one graphical element (one dot, one bar, etc.). The mark function takes two arguments:</p>
+<p>The <strong>channels</strong> in the options tell Plot how to read each row, i.e., <code>x: "name"</code> means “use this row’s <code>name</code> for the x position,” and <code>y: "value"</code> means “use this row’s <code>value</code> for the y position.”</p>
+<p>So for <code>sample</code> with 4 rows, <code>Plot.dot(sample, { x: "name", y: "value" })</code> draws <strong>4 dots</strong>—one per row—with positions coming from those fields.</p>
+<p>Constants (e.g. <code>r: 6</code>) apply the same to every mark; channel names (e.g. <code>fill: "color"</code>) directly render the data points color as the background.</p>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:6fcb9333:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">grid</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">marks</span>: [
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">ruleY</span>([<span class="hljs-number">0</span>], { <span class="hljs-attr">stroke</span>: <span class="hljs-string">"gray"</span>, <span class="hljs-attr">strokeDasharray</span>: <span class="hljs-string">"2 2"</span> }),
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">dot</span>(sample, {
+      <span class="hljs-attr">x</span>: <span class="hljs-string">"name"</span>,      <span class="hljs-comment">// ← which key to read for x positioning</span>
+      <span class="hljs-attr">y</span>: <span class="hljs-string">"value"</span>,     <span class="hljs-comment">// ← which key to read for y positioning</span>
+      <span class="hljs-attr">r</span>: <span class="hljs-number">6</span>,           <span class="hljs-comment">// ← set value for radius</span>
+      <span class="hljs-attr">fill</span>: <span class="hljs-string">"color"</span>,  <span class="hljs-comment">// ← which key to read for fill</span>
+      <span class="hljs-attr">tip</span>: <span class="hljs-literal">true</span>
+    })
+  ]
+})
+</code></pre>
+<p>You can also use functions to pass values to the marks options. When using functions, it will run the function on the associated data that it is making a mark for. This allows you to manipulate values and how they should be rendered.</p>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:3e8ad726:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">grid</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">marks</span>: [
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">ruleY</span>([<span class="hljs-number">0</span>], { <span class="hljs-attr">stroke</span>: <span class="hljs-string">"gray"</span>, <span class="hljs-attr">strokeDasharray</span>: <span class="hljs-string">"2 2"</span> }),
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">dot</span>(sample, {
+      <span class="hljs-attr">x</span>: <span class="hljs-function">(<span class="hljs-params">d, i</span>) =&gt;</span> d[<span class="hljs-string">"name"</span>] + <span class="hljs-string">" element"</span>,
+      <span class="hljs-attr">y</span>: <span class="hljs-function">(<span class="hljs-params">d, i</span>) =&gt;</span> d[<span class="hljs-string">"value"</span>] * <span class="hljs-number">100</span>,
+      <span class="hljs-attr">r</span>: <span class="hljs-function">(<span class="hljs-params">d, i</span>) =&gt;</span> <span class="hljs-number">10</span> + i * <span class="hljs-number">15</span>,
+      <span class="hljs-attr">fill</span>: <span class="hljs-function">(<span class="hljs-params">d, i</span>) =&gt;</span> [<span class="hljs-string">"red"</span>, <span class="hljs-string">"orange"</span>, <span class="hljs-string">"yellow"</span>, <span class="hljs-string">"green"</span>][i],
+      <span class="hljs-attr">tip</span>: <span class="hljs-literal">true</span>
+    })
+  ]
+})
+</code></pre>
+<hr>
+<h2 id="transforms" tabindex="-1"><a class="observablehq-header-anchor" href="#transforms">Transforms</a></h2>
+<p>Sometimes, data is not in the exact format that we may want when considering a visual. Let's take the (preloaded) penguins dataset. Say you want to count times a penguin is listed as each of the species. The dataset looks like this:</p>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:7e0a226a:--></div>
+<p>There is no column for "count". Each row is a penguin, with its own species designation, along with other metrics. We need to run a transformation on the data to determine how many penguins fit into each species. This could be done with Javascript, which we will get into more in future classes, but it also can be done within the Plot arguments with a <strong>transform</strong>.</p>
+<p>When simply counting rows to then plot into a bar chart, we transform with <code>groupX</code> within the <code>barY</code> mark. That is because we are transforming based on the x axis to some reduction which will be applied to the y axis.</p>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:1402c972:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">marks</span>: [
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">barY</span>(penguins, 
+      <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">groupX</span>(
+        { <span class="hljs-attr">y</span>: <span class="hljs-string">"count"</span> },   <span class="hljs-comment">// ← this is the "reducer", or, what aggregation/function/etc to apply</span>
+        { <span class="hljs-attr">x</span>: <span class="hljs-string">"species"</span> }  <span class="hljs-comment">// ← this is the pivot point for the reducer -- what are we counting on?</span>
+      )
+    )
+  ]
+})
+</code></pre>
+<p>There are a great many transforms you can do to the data, but the transform you use depends a lot on the data, the scales, and the intended marks. For a histogram, you <strong>bin</strong> the data and then draw <strong>rects</strong>. Use the <strong><code>Plot.binX()</code></strong> transform: it groups values into bins and can reduce with <code>y: "count"</code> (or <code>"sum"</code>, <code>"mean"</code>, etc.).</p>
+<div class="observablehq observablehq--block"><!--:10adbea7:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-keyword">const</span> values = [<span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">2</span>, <span class="hljs-number">7</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">4</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">8</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>];
+<span class="hljs-keyword">const</span> raw = values.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">v, i</span>) =&gt;</span> ({ <span class="hljs-attr">id</span>: i, <span class="hljs-attr">value</span>: v }));
+</code></pre>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:9a797c29:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">y</span>: { <span class="hljs-attr">grid</span>: <span class="hljs-literal">true</span> },
+  <span class="hljs-attr">marks</span>: [
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">rectY</span>(raw, <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">binX</span>(
+      { <span class="hljs-attr">y</span>: <span class="hljs-string">"count"</span> }, 
+      { <span class="hljs-attr">x</span>: <span class="hljs-string">"value"</span>, <span class="hljs-attr">thresholds</span>: <span class="hljs-number">6</span> }
+    )),
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">ruleY</span>([<span class="hljs-number">0</span>])
+  ]
+})
+</code></pre>
+<hr>
+<h2 id="plot-tips" tabindex="-1"><a class="observablehq-header-anchor" href="#plot-tips">Plot tips</a></h2>
+<ul>
+<li>You can put <code>Plot.plot({...})</code> inside a <strong><code>${ ... }</code></strong> expression in your markdown or HTML so it renders inline (as in the examples above). If you use a code block, and create something else in the code block, don't forget to use <code>display</code> or <code>view</code> around your plot.</li>
+<li>You can place plots inside <strong>cards</strong> or <strong>grids</strong> as in the <a href="./3_intro_to_observable_framework">Intro to Observable Framework</a> lesson.</li>
+<li>Use <strong><code>view()</code></strong> and <strong>Inputs</strong> to drive reactive variables (e.g. a selected category); use those variables in your data pipeline or in Plot options so the chart updates when the input changes.</li>
+</ul>
+<p>For more marks, options, and transforms, see the <a href="https://observablehq.com/plot" target="_blank" rel="noopener noreferrer">Observable Plot documentation</a>.</p>
+</main>
+<footer id="observablehq-footer">
+<nav><a rel="prev" href="./4_confirming_spring_upstream"><span>Confirming Spring Upstream</span></a><a rel="next" href="./6_transforms_and_data_manipulation"><span>Transforms and Data Manipulation</span></a></nav>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-03-25T05:39:52">Mar 25, 2026</a>.</div>
+</footer>
+</div>
+</body>
+</html>
