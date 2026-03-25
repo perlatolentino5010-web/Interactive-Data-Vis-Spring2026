@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="generator" content="Observable Framework v1.13.3">
+<title>Working in Cursor | Interactive Data Visualization (Spring 2026)</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="preload" as="style" href="../_observablehq/theme-air.aad62322.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="stylesheet" type="text/css" href="../_observablehq/theme-air.aad62322.css">
+<link rel="modulepreload" href="../_observablehq/client.dd4c3968.js">
+<link rel="modulepreload" href="../_observablehq/runtime.e080113b.js">
+<link rel="modulepreload" href="../_observablehq/stdlib.73a8ec5a.js">
+<link rel="icon" href="../_file/observable.1af93621.png" type="image/png" sizes="32x32">
+<script type="module">
+
+import "../_observablehq/client.dd4c3968.js";
+
+</script>
+</head>
+<body>
+<input id="observablehq-sidebar-toggle" type="checkbox" title="Toggle sidebar">
+<label id="observablehq-sidebar-backdrop" for="observablehq-sidebar-toggle"></label>
+<nav id="observablehq-sidebar">
+  <ol>
+    <label id="observablehq-sidebar-close" for="observablehq-sidebar-toggle"></label>
+    <li class="observablehq-link"><a href="../">Interactive Data Visualization (Spring 2026)</a></li>
+  </ol>
+  <section class="observablehq-section-active">
+    <summary>Lessons</summary>
+    <ol>
+    <li class="observablehq-link"><a href="./1_intro_to_web_development">Intro to Web Development</a></li>
+    <li class="observablehq-link observablehq-link-active"><a href="./2_working_in_cursor">Working in Cursor</a></li>
+    <li class="observablehq-link"><a href="./3_intro_to_observable_framework">Intro to Observable Framework</a></li>
+    <li class="observablehq-link"><a href="./4_confirming_spring_upstream">Confirming Spring Upstream</a></li>
+    <li class="observablehq-link"><a href="./5_intro_to_observable_plot">Intro to Observable Plot</a></li>
+    <li class="observablehq-link"><a href="./6_transforms_and_data_manipulation">Transforms and Data Manipulation</a></li>
+    </ol>
+  </section>
+  <details>
+    <summary>Lab 0: Getting Started</summary>
+    <ol>
+    <li class="observablehq-link"><a href="../lab_0/readme">Instructions</a></li>
+    <li class="observablehq-link"><a href="../lab_0/">Dashboard</a></li>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 1: Prolific Pollinators</summary>
+    <ol>
+    <li class="observablehq-link"><a href="../lab_1/readme">Instructions</a></li>
+    <li class="observablehq-link"><a href="../lab_1/">Dashboard</a></li>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 2: Subway Staffing</summary>
+    <ol>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 3: Mayoral Mystery</summary>
+    <ol>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 4: Clearwater Crisis</summary>
+    <ol>
+    </ol>
+  </details>
+</nav>
+<script>{const e=document.querySelector("#observablehq-sidebar"),o=document.querySelector("#observablehq-sidebar-toggle"),r=sessionStorage.getItem("observablehq-sidebar");r?o.checked=r==="true":o.indeterminate=!0;for(const t of document.querySelectorAll("#observablehq-sidebar summary")){const s=t.parentElement;switch(sessionStorage.getItem(`observablehq-sidebar:${t.textContent}`)){case"true":s.open=!0;break;case"false":s.classList.contains("observablehq-section-active")||(s.open=!1);break}}addEventListener("beforeunload",()=>sessionStorage.setItem("observablehq-sidebar-scrolly",`${e.scrollTop}`));const a=sessionStorage.getItem("observablehq-sidebar-scrolly");a!=null&&(e.style.cssText="overflow: hidden;",e.scrollTop=+a,e.style.cssText="");}</script>
+<div id="observablehq-center">
+<aside id="observablehq-toc" data-selector="h1:not(:first-of-type)[id], h2:first-child[id], :not(h1) + h2[id]">
+<nav>
+<div>Contents</div>
+<ol>
+<li class="observablehq-secondary-link"><a href="#ai-agents">AI Agents</a></li>
+<li class="observablehq-secondary-link"><a href="#agents-md">AGENTS.md</a></li>
+<li class="observablehq-secondary-link"><a href="#cursor-pro">Cursor Pro</a></li>
+</ol>
+</nav>
+</aside>
+<main id="observablehq-main" class="observablehq">
+<h1 id="working-in-cursor" tabindex="-1"><a class="observablehq-header-anchor" href="#working-in-cursor">Working in Cursor</a></h1>
+<hr>
+<p>In order to write code, we use an Integrated Development Environment (IDE). An IDE is a software application that combines the essential tools a developer needs to write, test, and debug code.</p>
+<p>You can use either Cursor or VS Code in this class, but if you intend to use AI to support your workflow, then Cursor is recommended. VS Code is Microsoft’s code editor that includes a library of plug-ins, and one of the most popular code editors. Cursor is an AI-native IDE built on top of VS Code that integrates large language models directly into the editing experience.</p>
+<h2 id="ai-agents" tabindex="-1"><a class="observablehq-header-anchor" href="#ai-agents">AI Agents</a></h2>
+<p>Cursor includes AI agents right in the same application in which you are coding, so you can reference your code, and it can directly edit your file and contribute. It also understands your file structure, the framework, and the available and installed libraries. Lastly, this repository comes with some recommended guardrails and library context for the agents that should keep you in the right technical direction.</p>
+<p>You can open a new agent with the right hand panel and converse with them directly.</p>
+<p><img src="../_file/lessons/assets/agent_panel.f0c0d29e.png" alt="Agent panel in Cursor"></p>
+<h3 id="tips-for-using-an-agent" tabindex="-1"><a class="observablehq-header-anchor" href="#tips-for-using-an-agent">Tips for using an agent</a></h3>
+<p>To get the best results working with agents in cursor (and in general):</p>
+<ul>
+<li><strong>Be specific.</strong> Say what you want in concrete terms—e.g. “Add a bar chart of species counts to the dashboard” instead of “make a chart.”</li>
+<li><strong>Reference files.</strong> Mention the file you’re working in (e.g. “In <code>lab_1/index.md</code>…”) so the AI knows where to apply changes. You can also highlight code and add to the chat directly to keep it focused.</li>
+<li><strong>Ask for one thing at a time.</strong> Request a single change or one chart at a time so you can see what changed and learn from it. The changes should be driven by you -- not the agent to complete tasks.</li>
+<li><strong>Save files before asking:</strong> Save your file before asking the AI for help so it sees your latest code. Even better, you can commit before working with an agent so you can easily disgregard changes through changes tab if you don't like whats been done.</li>
+<li><strong>Don’t ask for a full assignment.</strong> The AI should support small, focused tasks—not complete the assignment for you.</li>
+</ul>
+<h2 id="agents-md" tabindex="-1"><a class="observablehq-header-anchor" href="#agents-md">AGENTS.md</a></h2>
+<p>This repository already comes with helpful agent resources to guide you while working. The resources that have been included are:</p>
+<ol>
+<li><strong><a href="../../AGENTS.md"><code>AGENTS.md</code></a></strong>: This file is the entry point for agents to figure out where to look to answer your questions and work with you. It includes a "proof of reading" in which it should be printing "Loaded AGENTS.md" at the start of responding to your queries. This includes some rules that it should always do, and the location of some references to read when determining technical responses.</li>
+<li><strong><a href="../../llms.txt"><code>llms.txt</code></a></strong>: The llms text file is a short project summary for AI tools, like key technologies (Framework, Plot, Inputs, D3), links to the <code>.ai</code> docs, and conventions (e.g. use Plot for charts, work in <code>index.md</code>). This is often used by crawlers and indexers that feed context to LLMs.</li>
+<li><strong><a href="../../.ai"><code>.ai/</code></a></strong>: The <code>.ai</code> filder includes docs that agents are told to read before writing code. It includes <code>observable-framework.md</code> (markdown syntax, reactivity, data loaders), <code>observable-plot.md</code> (Plot marks and options), and <code>d3.md</code> (D3 utilities and when to use D3 vs Plot). This folder keeps answers aligned with this stack, so agents don't send you in different technical directions than the focus of the class.</li>
+<li><strong><a href="../../.cursor"><code>.cursor/</code></a></strong> : This folder includes cursor-specific config. In particular, the <strong><code>rules/</code></strong> holds guardrails that apply when you work here (e.g. tech stack, use Plot for charts, lab scope). Rules are applied automatically so the AI stays within course expectations.</li>
+</ol>
+<p>These files are fairly specific to this class and this repository, so using agents in cursor in this repo should be more effective, but also means that the agent replies are not as transferrable outside of coursework.</p>
+<h2 id="cursor-pro" tabindex="-1"><a class="observablehq-header-anchor" href="#cursor-pro">Cursor Pro</a></h2>
+<p>As is typical with new technologies, the financial model pushes for subscription, but you can get a free year of Cursor Pro as a student. It takes some work, but:</p>
+<ol>
+<li>Make an account with an edu email</li>
+<li>Verify your student status in your settings</li>
+<li>Upload your class list or CUNY ID with the third party to confirm.</li>
+</ol>
+<p><img src="../_file/lessons/assets/student_status.b8696e3e.png" alt="Student Status in Cursor Dashboard"></p>
+</main>
+<footer id="observablehq-footer">
+<nav><a rel="prev" href="./1_intro_to_web_development"><span>Intro to Web Development</span></a><a rel="next" href="./3_intro_to_observable_framework"><span>Intro to Observable Framework</span></a></nav>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-03-25T01:32:56">Mar 25, 2026</a>.</div>
+</footer>
+</div>
+</body>
+</html>

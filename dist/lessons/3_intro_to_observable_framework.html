@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="generator" content="Observable Framework v1.13.3">
+<title>Intro to Observable Framework | Interactive Data Visualization (Spring 2026)</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="preload" as="style" href="../_observablehq/theme-air.aad62322.css">
+<link rel="preload" as="style" href="../_observablehq/stdlib/inputs.ea9fd553.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="stylesheet" type="text/css" href="../_observablehq/theme-air.aad62322.css">
+<link rel="stylesheet" type="text/css" href="../_observablehq/stdlib/inputs.ea9fd553.css">
+<link rel="modulepreload" href="../_observablehq/client.dd4c3968.js">
+<link rel="modulepreload" href="../_observablehq/runtime.e080113b.js">
+<link rel="modulepreload" href="../_observablehq/stdlib.73a8ec5a.js">
+<link rel="modulepreload" href="../_npm/htl@0.3.1/72f4716c.js">
+<link rel="modulepreload" href="../_observablehq/stdlib/inputs.4ef1d259.js">
+<link rel="modulepreload" href="../_npm/@observablehq/plot@0.6.17/a96a6bbb.js">
+<link rel="modulepreload" href="../_npm/isoformat@0.2.1/18cbf477.js">
+<link rel="modulepreload" href="../_npm/d3@7.9.0/66d82917.js">
+<link rel="modulepreload" href="../_npm/interval-tree-1d@1.0.4/53fe8176.js">
+<link rel="modulepreload" href="../_npm/d3-array@3.2.4/e93ca09f.js">
+<link rel="modulepreload" href="../_npm/d3-axis@3.0.0/0f2de24d.js">
+<link rel="modulepreload" href="../_npm/d3-brush@3.0.0/65eb105b.js">
+<link rel="modulepreload" href="../_npm/d3-chord@3.0.1/7ef8fb2e.js">
+<link rel="modulepreload" href="../_npm/d3-color@3.1.0/aeb57b94.js">
+<link rel="modulepreload" href="../_npm/d3-contour@4.0.2/1d2aed74.js">
+<link rel="modulepreload" href="../_npm/d3-delaunay@6.0.4/87adea64.js">
+<link rel="modulepreload" href="../_npm/d3-dispatch@3.0.1/9ba9c7f3.js">
+<link rel="modulepreload" href="../_npm/d3-drag@3.0.0/4202580c.js">
+<link rel="modulepreload" href="../_npm/d3-dsv@3.0.1/9cffc2bd.js">
+<link rel="modulepreload" href="../_npm/d3-ease@3.0.1/cdd7e898.js">
+<link rel="modulepreload" href="../_npm/d3-fetch@3.0.1/b4e2ad9a.js">
+<link rel="modulepreload" href="../_npm/d3-force@3.0.0/5e804d15.js">
+<link rel="modulepreload" href="../_npm/d3-format@3.1.2/3785bf2d.js">
+<link rel="modulepreload" href="../_npm/d3-geo@3.1.1/40599fb3.js">
+<link rel="modulepreload" href="../_npm/d3-hierarchy@3.1.2/e49e792c.js">
+<link rel="modulepreload" href="../_npm/d3-interpolate@3.0.1/8d1e5425.js">
+<link rel="modulepreload" href="../_npm/d3-path@3.1.0/20d3f133.js">
+<link rel="modulepreload" href="../_npm/d3-polygon@3.0.1/7553081f.js">
+<link rel="modulepreload" href="../_npm/d3-quadtree@3.0.1/0dfd751c.js">
+<link rel="modulepreload" href="../_npm/d3-random@3.0.1/3c90ee06.js">
+<link rel="modulepreload" href="../_npm/d3-scale@4.0.2/720b7f0a.js">
+<link rel="modulepreload" href="../_npm/d3-scale-chromatic@3.1.0/ba24c2e7.js">
+<link rel="modulepreload" href="../_npm/d3-selection@3.0.0/4d94e5b7.js">
+<link rel="modulepreload" href="../_npm/d3-shape@3.2.0/6d3a6726.js">
+<link rel="modulepreload" href="../_npm/d3-time@3.1.0/9f03c579.js">
+<link rel="modulepreload" href="../_npm/d3-time-format@4.1.0/07c9626f.js">
+<link rel="modulepreload" href="../_npm/d3-timer@3.0.1/b58a267d.js">
+<link rel="modulepreload" href="../_npm/d3-transition@3.0.1/004da2ac.js">
+<link rel="modulepreload" href="../_npm/d3-zoom@3.0.0/b5786b3f.js">
+<link rel="modulepreload" href="../_npm/binary-search-bounds@2.0.5/cbf6ba23.js">
+<link rel="modulepreload" href="../_npm/internmap@2.0.3/e08981d9.js">
+<link rel="modulepreload" href="../_npm/delaunator@5.1.0/d4ec0aa1.js">
+<link rel="modulepreload" href="../_npm/robust-predicates@3.0.3/42820bfa.js">
+<link rel="icon" href="../_file/observable.1af93621.png" type="image/png" sizes="32x32">
+<script type="module">
+
+import {define} from "../_observablehq/client.dd4c3968.js";
+
+define({id: "1518e18c", mode: "inline", inputs: ["Plot","olympians","display"], body: async (Plot,olympians,display) => {
+display(await(
+Plot.plot({
+      title: "Histogram of olympian weights",
+      width: 400,
+      height: 350,
+      y: { grid: true },
+      marks: [
+        Plot.rectY(olympians, Plot.binX({ y: "count" }, { x: "weight" })),
+        Plot.ruleY([0])
+      ]
+    })
+))
+}});
+
+define({id: "6f177dfd", mode: "inline", inputs: ["Inputs","olympians","display"], body: async (Inputs,olympians,display) => {
+display(await(
+Inputs.table(olympians)
+))
+}});
+
+define({id: "c8484389", inputs: ["view","Inputs"], outputs: ["color"], body: (view,Inputs) => {
+const color = view(Inputs.select([
+  "steelblue", "pink", "orange", "green"
+], {value: "steelblue", label: "Favorite color"}));
+return {color};
+}});
+
+define({id: "a5d026b7", inputs: ["view","Inputs"], outputs: ["radioColor"], body: (view,Inputs) => {
+const radioColor = view(Inputs.radio(["red", "green", "blue"], {label: "color"}));
+return {radioColor};
+}});
+
+define({id: "c9afda57", inputs: ["view","Inputs"], outputs: ["name"], body: (view,Inputs) => {
+const name = view(
+  Inputs.text({
+    label: "Name",
+    placeholder: "Enter your name",
+    value: "Anonymous"
+  })
+);
+return {name};
+}});
+
+define({id: "74284d9d", mode: "inline", inputs: ["color","display"], body: async (color,display) => {
+display(await(
+color
+))
+}});
+
+define({id: "4bca4793", inputs: ["view","Inputs"], outputs: ["text"], body: (view,Inputs) => {
+const text = view(
+  Inputs.text({
+    label: "Reactive text:",
+    placeholder: "Enter some text",
+  })
+);
+return {text};
+}});
+
+define({id: "982d9e3e", mode: "inline", inputs: ["text","display"], body: async (text,display) => {
+display(await(
+text
+))
+}});
+
+define({id: "1c0ee7b0", inputs: ["Plot","text","display"], body: async (Plot,text,display) => {
+display(await(
+Plot.plot({
+  marks: [
+    Plot.frame(),
+    Plot.barY(text, {
+      x: (d, i) => i,
+      y: (d, i) => i
+    })
+  ]
+})
+))
+}});
+
+define({id: "fc7eae75", inputs: ["html","display"], body: async (html,display) => {
+display(await(
+html.fragment`<style>
+  .code {
+    font-family: monospace;
+    color: #A935D4;
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+</style>`
+))
+}});
+
+</script>
+</head>
+<body>
+<input id="observablehq-sidebar-toggle" type="checkbox" title="Toggle sidebar">
+<label id="observablehq-sidebar-backdrop" for="observablehq-sidebar-toggle"></label>
+<nav id="observablehq-sidebar">
+  <ol>
+    <label id="observablehq-sidebar-close" for="observablehq-sidebar-toggle"></label>
+    <li class="observablehq-link"><a href="../">Interactive Data Visualization (Spring 2026)</a></li>
+  </ol>
+  <section class="observablehq-section-active">
+    <summary>Lessons</summary>
+    <ol>
+    <li class="observablehq-link"><a href="./1_intro_to_web_development">Intro to Web Development</a></li>
+    <li class="observablehq-link"><a href="./2_working_in_cursor">Working in Cursor</a></li>
+    <li class="observablehq-link observablehq-link-active"><a href="./3_intro_to_observable_framework">Intro to Observable Framework</a></li>
+    <li class="observablehq-link"><a href="./4_confirming_spring_upstream">Confirming Spring Upstream</a></li>
+    <li class="observablehq-link"><a href="./5_intro_to_observable_plot">Intro to Observable Plot</a></li>
+    <li class="observablehq-link"><a href="./6_transforms_and_data_manipulation">Transforms and Data Manipulation</a></li>
+    </ol>
+  </section>
+  <details>
+    <summary>Lab 0: Getting Started</summary>
+    <ol>
+    <li class="observablehq-link"><a href="../lab_0/readme">Instructions</a></li>
+    <li class="observablehq-link"><a href="../lab_0/">Dashboard</a></li>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 1: Prolific Pollinators</summary>
+    <ol>
+    <li class="observablehq-link"><a href="../lab_1/readme">Instructions</a></li>
+    <li class="observablehq-link"><a href="../lab_1/">Dashboard</a></li>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 2: Subway Staffing</summary>
+    <ol>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 3: Mayoral Mystery</summary>
+    <ol>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 4: Clearwater Crisis</summary>
+    <ol>
+    </ol>
+  </details>
+</nav>
+<script>{const e=document.querySelector("#observablehq-sidebar"),o=document.querySelector("#observablehq-sidebar-toggle"),r=sessionStorage.getItem("observablehq-sidebar");r?o.checked=r==="true":o.indeterminate=!0;for(const t of document.querySelectorAll("#observablehq-sidebar summary")){const s=t.parentElement;switch(sessionStorage.getItem(`observablehq-sidebar:${t.textContent}`)){case"true":s.open=!0;break;case"false":s.classList.contains("observablehq-section-active")||(s.open=!1);break}}addEventListener("beforeunload",()=>sessionStorage.setItem("observablehq-sidebar-scrolly",`${e.scrollTop}`));const a=sessionStorage.getItem("observablehq-sidebar-scrolly");a!=null&&(e.style.cssText="overflow: hidden;",e.scrollTop=+a,e.style.cssText="");}</script>
+<div id="observablehq-center">
+<aside id="observablehq-toc" data-selector="h1:not(:first-of-type)[id], h2:first-child[id], :not(h1) + h2[id]">
+<nav>
+<div>Contents</div>
+<ol>
+<li class="observablehq-secondary-link"><a href="#what-is-observable-framework">What is Observable Framework?</a></li>
+<li class="observablehq-secondary-link"><a href="#layouts-elements-and-inputs">Layouts, Elements, and Inputs</a></li>
+<li class="observablehq-secondary-link"><a href="#java-script-and-reactivity">JavaScript and Reactivity</a></li>
+<li class="observablehq-secondary-link"><a href="#styles-and-css">Styles and CSS</a></li>
+</ol>
+</nav>
+</aside>
+<main id="observablehq-main" class="observablehq">
+<h1 id="intro-to-observable-framework" tabindex="-1"><a class="observablehq-header-anchor" href="#intro-to-observable-framework">Intro to Observable Framework</a></h1>
+<hr>
+<h2 id="what-is-observable-framework" tabindex="-1"><a class="observablehq-header-anchor" href="#what-is-observable-framework">What is Observable Framework?</a></h2>
+<p><strong>Observable Framework</strong> is an open-source <strong>static-site generator</strong> specifically designed for building high-performance data apps, dashboards, and reports. Unlike traditional notebooks, it allows you to develop locally on your own machine using your preferred text editor and version control systems like Git.</p>
+<p>Observable framework is a lot of things, but specifically for our class, it is:</p>
+<ul>
+<li><strong>A local development server:</strong> Used to preview your apps with instant "hot reloading" updates as you save changes. That means you can make code changes, see them update live, without having to spin up a server through other means.</li>
+<li><strong>A static site generator:</strong> Compiles Markdown, JavaScript, and other assets into a static site that can be hosted anywhere. This is how GitHub takes your code in whatever form (including <code>.md</code>) and makes it readable for browsers (<code>.html</code>, <code>.js</code>, etc)</li>
+</ul>
+<h3 id="project-structure" tabindex="-1"><a class="observablehq-header-anchor" href="#project-structure">Project Structure</a></h3>
+<p>In this course, all content lives under <strong><code>src/</code></strong>. The structure of lessons and labs is as follows:</p>
+<ul>
+<li><strong><code>src/index.md</code></strong>: The home page of the app.</li>
+<li><strong><code>src/lessons/</code></strong>: Lesson pages (e.g. <code>1_intro_to_web_development.md</code>, <code>3_intro_to_observable_framework.md</code>).</li>
+<li><strong><code>src/lab_0/</code>, <code>src/lab_1/</code>, …</strong>: Each lab has a <strong><code>readme.md</code></strong> (instructions) and an <strong><code>index.md</code></strong> (your dashboard). You do your lab work in each lab’s <code>index.md</code>.</li>
+<li><strong>Data files</strong>: Static data such as <code>.csv</code> or <code>.json</code> live in the lab folders (e.g. <code>lab_1/data/pollinator_activity_data.csv</code>). You load them with <code>FileAttachment()</code> in your <code>index.md</code>.</li>
+<li><strong><code>observablehq.config.js</code></strong> (at the project root): Configures the app title, theme, and—importantly—the <strong>sidebar</strong>. The <code>pages</code> array defines the order and grouping of Lessons and Labs (Instructions vs. Dashboard) that you see in the nav.</li>
+</ul>
+<h2 id="layouts-elements-and-inputs" tabindex="-1"><a class="observablehq-header-anchor" href="#layouts-elements-and-inputs">Layouts, Elements, and Inputs</a></h2>
+<p>There are several options already available to us in observable framework that we could use for dashboard styling. We can always just include text between js blocks, like we do for most of this file and other class example files, or we can get more fancy, and use some of the built in styling that is outlined in the <a href="https://observablehq.com/framework/markdown" target="_blank" rel="noopener noreferrer">markdown page</a> of Observable Framework documentation. Out of the box, we have:</p>
+<h3 id="cards" tabindex="-1"><a class="observablehq-header-anchor" href="#cards">Cards</a></h3>
+<div class="card">
+This is content inside of a card, which is styled simply by putting the <span class="code">class="card"</span> in the HTML div element opening tag. You'll notice that this document doesn't include any "card" class definition or styling— it is out of the box dashboard element from Observable Framework.
+</div>
+<h3 id="grids" tabindex="-1"><a class="observablehq-header-anchor" href="#grids">Grids</a></h3>
+<p>You can also make <a href="https://observablehq.com/framework/markdown#grids" target="_blank" rel="noopener noreferrer">grids</a> that include cards, text, or even plots inside of them:</p>
+<div class="grid grid-cols-4">
+  <div class="card"><span>A</span></div>
+  <div class="card"><span>B</span></div>
+  <div class="card"><span>C</span></div>
+  <div class="card"><span>D</span></div>
+</div>
+<p>The grids are automatically responsive to page width, so in the case of the above grid, it's a 4-column grid that (likely, on your screen) has auto-resized to be two columns of two rows. If you expand the browser full screen and collapse the left-hand navigation, it should turn into four columns.</p>
+<p>You can also be more specific with your grid style, and incorporate it into the dashboard. Something like this leverages a few things we haven't seen yet, but organizes it in the grid structure.</p>
+<div class="grid grid-cols-2">
+  <!-- first column -->
+  <div class="card">
+    <!-- use inline JS here, which does change the syntax highlighting (colors) -->
+    <observablehq-loading></observablehq-loading><!--:1518e18c:-->
+  </div>
+  <!-- second column -->
+  <div>
+    <i>You may recall, this table is one that we used to bin the olympian weights into a histogram.</i>
+    <div class="card" style="padding: 0;">
+      <observablehq-loading></observablehq-loading><!--:6f177dfd:-->
+    </div>
+  </div>
+</div>
+<div class="tip">
+  <a href="https://observablehq.com/framework/markdown#cards" target="_blank" rel="noopener noreferrer">Observable recommends</a> that you remove the padding on <span class="code">Inputs.table</span> inside of cards. 
+  <!-- Also, notice that inside of a tip, we can't use markdown to make that link in the previous sentence? 
+  We have to use an <a> tag since we are already in HTML.  -->
+</div>
+<h3 id="interactive-inputs" tabindex="-1"><a class="observablehq-header-anchor" href="#interactive-inputs">Interactive Inputs</a></h3>
+<p>To make data apps truly interactive, Framework provides <strong>Inputs</strong>—graphical UI elements like <strong>dropdowns, sliders, radio buttons, and text boxes</strong>.</p>
+<p>You can add a dropdown that provides options for the user to select or change:</p>
+<div class="observablehq observablehq--block"><!--:c8484389:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-keyword">const</span> color = <span class="hljs-title function_">view</span>(<span class="hljs-title class_">Inputs</span>.<span class="hljs-title function_">select</span>([
+  <span class="hljs-string">"steelblue"</span>, <span class="hljs-string">"pink"</span>, <span class="hljs-string">"orange"</span>, <span class="hljs-string">"green"</span>
+], {<span class="hljs-attr">value</span>: <span class="hljs-string">"steelblue"</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">"Favorite color"</span>}));
+</code></pre>
+<p>Or maybe a radio button so the options are always displayed:</p>
+<div class="observablehq observablehq--block"><!--:a5d026b7:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-keyword">const</span> radioColor = <span class="hljs-title function_">view</span>(<span class="hljs-title class_">Inputs</span>.<span class="hljs-title function_">radio</span>([<span class="hljs-string">"red"</span>, <span class="hljs-string">"green"</span>, <span class="hljs-string">"blue"</span>], {<span class="hljs-attr">label</span>: <span class="hljs-string">"color"</span>}));
+</code></pre>
+<p>Or a text input:</p>
+<div class="observablehq observablehq--block"><!--:c9afda57:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-keyword">const</span> name = <span class="hljs-title function_">view</span>(
+  <span class="hljs-title class_">Inputs</span>.<span class="hljs-title function_">text</span>({
+    <span class="hljs-attr">label</span>: <span class="hljs-string">"Name"</span>,
+    <span class="hljs-attr">placeholder</span>: <span class="hljs-string">"Enter your name"</span>,
+    <span class="hljs-attr">value</span>: <span class="hljs-string">"Anonymous"</span>
+  })
+);
+</code></pre>
+<p>Inputs are typically displayed using the built-in <code>view</code> function. Because they are tied into the reactive system, choosing a value from an input (like filtering a table by selecting a category from a dropdown) will automatically trigger updates in every other part of the page that depends on that selection.</p>
+<p><strong>Note</strong>: Searching "observable inputs" may send you to observable HQ inputs -- be sure to go to the <a href="https://observablehq.com/framework/inputs/" target="_blank" rel="noopener noreferrer">framework documentation</a> directly for details on inputs.</p>
+<hr>
+<h2 id="java-script-and-reactivity" tabindex="-1"><a class="observablehq-header-anchor" href="#java-script-and-reactivity">JavaScript and Reactivity</a></h2>
+<p>One of the most powerful features of Observable Framework is how it handles <strong>JavaScript</strong> within Markdown files. JavaScript can be included in two ways:</p>
+<ol>
+<li>
+<p><strong>Fenced code blocks</strong>: Use <code>```js</code> blocks for top-level declarations like loading data or defining helper functions. These fenced code blocks have been leveraged throughout the markdown version of this file. By including three back ticks (<code>```</code>), you're telling the compiler that the content between each set of three back ticks is code. By adding the "js" (<code>```js</code>), you're telling your compiler <em>and</em> your IDE that it is javascript, and to assume as such with syntax highlighting.</p>
+</li>
+<li>
+<p><strong>Inline expressions</strong>: You can also use <code>${...}</code> to interpolate JavaScript values directly into your text or HTML. This means you can create expressions that can include variables. For example, your favorite color from the above dropdown is currently <observablehq-loading></observablehq-loading><!--:74284d9d:-->! (referenced with: <code>${color}</code>)</p>
+</li>
+</ol>
+<p><strong>Reactivity</strong> is the engine that drives these pages. The framework runs like a <strong>spreadsheet</strong>: when a variable is updated, any code that references that variable automatically re-runs. Because of this reactive nature, code runs independent of its order on the page, giving you complete flexibility in how you arrange your content.</p>
+<p>The value of this is that you can have an input that changes something somewhere else in your dashboard. This may seem trivial, but this "state management" can be <em>very</em> complex in standard web apps. Framework makes it easy so we can focus on the visualization rather than the web application pipes.</p>
+<p>Let's try an example:</p>
+<div class="observablehq observablehq--block"><!--:4bca4793:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-keyword">const</span> text = <span class="hljs-title function_">view</span>(
+  <span class="hljs-title class_">Inputs</span>.<span class="hljs-title function_">text</span>({
+    <span class="hljs-attr">label</span>: <span class="hljs-string">"Reactive text:"</span>,
+    <span class="hljs-attr">placeholder</span>: <span class="hljs-string">"Enter some text"</span>,
+  })
+);
+</code></pre>
+<div class="code">The text you have entered is: <observablehq-loading></observablehq-loading><!--:982d9e3e:--></div>
+<p>You can even bring this into visualizations, which will matter more later. This doesn't make much sense right now, but you can see that as you type text into the input above, it makes a bar chart in which the x and y values are simply the index of the letter:</p>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:1c0ee7b0:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">marks</span>: [
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">frame</span>(),
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">barY</span>(text, {
+      <span class="hljs-attr">x</span>: <span class="hljs-function">(<span class="hljs-params">d, i</span>) =&gt;</span> i,
+      <span class="hljs-attr">y</span>: <span class="hljs-function">(<span class="hljs-params">d, i</span>) =&gt;</span> i
+    })
+  ]
+})
+</code></pre>
+<hr>
+<h2 id="styles-and-css" tabindex="-1"><a class="observablehq-header-anchor" href="#styles-and-css">Styles and CSS</a></h2>
+<p>You can also stylize your dashboards, and there is more than one way to include styles in your markdown files.</p>
+<p>Since the markdown supports native html, you can include a style block anywhere in your file, to style specific classes or elements. The block below styles elements that use the <code>"code"</code> class (and here: <span class="code">this is code styled</span>)</p>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:fc7eae75:--></div>
+<pre data-language="html"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+  <span class="hljs-selector-class">.code</span> {
+    <span class="hljs-attribute">font-family</span>: monospace;
+    <span class="hljs-attribute">color</span>: <span class="hljs-number">#A935D4</span>;
+    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">0.8rem</span>;
+    <span class="hljs-attribute">font-weight</span>: <span class="hljs-number">800</span>;
+  }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+</code></pre>
+<div class="tip">
+  You may have noticed the code for this note includes `echo` after the code blocks. This allows you to see the code in the rendered display, without repeating the code block twice:
+  <div style="display: flex; flex-direction: column">
+    <span class="code">
+      ```html echo
+    </span>
+    <span class="code">
+      ```js echo
+    </span>
+  </div>
+</div>
+<p>You can also pass style inline to your elements, but it might get messy if the style is too long.</p>
+<div style="padding: 10px; background: rgba(255, 192, 203, 0.5); background-opacity: 0.2; border-radius: 4px">
+  🐴 Pink pony club in here ✨ 
+</div>
+<br>
+<h4 id="still-not-satisfied" tabindex="-1"><a class="observablehq-header-anchor" href="#still-not-satisfied">Still not satisfied?</a></h4>
+<p>If you're hoping to get even fancier for your work outside of these solutions, you can play with the available <a href="https://observablehq.com/framework/themes" target="_blank" rel="noopener noreferrer">observable themes</a>, and even bring those colors into your charts with css variables (<code>stroke: "var(--theme-foreground-focus)"</code>). To get even crazier, you can <a href="https://observablehq.com/framework/config#style" target="_blank" rel="noopener noreferrer">make your own stylesheet</a> that will bring whatever color variables you need into your markdown file and make them available for use.</p>
+<hr>
+</main>
+<footer id="observablehq-footer">
+<nav><a rel="prev" href="./2_working_in_cursor"><span>Working in Cursor</span></a><a rel="next" href="./4_confirming_spring_upstream"><span>Confirming Spring Upstream</span></a></nav>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-03-25T01:32:56">Mar 25, 2026</a>.</div>
+</footer>
+</div>
+</body>
+</html>
