@@ -24,10 +24,6 @@ const data = await d3.csv(
 Inputs.table(data)
 ```
 
-### Overview of Data
-
-This dataset includes observations of pollinator activity, including temperature, humidity, nectar production, and species characteristics such as body mass and wing span.
-
 ```js
 Plot.plot({
   title: "Body Mass Distribution by Species",
