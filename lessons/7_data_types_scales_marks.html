@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="generator" content="Observable Framework v1.13.3">
+<title>Data Types &lt;&gt; Scales &lt;&gt; Marks | Interactive Data Visualization (Spring 2026)</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="preload" as="style" href="../_observablehq/theme-air.aad62322.css">
+<link rel="preload" as="style" href="../_observablehq/stdlib/inputs.ea9fd553.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="stylesheet" type="text/css" href="../_observablehq/theme-air.aad62322.css">
+<link rel="stylesheet" type="text/css" href="../_observablehq/stdlib/inputs.ea9fd553.css">
+<link rel="modulepreload" href="../_observablehq/client.7cb31213.js">
+<link rel="modulepreload" href="../_observablehq/runtime.e080113b.js">
+<link rel="modulepreload" href="../_observablehq/stdlib.73a8ec5a.js">
+<link rel="modulepreload" href="../_npm/d3@7.9.0/66d82917.js">
+<link rel="modulepreload" href="../_observablehq/stdlib/inputs.4ef1d259.js">
+<link rel="modulepreload" href="../_npm/@observablehq/plot@0.6.17/a96a6bbb.js">
+<link rel="modulepreload" href="../_npm/htl@0.3.1/72f4716c.js">
+<link rel="modulepreload" href="../_npm/isoformat@0.2.1/18cbf477.js">
+<link rel="modulepreload" href="../_npm/d3-array@3.2.4/e93ca09f.js">
+<link rel="modulepreload" href="../_npm/d3-axis@3.0.0/0f2de24d.js">
+<link rel="modulepreload" href="../_npm/d3-brush@3.0.0/65eb105b.js">
+<link rel="modulepreload" href="../_npm/d3-chord@3.0.1/7ef8fb2e.js">
+<link rel="modulepreload" href="../_npm/d3-color@3.1.0/aeb57b94.js">
+<link rel="modulepreload" href="../_npm/d3-contour@4.0.2/1d2aed74.js">
+<link rel="modulepreload" href="../_npm/d3-delaunay@6.0.4/87adea64.js">
+<link rel="modulepreload" href="../_npm/d3-dispatch@3.0.1/9ba9c7f3.js">
+<link rel="modulepreload" href="../_npm/d3-drag@3.0.0/4202580c.js">
+<link rel="modulepreload" href="../_npm/d3-dsv@3.0.1/9cffc2bd.js">
+<link rel="modulepreload" href="../_npm/d3-ease@3.0.1/cdd7e898.js">
+<link rel="modulepreload" href="../_npm/d3-fetch@3.0.1/b4e2ad9a.js">
+<link rel="modulepreload" href="../_npm/d3-force@3.0.0/5e804d15.js">
+<link rel="modulepreload" href="../_npm/d3-format@3.1.2/3785bf2d.js">
+<link rel="modulepreload" href="../_npm/d3-geo@3.1.1/40599fb3.js">
+<link rel="modulepreload" href="../_npm/d3-hierarchy@3.1.2/e49e792c.js">
+<link rel="modulepreload" href="../_npm/d3-interpolate@3.0.1/8d1e5425.js">
+<link rel="modulepreload" href="../_npm/d3-path@3.1.0/20d3f133.js">
+<link rel="modulepreload" href="../_npm/d3-polygon@3.0.1/7553081f.js">
+<link rel="modulepreload" href="../_npm/d3-quadtree@3.0.1/0dfd751c.js">
+<link rel="modulepreload" href="../_npm/d3-random@3.0.1/3c90ee06.js">
+<link rel="modulepreload" href="../_npm/d3-scale@4.0.2/720b7f0a.js">
+<link rel="modulepreload" href="../_npm/d3-scale-chromatic@3.1.0/ba24c2e7.js">
+<link rel="modulepreload" href="../_npm/d3-selection@3.0.0/4d94e5b7.js">
+<link rel="modulepreload" href="../_npm/d3-shape@3.2.0/6d3a6726.js">
+<link rel="modulepreload" href="../_npm/d3-time@3.1.0/9f03c579.js">
+<link rel="modulepreload" href="../_npm/d3-time-format@4.1.0/07c9626f.js">
+<link rel="modulepreload" href="../_npm/d3-timer@3.0.1/b58a267d.js">
+<link rel="modulepreload" href="../_npm/d3-transition@3.0.1/004da2ac.js">
+<link rel="modulepreload" href="../_npm/d3-zoom@3.0.0/b5786b3f.js">
+<link rel="modulepreload" href="../_npm/interval-tree-1d@1.0.4/53fe8176.js">
+<link rel="modulepreload" href="../_npm/internmap@2.0.3/e08981d9.js">
+<link rel="modulepreload" href="../_npm/delaunator@5.1.0/d4ec0aa1.js">
+<link rel="modulepreload" href="../_npm/binary-search-bounds@2.0.5/cbf6ba23.js">
+<link rel="modulepreload" href="../_npm/robust-predicates@3.0.3/42820bfa.js">
+<link rel="icon" href="../_file/observable.1af93621.png" type="image/png" sizes="32x32">
+<script type="module">
+
+import {define} from "../_observablehq/client.7cb31213.js";
+
+define({id: "f942d65b", inputs: ["display","Plot"], body: (display,Plot) => {
+display(Plot.plot({
+  x: { domain: [0, 100], grid: true }
+}));
+}});
+
+define({id: "f3376ca3", inputs: ["display","Plot"], body: (display,Plot) => {
+display(Plot.plot({
+  x: { domain: [100, 0], grid: true }
+}));
+}});
+
+define({id: "12a25d70", inputs: ["display","Plot"], body: (display,Plot) => {
+display(Plot.plot({
+  width: 640,
+  x: { domain: [0, 100], grid: true }
+}));
+}});
+
+define({id: "9ca7836e", inputs: ["display","Plot"], body: (display,Plot) => {
+display(Plot.plot({
+  x: {
+    domain: [new Date(2025, 0, 1), new Date()],
+    grid: true
+  }
+}));
+}});
+
+define({id: "fcaea6d8", inputs: ["display","Plot"], outputs: ["letters"], body: (display,Plot) => {
+const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+display(Plot.plot({ x: { type: "point", domain: letters, grid: true } }));
+return {letters};
+}});
+
+define({id: "48590d67", inputs: ["display","Plot"], outputs: ["letters"], body: (display,Plot) => {
+const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+display(Plot.plot({
+  x: { type: "band", domain: letters },
+  marks: [
+    Plot.cell(letters, {
+      x: (d) => d,
+      stroke: "lightgrey"
+    })
+  ]
+}));
+return {letters};
+}});
+
+define({id: "61c33831", inputs: ["view","Inputs","diamonds"], body: (view,Inputs,diamonds) => {
+view(Inputs.table(diamonds.slice(0, 100)));
+}});
+
+define({id: "bef6f651", inputs: ["display","Plot","diamonds"], body: (display,Plot,diamonds) => {
+display(Plot.plot({
+  marks: [
+    Plot.dot(diamonds, {
+      x: "x",
+      y: "y",
+      r: "price",
+      fill: "currentColor",
+      opacity: 0.25,
+      tip: true
+    })
+  ]
+}));
+}});
+
+define({id: "670e215f", inputs: ["display","Plot","diamonds"], body: (display,Plot,diamonds) => {
+display(Plot.plot({
+  marks: [
+    Plot.barY(
+      diamonds,
+      Plot.groupX({ y: "count" }, { x: "cut", y: "count" })
+    )
+  ]
+}));
+}});
+
+define({id: "7d87ba9f", inputs: ["display","Plot","diamonds"], body: (display,Plot,diamonds) => {
+display(Plot.plot({
+  marks: [
+    Plot.barY(
+      diamonds,
+      Plot.groupX(
+        { y: "count", fill: "mean" },
+        { x: "cut", y: "count", fill: "price", tip: true }
+      )
+    )
+  ],
+  color: {
+    scheme: "YlOrRd",
+    legend: true,
+    label: "Average price"
+  },
+  x: { label: "Cut" },
+  y: { label: "Count of diamonds" }
+}));
+}});
+
+define({id: "a6c02b5a", inputs: ["display","Plot","diamonds"], body: (display,Plot,diamonds) => {
+display(Plot.plot({
+  marks: [
+    Plot.frame(),
+    Plot.cell(diamonds.filter((d, i) => i < 100), {
+      x: "color",
+      y: "cut",
+      opacity: 0.25
+    })
+  ]
+}));
+}});
+
+define({id: "d59fcaa1", inputs: ["display","Plot","diamonds"], body: (display,Plot,diamonds) => {
+display(Plot.plot({
+  marks: [
+    Plot.frame(),
+    Plot.text(
+      diamonds,
+      Plot.group({ text: "count" }, { x: "cut", y: "color", text: "count" })
+    )
+  ]
+}));
+}});
+
+define({id: "0086c600", inputs: ["display","Plot","diamonds","d3"], body: (display,Plot,diamonds,d3) => {
+display(Plot.plot({
+  marks: [
+    Plot.frame(),
+    Plot.cell(
+      diamonds,
+      Plot.group(
+        { fill: "mean" },
+        { x: "color", y: "cut", fill: "price", tip: true }
+      )
+    )
+  ],
+  color: {
+    scheme: "YlOrRd",
+    legend: true,
+    label: "Average price",
+    tickFormat: d3.format("$,.0f")
+  }
+}));
+}});
+
+define({id: "c7b95322", inputs: ["display","Plot"], outputs: ["rows"], body: (display,Plot) => {
+const rows = [
+  { region: "North", sales: 120 },
+  { region: "South", sales: 90 },
+  { region: "East", sales: 150 }
+];
+
+display(Plot.plot({
+  marginLeft: 50,
+  marks: [
+    Plot.barY(rows, { x: "region", y: "sales", fill: "steelblue" })
+  ]
+}))
+return {rows};
+}});
+
+define({id: "bbfdee0b", inputs: ["Plot","display"], body: async (Plot,display) => {
+display(await(
+Plot.plot({
+  color: {
+    type: "ordinal",
+    scheme: "Category10"
+  },
+  marks: [
+    Plot.cell("ABCDEFGHIJ", {x: Plot.identity, fill: Plot.identity})
+  ]
+})
+))
+}});
+
+define({id: "52fed5dc", inputs: ["Plot","d3","display"], body: async (Plot,d3,display) => {
+display(await(
+Plot.plot({
+  axis: null,
+  padding: 0,
+  color: {
+    type: "linear",
+    scheme: "blues"
+  },
+  marks: [
+    Plot.cell(d3.range(40), {x: Plot.identity, fill: Plot.identity, inset: -0.5})
+  ]
+})
+))
+}});
+
+define({id: "f28529ef", inputs: ["Plot","d3","display"], body: async (Plot,d3,display) => {
+display(await(
+Plot.plot({
+  axis: null,
+  padding: 0,
+  color: {
+    type: "linear",
+    scheme: "brbg"
+  },
+  marks: [
+    Plot.cell(d3.range(40), {x: Plot.identity, fill: Plot.identity, inset: -0.5})
+  ]
+})
+))
+}});
+
+define({id: "ed8007ed", inputs: ["display","Plot"], outputs: ["penguins"], body: (display,Plot) => {
+const penguins = [
+  { island: "Biscoe", bill: 48 },
+  { island: "Dream", bill: 44 },
+  { island: "Torgersen", bill: 46 }
+];
+
+display(Plot.plot({
+  marginLeft: 80,
+  marginBottom: 40,
+  marks: [
+    Plot.dot(penguins, { x: "bill", y: "island", fill: "island", r: 8 })
+  ],
+  color: { legend: true }
+}))
+return {penguins};
+}});
+
+</script>
+</head>
+<body>
+<input id="observablehq-sidebar-toggle" type="checkbox" title="Toggle sidebar">
+<label id="observablehq-sidebar-backdrop" for="observablehq-sidebar-toggle"></label>
+<nav id="observablehq-sidebar">
+  <ol>
+    <label id="observablehq-sidebar-close" for="observablehq-sidebar-toggle"></label>
+    <li class="observablehq-link"><a href="../">Interactive Data Visualization (Spring 2026)</a></li>
+  </ol>
+  <section class="observablehq-section-active">
+    <summary>Lessons</summary>
+    <ol>
+    <li class="observablehq-link"><a href="./1_intro_to_web_development">Intro to Web Development</a></li>
+    <li class="observablehq-link"><a href="./2_working_in_cursor">Working in Cursor</a></li>
+    <li class="observablehq-link"><a href="./3_intro_to_observable_framework">Intro to Observable Framework</a></li>
+    <li class="observablehq-link"><a href="./4_confirming_spring_upstream">Confirming Spring Upstream</a></li>
+    <li class="observablehq-link"><a href="./5_intro_to_observable_plot">Intro to Observable Plot</a></li>
+    <li class="observablehq-link"><a href="./6_transforms_and_data_manipulation">Transforms and Data Manipulation</a></li>
+    <li class="observablehq-link observablehq-link-active"><a href="./7_data_types_scales_marks">Data Types, Scales, Marks</a></li>
+    </ol>
+  </section>
+  <details>
+    <summary>Lab 0: Getting Started</summary>
+    <ol>
+    <li class="observablehq-link"><a href="../lab_0/readme">Instructions</a></li>
+    <li class="observablehq-link"><a href="../lab_0/">Dashboard</a></li>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 1: Prolific Pollinators</summary>
+    <ol>
+    <li class="observablehq-link"><a href="../lab_1/readme">Instructions</a></li>
+    <li class="observablehq-link"><a href="../lab_1/">Dashboard</a></li>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 2: Subway Staffing</summary>
+    <ol>
+    <li class="observablehq-link"><a href="../lab_2/readme">Instructions</a></li>
+    <li class="observablehq-link"><a href="../lab_2/">Dashboard</a></li>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 3: Mayoral Mystery</summary>
+    <ol>
+    </ol>
+  </details>
+  <details>
+    <summary>Lab 4: Clearwater Crisis</summary>
+    <ol>
+    </ol>
+  </details>
+</nav>
+<script>{const e=document.querySelector("#observablehq-sidebar"),o=document.querySelector("#observablehq-sidebar-toggle"),r=sessionStorage.getItem("observablehq-sidebar");r?o.checked=r==="true":o.indeterminate=!0;for(const t of document.querySelectorAll("#observablehq-sidebar summary")){const s=t.parentElement;switch(sessionStorage.getItem(`observablehq-sidebar:${t.textContent}`)){case"true":s.open=!0;break;case"false":s.classList.contains("observablehq-section-active")||(s.open=!1);break}}addEventListener("beforeunload",()=>sessionStorage.setItem("observablehq-sidebar-scrolly",`${e.scrollTop}`));const a=sessionStorage.getItem("observablehq-sidebar-scrolly");a!=null&&(e.style.cssText="overflow: hidden;",e.scrollTop=+a,e.style.cssText="");}</script>
+<div id="observablehq-center">
+<aside id="observablehq-toc" data-selector="h1:not(:first-of-type)[id], h2:first-child[id], :not(h1) + h2[id]">
+<nav>
+<div>Contents</div>
+<ol>
+<li class="observablehq-secondary-link"><a href="#data-types">Data Types</a></li>
+<li class="observablehq-secondary-link"><a href="#scales">Scales</a></li>
+<li class="observablehq-secondary-link"><a href="#diamonds-data-types-scales-and-marks">Diamonds: data types, scales, and marks</a></li>
+<li class="observablehq-secondary-link"><a href="#data-types-marks">Data Types &lt;&gt; Marks</a></li>
+<li class="observablehq-secondary-link"><a href="#color-scales">Color Scales</a></li>
+</ol>
+</nav>
+</aside>
+<main id="observablehq-main" class="observablehq">
+<h1 id="data-types-scales-marks" tabindex="-1"><a class="observablehq-header-anchor" href="#data-types-scales-marks">Data Types &lt;&gt; Scales &lt;&gt; Marks</a></h1>
+<hr>
+<p>This lesson ties three ideas together: the <strong>kinds of values</strong> in your data, the <strong>scales</strong> Plot uses to turn those values into positions and colors, and the <strong>marks</strong> you choose to draw. Marks are specified in <a href="https://observablehq.com/plot/features/marks" target="_blank" rel="noopener noreferrer">data space</a> (times, categories, measurements)—not in raw pixels—and scales bridge data space and the chart.</p>
+<hr>
+<h2 id="data-types" tabindex="-1"><a class="observablehq-header-anchor" href="#data-types">Data Types</a></h2>
+<p>We can group fields in a dataset into broad families. The type of data hints at which scale Plot should use and which mark channels make sense.</p>
+<h3 id="qualitative-non-numeric-descriptive" tabindex="-1"><a class="observablehq-header-anchor" href="#qualitative-non-numeric-descriptive">Qualitative (non-numeric, descriptive)</a></h3>
+<ul>
+<li><strong>Nominal</strong> — Distinct categories <em>without</em> a meaningful order (e.g. hair color, marital status, island name).</li>
+<li><strong>Ordinal</strong> — Distinct categories <em>with</em> a meaningful order, but the gaps between levels are not a fixed numeric distance (e.g. letter grades, satisfaction “low / medium / high”).</li>
+</ul>
+<h3 id="quantitative-numeric-measurable" tabindex="-1"><a class="observablehq-header-anchor" href="#quantitative-numeric-measurable">Quantitative (numeric, measurable)</a></h3>
+<ul>
+<li><strong>Discrete</strong> — Countable, often <em>whole numbers</em> from counting (e.g. number of children, number of events).</li>
+<li><strong>Continuous</strong> — Can take <em>any value</em> in a range, including fractions, from measuring (e.g. height, weight, temperature).</li>
+</ul>
+<p>The same real-world idea can be stored in different ways. <strong>Weight</strong> (continuous) is not the same as <strong>weight class</strong> (“light / medium / heavy”), which is ordinal or nominal. If you bin continuous measurements (e.g. with <code>Plot.bin()</code>), you can move data from many numeric values to fewer ordered or categorical bins—a pattern that pairs well with bar-style marks.</p>
+<p><em>Note: see <a href="./6_transforms_and_data_manipulation.md">transforms</a> for how binning changes cardinality.</em></p>
+<hr>
+<h2 id="scales" tabindex="-1"><a class="observablehq-header-anchor" href="#scales">Scales</a></h2>
+<p>From the <a href="https://observablehq.com/plot/features/marks" target="_blank" rel="noopener noreferrer">marks documentation</a>: marks are (typically) not positioned in literal pixel coordinates. You supply <strong>abstract values</strong> (time, temperature, category labels, counts). Marks are drawn in <strong>data space</strong> -- and <strong>scales</strong> are used to encode those values into visual results—horizontal and vertical position, color, radius, and so on. Plot also builds axes and legends that explain those encodings.</p>
+<p>Think of a simple line chart: <code>x</code> might encode time, <code>y</code> might encode price—both abstract. The x scale maps the time domain to horizontal pixel extent; the y scale maps the price domain to vertical extent.</p>
+<p>A faceted or small-multiple layout is the same idea with more channels: e.g. <code>x</code> = island (category), <code>y</code> = count (number), <code>fill</code> = island (category) mapped through a color scale to distinct hues. The domain is what goes in (your data values); the range is what comes out (pixel span, color ramp, etc.).</p>
+<p>Plot’s <a href="https://observablehq.com/plot/features/scales" target="_blank" rel="noopener noreferrer">scales guide</a> spells this out formally:</p>
+<ul>
+<li><strong>Domain</strong>: The input values the scale expects. For quantitative or temporal data, this is often an extent such as min–max. For ordinal or nominal data, it is often an explicit list of categories. The domain lines up with options like linear vs ordinal scale behavior.</li>
+<li><strong>Range</strong>: The output of the scale. For position scales, typically left–right or bottom–top in pixel space. For color scales, a continuous ramp (e.g. blue → red) or a list of discrete colors.</li>
+</ul>
+<p>You rarely set every scale by hand; Plot infers sensible defaults from the types of the values bound to each channel.</p>
+<h3 id="continuous-position-scales" tabindex="-1"><a class="observablehq-header-anchor" href="#continuous-position-scales">Continuous position scales</a></h3>
+<p>You can set <strong><code>x</code></strong> or <strong><code>y</code></strong> <strong><code>domain</code></strong> yourself. For numeric data, the domain is usually an extent <code>[low, high]</code>. Swap the ends of the extent to reverse the axis.</p>
+<div class="observablehq observablehq--block"><!--:f942d65b:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title function_">display</span>(<span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">x</span>: { <span class="hljs-attr">domain</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">100</span>], <span class="hljs-attr">grid</span>: <span class="hljs-literal">true</span> }
+}));
+</code></pre>
+<div class="observablehq observablehq--block"><!--:f3376ca3:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title function_">display</span>(<span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">x</span>: { <span class="hljs-attr">domain</span>: [<span class="hljs-number">100</span>, <span class="hljs-number">0</span>], <span class="hljs-attr">grid</span>: <span class="hljs-literal">true</span> }
+}));
+</code></pre>
+<p>Widen the plot by setting <strong><code>width</code></strong> (use the reactive <code>width</code> your page provides, or a fixed number such as <code>640</code>).</p>
+<div class="observablehq observablehq--block"><!--:12a25d70:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title function_">display</span>(<span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">width</span>: <span class="hljs-number">640</span>,
+  <span class="hljs-attr">x</span>: { <span class="hljs-attr">domain</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">100</span>], <span class="hljs-attr">grid</span>: <span class="hljs-literal">true</span> }
+}));
+</code></pre>
+<p>When values are <strong>dates</strong>, the domain can be date extents. Month indices in <code>Date</code> are 0-based, so January is <code>0</code>.</p>
+<div class="observablehq observablehq--block"><!--:9ca7836e:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title function_">display</span>(<span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">x</span>: {
+    <span class="hljs-attr">domain</span>: [<span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(<span class="hljs-number">2025</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>), <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>()],
+    <span class="hljs-attr">grid</span>: <span class="hljs-literal">true</span>
+  }
+}));
+</code></pre>
+<h3 id="discrete-position-scales-point-and-band" tabindex="-1"><a class="observablehq-header-anchor" href="#discrete-position-scales-point-and-band">Discrete position scales: point and band</a></h3>
+<p>For categorical <strong>x</strong> or <strong>y</strong>, Plot often uses a <strong>point</strong> scale: categories land on evenly spaced positions (a common default for ordinal data on position).</p>
+<div class="observablehq observablehq--block"><!--:fcaea6d8:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-keyword">const</span> letters = [<span class="hljs-string">"A"</span>, <span class="hljs-string">"B"</span>, <span class="hljs-string">"C"</span>, <span class="hljs-string">"D"</span>, <span class="hljs-string">"E"</span>, <span class="hljs-string">"F"</span>, <span class="hljs-string">"G"</span>, <span class="hljs-string">"H"</span>, <span class="hljs-string">"I"</span>, <span class="hljs-string">"J"</span>];
+<span class="hljs-title function_">display</span>(<span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({ <span class="hljs-attr">x</span>: { <span class="hljs-attr">type</span>: <span class="hljs-string">"point"</span>, <span class="hljs-attr">domain</span>: letters, <span class="hljs-attr">grid</span>: <span class="hljs-literal">true</span> } }));
+</code></pre>
+<p>A <strong>band</strong> scale splits space into evenly spaced <strong>intervals</strong> (bands). That is what bar charts rely on—each category owns a band. <strong><code>Plot.cell</code></strong> makes those bands visible:</p>
+<div class="observablehq observablehq--block"><!--:48590d67:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-keyword">const</span> letters = [<span class="hljs-string">"A"</span>, <span class="hljs-string">"B"</span>, <span class="hljs-string">"C"</span>, <span class="hljs-string">"D"</span>, <span class="hljs-string">"E"</span>, <span class="hljs-string">"F"</span>, <span class="hljs-string">"G"</span>, <span class="hljs-string">"H"</span>, <span class="hljs-string">"I"</span>, <span class="hljs-string">"J"</span>];
+<span class="hljs-title function_">display</span>(<span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">x</span>: { <span class="hljs-attr">type</span>: <span class="hljs-string">"band"</span>, <span class="hljs-attr">domain</span>: letters },
+  <span class="hljs-attr">marks</span>: [
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">cell</span>(letters, {
+      <span class="hljs-attr">x</span>: <span class="hljs-function">(<span class="hljs-params">d</span>) =&gt;</span> d,
+      <span class="hljs-attr">stroke</span>: <span class="hljs-string">"lightgrey"</span>
+    })
+  ]
+}));
+</code></pre>
+<hr>
+<h2 id="diamonds-data-types-scales-and-marks" tabindex="-1"><a class="observablehq-header-anchor" href="#diamonds-data-types-scales-and-marks">Diamonds: data types, scales, and marks</a></h2>
+<p>The built-in <strong><code>diamonds</code></strong> dataset (available in Observable Framework with other sample tables) mixes <strong>continuous</strong> fields—<code>carat</code>, <code>depth</code>, <code>price</code>, <code>x</code>, <code>y</code>, and so on—with <strong>ordinal</strong> fields such as <strong><code>cut</code></strong> and <strong><code>color</code></strong>. Skim the columns:</p>
+<div class="observablehq observablehq--block"><!--:61c33831:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title function_">view</span>(<span class="hljs-title class_">Inputs</span>.<span class="hljs-title function_">table</span>(diamonds.<span class="hljs-title function_">slice</span>(<span class="hljs-number">0</span>, <span class="hljs-number">100</span>)));
+</code></pre>
+<p><strong>Two continuous position channels</strong> pair naturally with <strong><code>Plot.dot</code></strong> (here <code>x</code> and <code>y</code> are spatial fields in the dataset, and <strong>radius</strong> encodes <strong>price</strong>):</p>
+<div class="observablehq observablehq--block"><!--:bef6f651:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title function_">display</span>(<span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">marks</span>: [
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">dot</span>(diamonds, {
+      <span class="hljs-attr">x</span>: <span class="hljs-string">"x"</span>,
+      <span class="hljs-attr">y</span>: <span class="hljs-string">"y"</span>,
+      <span class="hljs-attr">r</span>: <span class="hljs-string">"price"</span>,
+      <span class="hljs-attr">fill</span>: <span class="hljs-string">"currentColor"</span>,
+      <span class="hljs-attr">opacity</span>: <span class="hljs-number">0.25</span>,
+      <span class="hljs-attr">tip</span>: <span class="hljs-literal">true</span>
+    })
+  ]
+}));
+</code></pre>
+<p><strong>One ordinal position + one quantitative length</strong> is the usual bar pattern. <strong><code>Plot.groupX</code></strong> counts rows per <strong><code>cut</code></strong>:</p>
+<div class="observablehq observablehq--block"><!--:670e215f:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title function_">display</span>(<span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">marks</span>: [
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">barY</span>(
+      diamonds,
+      <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">groupX</span>({ <span class="hljs-attr">y</span>: <span class="hljs-string">"count"</span> }, { <span class="hljs-attr">x</span>: <span class="hljs-string">"cut"</span>, <span class="hljs-attr">y</span>: <span class="hljs-string">"count"</span> })
+    )
+  ]
+}));
+</code></pre>
+<p>You can add another summary on the same grouping—for example <strong>mean price</strong> driving <strong><code>fill</code></strong>:</p>
+<div class="observablehq observablehq--block"><!--:7d87ba9f:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title function_">display</span>(<span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">marks</span>: [
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">barY</span>(
+      diamonds,
+      <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">groupX</span>(
+        { <span class="hljs-attr">y</span>: <span class="hljs-string">"count"</span>, <span class="hljs-attr">fill</span>: <span class="hljs-string">"mean"</span> },
+        { <span class="hljs-attr">x</span>: <span class="hljs-string">"cut"</span>, <span class="hljs-attr">y</span>: <span class="hljs-string">"count"</span>, <span class="hljs-attr">fill</span>: <span class="hljs-string">"price"</span>, <span class="hljs-attr">tip</span>: <span class="hljs-literal">true</span> }
+      )
+    )
+  ],
+  <span class="hljs-attr">color</span>: {
+    <span class="hljs-attr">scheme</span>: <span class="hljs-string">"YlOrRd"</span>,
+    <span class="hljs-attr">legend</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">label</span>: <span class="hljs-string">"Average price"</span>
+  },
+  <span class="hljs-attr">x</span>: { <span class="hljs-attr">label</span>: <span class="hljs-string">"Cut"</span> },
+  <span class="hljs-attr">y</span>: { <span class="hljs-attr">label</span>: <span class="hljs-string">"Count of diamonds"</span> }
+}));
+</code></pre>
+<p><strong>Two ordinal position channels</strong> often use <strong><code>Plot.cell</code></strong>. With one row per diamond, raw cells overlap; the snippet below uses the first 100 rows like the <a href="https://raw.githubusercontent.com/InteractiveDataVis/Interactive-Data-Vis-Fall2025/refs/heads/class/src/lab_2/week_7_notes.md" target="_blank" rel="noopener noreferrer">Fall 2025 week 7 notes</a> to keep the grid readable:</p>
+<div class="observablehq observablehq--block"><!--:a6c02b5a:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title function_">display</span>(<span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">marks</span>: [
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">frame</span>(),
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">cell</span>(diamonds.<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">d, i</span>) =&gt;</span> i &lt; <span class="hljs-number">100</span>), {
+      <span class="hljs-attr">x</span>: <span class="hljs-string">"color"</span>,
+      <span class="hljs-attr">y</span>: <span class="hljs-string">"cut"</span>,
+      <span class="hljs-attr">opacity</span>: <span class="hljs-number">0.25</span>
+    })
+  ]
+}));
+</code></pre>
+<p><strong><code>Plot.text</code></strong> with <strong><code>Plot.group</code></strong> can show <strong>counts</strong> per <code>(cut, color)</code> pair:</p>
+<div class="observablehq observablehq--block"><!--:d59fcaa1:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title function_">display</span>(<span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">marks</span>: [
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">frame</span>(),
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">text</span>(
+      diamonds,
+      <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">group</span>({ <span class="hljs-attr">text</span>: <span class="hljs-string">"count"</span> }, { <span class="hljs-attr">x</span>: <span class="hljs-string">"cut"</span>, <span class="hljs-attr">y</span>: <span class="hljs-string">"color"</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">"count"</span> })
+    )
+  ]
+}));
+</code></pre>
+<p>Aggregating <strong>mean price</strong> into each cell yields a heatmap-style view:</p>
+<div class="observablehq observablehq--block"><!--:0086c600:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-title function_">display</span>(<span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">marks</span>: [
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">frame</span>(),
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">cell</span>(
+      diamonds,
+      <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">group</span>(
+        { <span class="hljs-attr">fill</span>: <span class="hljs-string">"mean"</span> },
+        { <span class="hljs-attr">x</span>: <span class="hljs-string">"color"</span>, <span class="hljs-attr">y</span>: <span class="hljs-string">"cut"</span>, <span class="hljs-attr">fill</span>: <span class="hljs-string">"price"</span>, <span class="hljs-attr">tip</span>: <span class="hljs-literal">true</span> }
+      )
+    )
+  ],
+  <span class="hljs-attr">color</span>: {
+    <span class="hljs-attr">scheme</span>: <span class="hljs-string">"YlOrRd"</span>,
+    <span class="hljs-attr">legend</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">label</span>: <span class="hljs-string">"Average price"</span>,
+    <span class="hljs-attr">tickFormat</span>: d3.<span class="hljs-title function_">format</span>(<span class="hljs-string">"$,.0f"</span>)
+  }
+}));
+</code></pre>
+<hr>
+<h2 id="data-types-marks" tabindex="-1"><a class="observablehq-header-anchor" href="#data-types-marks">Data Types &lt;&gt; Marks</a></h2>
+<p>There is no single rule for every chart, but usually each mark expects certain kinds of channels. The table below matches the Week 8 slides: typical <code>x</code> and <code>y</code> data types for common marks, plus extra channels where the slides call them out.</p>
+<table>
+<thead>
+<tr>
+<th>Mark</th>
+<th>x (typical)</th>
+<th>y (typical)</th>
+<th>Other channels</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Plot.lineY()</code> / <code>Plot.lineX()</code></td>
+<td>quantitative</td>
+<td>quantitative</td>
+<td>(orientation depends on which line mark you use)</td>
+</tr>
+<tr>
+<td><code>Plot.barY()</code></td>
+<td>ordinal (or nominal)</td>
+<td>quantitative</td>
+<td>Categories on <code>x</code>, lengths on <code>y</code></td>
+</tr>
+<tr>
+<td><code>Plot.barX()</code></td>
+<td>quantitative</td>
+<td>ordinal (or nominal)</td>
+<td>Lengths on <code>x</code>, categories on <code>y</code></td>
+</tr>
+<tr>
+<td><code>Plot.dot()</code></td>
+<td>quantitative</td>
+<td>quantitative</td>
+<td><strong>r</strong> (radius) is often quantitative</td>
+</tr>
+<tr>
+<td><code>Plot.cell()</code></td>
+<td>ordinal (or nominal)</td>
+<td>ordinal (or nominal)</td>
+<td><strong>fill</strong> can be quantitative <em>or</em> qualitative</td>
+</tr>
+</tbody>
+</table>
+<p>Bars often pair a categorical position channel with a numeric length. Dots in a scatterplot usually put two quantitative channels on <code>x</code> and <code>y</code>. Cells (heatmap-style) commonly use two categorical axes to index a grid, with fill carrying the value you want to emphasize.</p>
+<p>In code, you still pass field names (or arrays); Plot looks at the values (numbers, dates, strings) to choose scale behavior. If something looks wrong, ask: “Is this channel ordered numbers, dates, or labels?”—that answer points to the right scale and mark pairing.</p>
+<div class="observablehq observablehq--block"><!--:c7b95322:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-keyword">const</span> rows = [
+  { <span class="hljs-attr">region</span>: <span class="hljs-string">"North"</span>, <span class="hljs-attr">sales</span>: <span class="hljs-number">120</span> },
+  { <span class="hljs-attr">region</span>: <span class="hljs-string">"South"</span>, <span class="hljs-attr">sales</span>: <span class="hljs-number">90</span> },
+  { <span class="hljs-attr">region</span>: <span class="hljs-string">"East"</span>, <span class="hljs-attr">sales</span>: <span class="hljs-number">150</span> }
+];
+
+<span class="hljs-title function_">display</span>(<span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">marginLeft</span>: <span class="hljs-number">50</span>,
+  <span class="hljs-attr">marks</span>: [
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">barY</span>(rows, { <span class="hljs-attr">x</span>: <span class="hljs-string">"region"</span>, <span class="hljs-attr">y</span>: <span class="hljs-string">"sales"</span>, <span class="hljs-attr">fill</span>: <span class="hljs-string">"steelblue"</span> })
+  ]
+}))
+</code></pre>
+<p>Here <code>x</code> is nominal/ordinal (region labels) and <code>y</code> is quantitative (sales)—the usual <code>Plot.barY</code> pattern from the table.</p>
+<hr>
+<h2 id="color-scales" tabindex="-1"><a class="observablehq-header-anchor" href="#color-scales">Color Scales</a></h2>
+<p><strong>Color</strong> is another channel, and it has its own scale. Color scale “families” mirror the data-type ideas above. See <a href="https://observablehq.com/plot/features/scales" target="_blank" rel="noopener noreferrer">Plot: scales</a> for full options.</p>
+<ol>
+<li><strong>Categorical (qualitative)</strong>
+<ul>
+<li>Nominal-style — Distinct categories → distinct hues (e.g. species, island).</li>
+<li>Ordinal-style — Still discrete, but order matters (e.g. grades, satisfaction bands); choose a palette that respects order.</li>
+</ul>
+</li>
+</ol>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:bbfdee0b:--></div>
+<ol start="2">
+<li><strong>Quantitative</strong>
+<ul>
+<li>Linear (and related) — Continuous numeric values interpolated along a ramp (e.g. temperature, population). Plot also supports transforms such as sqrt, log, power, and symlog on quantitative color scales when compression of large ranges helps.</li>
+</ul>
+</li>
+</ol>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:52fed5dc:--></div>
+<ol start="3">
+<li><strong>Diverging</strong>
+<ul>
+<li>Emphasizes a midpoint (often zero) and moves to two different hues on either side—useful for positive vs negative or above/below a reference.</li>
+</ul>
+</li>
+</ol>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:f28529ef:--></div>
+<ol start="4">
+<li><strong>More</strong> — Sequential, threshold, quantile, and other specialized color scales appear in the docs when you need them.</li>
+</ol>
+<p>You configure the plot-level color scale with the top-level <strong><code>color</code></strong> option (e.g. <code>legend</code>, <code>scheme</code>, <code>domain</code>, <code>type</code>), while individual marks still say which field drives color via <strong><code>fill</code></strong> or <strong><code>stroke</code></strong>.</p>
+<div class="observablehq observablehq--block"><!--:ed8007ed:--></div>
+<pre data-language="js"><code class="language-js"><span class="hljs-keyword">const</span> penguins = [
+  { <span class="hljs-attr">island</span>: <span class="hljs-string">"Biscoe"</span>, <span class="hljs-attr">bill</span>: <span class="hljs-number">48</span> },
+  { <span class="hljs-attr">island</span>: <span class="hljs-string">"Dream"</span>, <span class="hljs-attr">bill</span>: <span class="hljs-number">44</span> },
+  { <span class="hljs-attr">island</span>: <span class="hljs-string">"Torgersen"</span>, <span class="hljs-attr">bill</span>: <span class="hljs-number">46</span> }
+];
+
+<span class="hljs-title function_">display</span>(<span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">plot</span>({
+  <span class="hljs-attr">marginLeft</span>: <span class="hljs-number">80</span>,
+  <span class="hljs-attr">marginBottom</span>: <span class="hljs-number">40</span>,
+  <span class="hljs-attr">marks</span>: [
+    <span class="hljs-title class_">Plot</span>.<span class="hljs-title function_">dot</span>(penguins, { <span class="hljs-attr">x</span>: <span class="hljs-string">"bill"</span>, <span class="hljs-attr">y</span>: <span class="hljs-string">"island"</span>, <span class="hljs-attr">fill</span>: <span class="hljs-string">"island"</span>, <span class="hljs-attr">r</span>: <span class="hljs-number">8</span> })
+  ],
+  <span class="hljs-attr">color</span>: { <span class="hljs-attr">legend</span>: <span class="hljs-literal">true</span> }
+}))
+</code></pre>
+<p><strong>Fill</strong> binds <strong>island</strong> (qualitative) to the mark; <strong><code>color: { legend: true }</code></strong> documents the categorical color scale at the plot level.</p>
+</main>
+<footer id="observablehq-footer">
+<nav><a rel="prev" href="./6_transforms_and_data_manipulation"><span>Transforms and Data Manipulation</span></a><a rel="next" href="../lab_0/readme"><span>Instructions</span></a></nav>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-04-14T04:11:29">Apr 14, 2026</a>.</div>
+</footer>
+</div>
+</body>
+</html>
