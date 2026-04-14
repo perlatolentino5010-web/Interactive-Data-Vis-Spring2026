@@ -44,3 +44,32 @@ const currentStaffing = {
   "Astor Pl": 7
 }
 ```
+```js
+const ridershipWithTraffic = ridership.map(d => ({
+  ...d,
+  traffic: d.entrances + d.exits
+}))
+const ridershipWithFare = ridershipWithTraffic.map(d => ({
+  ...d,
+  fare_period: d.date < "2025-07-15" ? "Before Fare Increase" : "After Fare Increase"
+}))
+```
+
+## 1. How did local events impact ridership in summer 2025? What effect did the July 15 fare increase have?
+
+```js
+Plot.plot({
+  title: "Average Traffic Before vs After Fare Increase",
+  y: { label: "Average Traffic" },
+  x: { label: "Fare Period" },
+  marks: [
+    Plot.barY(
+      ridershipWithFare,
+      Plot.groupX(
+        { y: "mean" },
+        { x: "fare_period", y: "traffic" }
+      )
+    )
+  ]
+})
+```
