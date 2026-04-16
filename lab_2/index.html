@@ -57,10 +57,10 @@
 import {define} from "../_observablehq/client.7cb31213.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/incidents.csv", {"name":"./data/incidents.csv","mimeType":"text/csv","path":"../_file/lab_2/data/incidents.d0fdb64d.csv","lastModified":1776314940409,"size":21148});
-registerFile("./data/local_events.csv", {"name":"./data/local_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/local_events.0539ac0d.csv","lastModified":1776314940409,"size":2714});
-registerFile("./data/ridership.csv", {"name":"./data/ridership.csv","mimeType":"text/csv","path":"../_file/lab_2/data/ridership.fa14f202.csv","lastModified":1776314940409,"size":64867});
-registerFile("./data/upcoming_events.csv", {"name":"./data/upcoming_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/upcoming_events.4724e73a.csv","lastModified":1776314940409,"size":2514});
+registerFile("./data/incidents.csv", {"name":"./data/incidents.csv","mimeType":"text/csv","path":"../_file/lab_2/data/incidents.d0fdb64d.csv","lastModified":1776315377189,"size":21148});
+registerFile("./data/local_events.csv", {"name":"./data/local_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/local_events.0539ac0d.csv","lastModified":1776315377189,"size":2714});
+registerFile("./data/ridership.csv", {"name":"./data/ridership.csv","mimeType":"text/csv","path":"../_file/lab_2/data/ridership.fa14f202.csv","lastModified":1776315377189,"size":64867});
+registerFile("./data/upcoming_events.csv", {"name":"./data/upcoming_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/upcoming_events.4724e73a.csv","lastModified":1776315377189,"size":2514});
 
 define({id: "3675e32c", inputs: ["FileAttachment"], outputs: ["incidents","local_events","upcoming_events","ridership"], body: (FileAttachment) => {
 const incidents = FileAttachment("./data/incidents.csv").csv({ typed: true })
@@ -113,7 +113,7 @@ const ridershipWithFare = ridershipWithTraffic.map(d => ({
 return {ridershipWithTraffic,ridershipWithFare};
 }});
 
-define({id: "18c1cb7a", inputs: ["Plot","ridershipWithFare","display"], body: async (Plot,ridershipWithFare,display) => {
+define({id: "471e3a92", inputs: ["Plot","ridershipWithFare","display"], body: async (Plot,ridershipWithFare,display) => {
 display(await(
 Plot.plot({
   title: "Average Traffic Before vs After Fare Increase",
@@ -124,7 +124,7 @@ Plot.plot({
       ridershipWithFare,
       Plot.groupX(
         { y: "mean" },
-        { x: "fare_period", y: "traffic", fill: "orange" }
+        { x: "fare_period", y: "traffic", fill: "gold" }
       )
     )
   ]
@@ -286,7 +286,7 @@ Plot.plot({
 <div class="observablehq observablehq--block"><!--:cfda57c0:--></div>
 <div class="observablehq observablehq--block"><!--:46b9128f:--></div>
 <h2 id="1-how-did-local-events-impact-ridership-in-summer-2025-what-effect-did-the-july-15-fare-increase-have" tabindex="-1"><a class="observablehq-header-anchor" href="#1-how-did-local-events-impact-ridership-in-summer-2025-what-effect-did-the-july-15-fare-increase-have">1. How did local events impact ridership in summer 2025? What effect did the July 15 fare increase have?</a></h2>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:18c1cb7a:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:471e3a92:--></div>
 <p>This chart compares average subway traffic before and after the July 15 fare increase. It helps show whether ridership changed after the fare increase. Based on the chart, average ridership [increased / decreased / stayed similar] after July 15.</p>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:8b29cacf:--></div>
 <p>Local events likely contributed to ridership spikes at nearby stations during summer 2025.
@@ -303,7 +303,7 @@ The time pattern can be used alongside the events dataset to identify whether tr
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-04-16T04:49:07">Apr 16, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-04-16T04:56:22">Apr 16, 2026</a>.</div>
 </footer>
 </div>
 </body>
