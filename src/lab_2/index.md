@@ -74,7 +74,7 @@ Plot.plot({
 })
 ```
 
-This chart compares average subway traffic before and after the July 15 fare increase. It helps show whether ridership changed after the fare increase. Based on the chart, average ridership [increased / decreased / stayed similar] after July 15.
+This chart compares average subway traffic before and after the July 15 fare increase. It helps show whether ridership changed after the fare increase. Based on the chart, average ridership slightly decreased after July 15, suggesting that the fare increase may have had a small negative impact on subway usage, although overall demand remained relatively high.
 
 ```js
 Plot.plot({
@@ -99,8 +99,7 @@ Plot.plot({
 })
 ```
 
-Local events likely contributed to ridership spikes at nearby stations during summer 2025. 
-The time pattern can be used alongside the events dataset to identify whether traffic rose around major event dates. This suggests that both scheduled events and fare policy may have influenced station demand.
+ Local events appear to contribute to noticeable spikes in ridership at nearby stations during summer 2025. Periods of increased traffic often align with likely event activity, suggesting that scheduled events play a meaningful role in driving short-term demand, even alongside broader policy changes like the fare increase.
 
 ## 2. How do the stations compare when it comes to response time? Which are the best, which are the worst?
 
@@ -122,7 +121,7 @@ Plot.plot({
 })
 ```
 
-This chart ranks stations by average incident response time. Stations with lower average response times performed better, while stations with higher averages performed worse. The best-performing stations are those at the bottom of the time scale, and the worst-performing stations are those with the highest average response times.
+This chart ranks stations by average incident response time, showing clear differences in performance across locations. Stations with lower response times are more efficient, while those with higher response times may face operational challenges such as higher traffic, staffing limitations, or more complex incidents.
 
 ```js
 const staffingPressure = Object.entries(
@@ -157,7 +156,7 @@ Plot.plot({
 })
 ```
 
-This chart estimates staffing pressure by comparing projected event attendance in summer 2026 to current station staffing levels. Stations with the highest pressure values are likely to need the most staffing support next summer. Based on this measure, the three stations most in need of additional staffing are the top three shown in the chart.
+This chart estimates staffing pressure by comparing projected event attendance in summer 2026 to current station staffing levels. Stations with the highest pressure values are likely to experience the greatest strain, indicating a clear need for additional staffing at those locations to manage anticipated demand.
 
 ## Conclusion
 
