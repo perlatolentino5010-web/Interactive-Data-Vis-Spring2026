@@ -115,7 +115,7 @@ Plot.plot({
       incidents,
       Plot.groupY(
         { x: "mean" },
-        { y: "station", x: "response_time_minutes", sort: { y: "x" }, fill: "light blue" }
+        { y: "station", x: "response_time_minutes", sort: { y: "x" }, fill: "steelblue" }
       )
     )
   ]
