@@ -67,7 +67,7 @@ Plot.plot({
       ridershipWithFare,
       Plot.groupX(
         { y: "mean" },
-        { x: "fare_period", y: "traffic", fill: "fare_period" }
+        { x: "fare_period", y: "traffic", fill: "orange" }
       )
     )
   ]
@@ -115,7 +115,7 @@ Plot.plot({
       incidents,
       Plot.groupY(
         { x: "mean" },
-        { y: "station", x: "response_time_minutes", sort: { y: "x" }, fill: "station" }
+        { y: "station", x: "response_time_minutes", sort: { y: "x" }, fill: "teal" }
       )
     )
   ]
@@ -151,7 +151,7 @@ Plot.plot({
       x: "pressure",
       y: "station",
       sort: { y: "-x" },
-      fill: "station"
+      fill: "purple"
     })
   ]
 })
