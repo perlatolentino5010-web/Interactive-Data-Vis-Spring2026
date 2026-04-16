@@ -51,7 +51,7 @@ const ridershipWithTraffic = ridership.map(d => ({
 }))
 const ridershipWithFare = ridershipWithTraffic.map(d => ({
   ...d,
-  fare_period: d.date < "2025-07-15" ? "Before Fare Increase" : "After Fare Increase"
+  fare_period: d.date < new Date("2025-07-15") ? "Before Fare Increase" : "After Fare Increase"
 }))
 ```
 
@@ -115,7 +115,7 @@ Plot.plot({
       incidents,
       Plot.groupY(
         { x: "mean" },
-        { y: "station", x: "response_time_minutes", sort: { y: "x" }, fill: "teal" }
+        { y: "station", x: "response_time_minutes", sort: { y: "x" }, fill: "light blue" }
       )
     )
   ]
