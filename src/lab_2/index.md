@@ -67,7 +67,7 @@ Plot.plot({
       ridershipWithFare,
       Plot.groupX(
         { y: "mean" },
-        { x: "fare_period", y: "traffic", fill: "gold" }
+        { x: "fare_period", y: "traffic", fill: "green" }
       )
     )
   ]
