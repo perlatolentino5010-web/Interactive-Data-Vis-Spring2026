@@ -57,10 +57,10 @@
 import {define} from "../_observablehq/client.7cb31213.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/incidents.csv", {"name":"./data/incidents.csv","mimeType":"text/csv","path":"../_file/lab_2/data/incidents.d0fdb64d.csv","lastModified":1776316101773,"size":21148});
-registerFile("./data/local_events.csv", {"name":"./data/local_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/local_events.0539ac0d.csv","lastModified":1776316101773,"size":2714});
-registerFile("./data/ridership.csv", {"name":"./data/ridership.csv","mimeType":"text/csv","path":"../_file/lab_2/data/ridership.fa14f202.csv","lastModified":1776316101773,"size":64867});
-registerFile("./data/upcoming_events.csv", {"name":"./data/upcoming_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/upcoming_events.4724e73a.csv","lastModified":1776316101773,"size":2514});
+registerFile("./data/incidents.csv", {"name":"./data/incidents.csv","mimeType":"text/csv","path":"../_file/lab_2/data/incidents.d0fdb64d.csv","lastModified":1776316312832,"size":21148});
+registerFile("./data/local_events.csv", {"name":"./data/local_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/local_events.0539ac0d.csv","lastModified":1776316312832,"size":2714});
+registerFile("./data/ridership.csv", {"name":"./data/ridership.csv","mimeType":"text/csv","path":"../_file/lab_2/data/ridership.fa14f202.csv","lastModified":1776316312832,"size":64867});
+registerFile("./data/upcoming_events.csv", {"name":"./data/upcoming_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/upcoming_events.4724e73a.csv","lastModified":1776316312832,"size":2514});
 
 define({id: "3675e32c", inputs: ["FileAttachment"], outputs: ["incidents","local_events","upcoming_events","ridership"], body: (FileAttachment) => {
 const incidents = FileAttachment("./data/incidents.csv").csv({ typed: true })
@@ -157,7 +157,7 @@ Plot.plot({
 ))
 }});
 
-define({id: "ba6223cf", inputs: ["Plot","incidents","display"], body: async (Plot,incidents,display) => {
+define({id: "4bd4ac0d", inputs: ["Plot","incidents","display"], body: async (Plot,incidents,display) => {
 display(await(
 Plot.plot({
   title: "Average Response Time by Station",
@@ -169,7 +169,7 @@ Plot.plot({
       incidents,
       Plot.groupY(
         { x: "mean" },
-        { y: "station", x: "response_time_minutes", sort: { y: "x" }, fill: "light blue" }
+        { y: "station", x: "response_time_minutes", sort: { y: "x" }, fill: "steelblue" }
       )
     )
   ]
@@ -292,7 +292,7 @@ Plot.plot({
 <p>Local events likely contributed to ridership spikes at nearby stations during summer 2025.
 The time pattern can be used alongside the events dataset to identify whether traffic rose around major event dates. This suggests that both scheduled events and fare policy may have influenced station demand.</p>
 <h2 id="2-how-do-the-stations-compare-when-it-comes-to-response-time-which-are-the-best-which-are-the-worst" tabindex="-1"><a class="observablehq-header-anchor" href="#2-how-do-the-stations-compare-when-it-comes-to-response-time-which-are-the-best-which-are-the-worst">2. How do the stations compare when it comes to response time? Which are the best, which are the worst?</a></h2>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:ba6223cf:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:4bd4ac0d:--></div>
 <p>This chart ranks stations by average incident response time. Stations with lower average response times performed better, while stations with higher averages performed worse. The best-performing stations are those at the bottom of the time scale, and the worst-performing stations are those with the highest average response times.</p>
 <div class="observablehq observablehq--block"><!--:9557f1b8:--></div>
 <h2 id="3-which-three-stations-need-the-most-staffing-help-for-next-summer-based-on-the-2026-event-calendar" tabindex="-1"><a class="observablehq-header-anchor" href="#3-which-three-stations-need-the-most-staffing-help-for-next-summer-based-on-the-2026-event-calendar">3. Which three stations need the most staffing help for next summer based on the 2026 event calendar?</a></h2>
@@ -303,7 +303,7 @@ The time pattern can be used alongside the events dataset to identify whether tr
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-04-16T05:08:26">Apr 16, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-04-16T05:11:59">Apr 16, 2026</a>.</div>
 </footer>
 </div>
 </body>
