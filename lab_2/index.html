@@ -57,10 +57,10 @@
 import {define} from "../_observablehq/client.90e9d3da.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/incidents.csv", {"name":"./data/incidents.csv","mimeType":"text/csv","path":"../_file/lab_2/data/incidents.d0fdb64d.csv","lastModified":1776567254077,"size":21148});
-registerFile("./data/local_events.csv", {"name":"./data/local_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/local_events.0539ac0d.csv","lastModified":1776567254077,"size":2714});
-registerFile("./data/ridership.csv", {"name":"./data/ridership.csv","mimeType":"text/csv","path":"../_file/lab_2/data/ridership.fa14f202.csv","lastModified":1776567254077,"size":64867});
-registerFile("./data/upcoming_events.csv", {"name":"./data/upcoming_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/upcoming_events.4724e73a.csv","lastModified":1776567254077,"size":2514});
+registerFile("./data/incidents.csv", {"name":"./data/incidents.csv","mimeType":"text/csv","path":"../_file/lab_2/data/incidents.d0fdb64d.csv","lastModified":1776567723997,"size":21148});
+registerFile("./data/local_events.csv", {"name":"./data/local_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/local_events.0539ac0d.csv","lastModified":1776567723998,"size":2714});
+registerFile("./data/ridership.csv", {"name":"./data/ridership.csv","mimeType":"text/csv","path":"../_file/lab_2/data/ridership.fa14f202.csv","lastModified":1776567723998,"size":64867});
+registerFile("./data/upcoming_events.csv", {"name":"./data/upcoming_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/upcoming_events.4724e73a.csv","lastModified":1776567723998,"size":2514});
 
 define({id: "3675e32c", inputs: ["FileAttachment"], outputs: ["incidents","local_events","upcoming_events","ridership"], body: (FileAttachment) => {
 const incidents = FileAttachment("./data/incidents.csv").csv({ typed: true })
@@ -111,25 +111,6 @@ const ridershipWithFare = ridershipWithTraffic.map(d => ({
   fare_period: d.date < new Date("2025-07-15") ? "Before Fare Increase" : "After Fare Increase"
 }))
 return {ridershipWithTraffic,ridershipWithFare};
-}});
-
-define({id: "9a711a43", inputs: ["Plot","ridershipWithFare","display"], body: async (Plot,ridershipWithFare,display) => {
-display(await(
-Plot.plot({
-  title: "Average Traffic Before vs After Fare Increase",
-  y: { label: "Average Traffic" },
-  x: { label: "Fare Period" },
-  marks: [
-    Plot.barY(
-      ridershipWithFare,
-      Plot.groupX(
-        { y: "mean" },
-        { x: "fare_period", y: "traffic", fill: "green" }
-      )
-    )
-  ]
-})
-))
 }});
 
 define({id: "8b29cacf", inputs: ["Plot","ridershipWithTraffic","display"], body: async (Plot,ridershipWithTraffic,display) => {
@@ -286,7 +267,9 @@ Plot.plot({
 <div class="observablehq observablehq--block"><!--:cfda57c0:--></div>
 <div class="observablehq observablehq--block"><!--:a20e05a1:--></div>
 <h2 id="1-how-did-local-events-impact-ridership-in-summer-2025-what-effect-did-the-july-15-fare-increase-have" tabindex="-1"><a class="observablehq-header-anchor" href="#1-how-did-local-events-impact-ridership-in-summer-2025-what-effect-did-the-july-15-fare-increase-have">1. How did local events impact ridership in summer 2025? What effect did the July 15 fare increase have?</a></h2>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:9a711a43:--></div>
+<div class="observablehq observablehq--block">
+  <div class="observablehq--inspect observablehq--error">SyntaxError: Unexpected token (4:11)</div>
+</div>
 <p>This bar chart compares average subway traffic before and after the July 15 fare increase. The data shows the average ridership slightly decreased after July 15, suggesting that the fare increase may have had a small negative impact on subway usage among locals, although overall demand remained relatively high. The subway system still remains essential despite the increase.</p>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:8b29cacf:--></div>
 <p>Local events appear to contribute to noticeable spikes in ridership at nearby stations during summer 2025. Periods of increased traffic often align with likely event activity, suggesting that scheduled events play a meaningful role in driving short-term demand, even alongside broader policy changes like the fare increase.</p>
@@ -302,7 +285,7 @@ Plot.plot({
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-04-19T02:54:18">Apr 19, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-04-19T03:02:11">Apr 19, 2026</a>.</div>
 </footer>
 </div>
 </body>
