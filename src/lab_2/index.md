@@ -51,7 +51,7 @@ const ridershipWithTraffic = ridership.map(d => ({
 }))
 const ridershipWithFare = ridershipWithTraffic.map(d => ({
   ...d,
-  fare_period: d.date < new Date("2025-07-15") ? "Before Fare Increase" : "After Fare Increase"
+  fare_period: d.date < new Date("2025-07-15") ? "After Fare Increase" : "Before Fare Increase"
 }))
 ```
 
@@ -61,7 +61,7 @@ const ridershipWithFare = ridershipWithTraffic.map(d => ({
 Plot.plot({
   title: "Average Traffic Before vs After Fare Increase",
   y: { label: "Average Traffic" },
-  x: { label: "Fare Period" },
+  x: { label: "Fare Period", domain: ["After Fare Increase", "Before Fare Increase"] },
   marks: [
     Plot.barY(
       ridershipWithFare,
