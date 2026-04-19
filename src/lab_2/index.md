@@ -61,7 +61,7 @@ const ridershipWithFare = ridershipWithTraffic.map(d => ({
 Plot.plot({
   title: "Average Traffic Before vs After Fare Increase",
   y: { label: "Average Traffic" },
-  x: { label: "Fare Period" },
+  x: { label: "Fare Period" , domain:["Before Fare Period" "After Fare Period]},
   marks: [
     Plot.barY(
       ridershipWithFare,
@@ -74,7 +74,7 @@ Plot.plot({
 })
 ```
 
-This chart compares average subway traffic before and after the July 15 fare increase. It helps show whether ridership changed after the fare increase. Based on the chart, average ridership slightly decreased after July 15, suggesting that the fare increase may have had a small negative impact on subway usage, although overall demand remained relatively high.
+This bar chart compares average subway traffic before and after the July 15 fare increase. The data shows the average ridership slightly decreased after July 15, suggesting that the fare increase may have had a small negative impact on subway usage among locals, although overall demand remained relatively high. The subway system still remains essential despite the increase.
 
 ```js
 Plot.plot({
