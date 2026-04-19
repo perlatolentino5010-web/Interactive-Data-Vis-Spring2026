@@ -51,7 +51,7 @@ const ridershipWithTraffic = ridership.map(d => ({
 }))
 const ridershipWithFare = ridershipWithTraffic.map(d => ({
   ...d,
-  fare_period: d.date < new Date("2025-07-15") ? "After Fare Increase" : "Before Fare Increase"
+  fare_period: d.date < new Date("2025-07-15") ? "Before Fare Increase" : "After Fare Increase"
 }))
 ```
 
