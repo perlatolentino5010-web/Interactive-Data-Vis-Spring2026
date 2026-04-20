@@ -88,8 +88,8 @@ Plot.plot({
       y: "traffic",
       stroke: "steelblue"
     }),
-    Plot.ruleX([new Date("2025-07-15")], { stroke: "red" }),
-    Plot.text([new Date("2025-07-15")], {
+    Plot.ruleX(["2025-07-15"], { stroke: "red" }),
+    Plot.text(["2025-07-15"], {
       x: d => d,
       y: 25000,
       text: "Fare Increase",
