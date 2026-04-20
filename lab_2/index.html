@@ -57,10 +57,10 @@
 import {define} from "../_observablehq/client.90e9d3da.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/incidents.csv", {"name":"./data/incidents.csv","mimeType":"text/csv","path":"../_file/lab_2/data/incidents.d0fdb64d.csv","lastModified":1776644509916,"size":21148});
-registerFile("./data/local_events.csv", {"name":"./data/local_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/local_events.0539ac0d.csv","lastModified":1776644509916,"size":2714});
-registerFile("./data/ridership.csv", {"name":"./data/ridership.csv","mimeType":"text/csv","path":"../_file/lab_2/data/ridership.fa14f202.csv","lastModified":1776644509916,"size":64867});
-registerFile("./data/upcoming_events.csv", {"name":"./data/upcoming_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/upcoming_events.4724e73a.csv","lastModified":1776644509916,"size":2514});
+registerFile("./data/incidents.csv", {"name":"./data/incidents.csv","mimeType":"text/csv","path":"../_file/lab_2/data/incidents.d0fdb64d.csv","lastModified":1776644608767,"size":21148});
+registerFile("./data/local_events.csv", {"name":"./data/local_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/local_events.0539ac0d.csv","lastModified":1776644608767,"size":2714});
+registerFile("./data/ridership.csv", {"name":"./data/ridership.csv","mimeType":"text/csv","path":"../_file/lab_2/data/ridership.fa14f202.csv","lastModified":1776644608767,"size":64867});
+registerFile("./data/upcoming_events.csv", {"name":"./data/upcoming_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/upcoming_events.4724e73a.csv","lastModified":1776644608767,"size":2514});
 
 define({id: "3675e32c", inputs: ["FileAttachment"], outputs: ["incidents","local_events","upcoming_events","ridership"], body: (FileAttachment) => {
 const incidents = FileAttachment("./data/incidents.csv").csv({ typed: true })
@@ -113,7 +113,7 @@ const ridershipWithFare = ridershipWithTraffic.map(d => ({
 return {ridershipWithTraffic,ridershipWithFare};
 }});
 
-define({id: "841222a1", inputs: ["Plot","ridershipWithTraffic","display"], body: async (Plot,ridershipWithTraffic,display) => {
+define({id: "8b29cacf", inputs: ["Plot","ridershipWithTraffic","display"], body: async (Plot,ridershipWithTraffic,display) => {
 display(await(
 Plot.plot({
   title: "Daily Subway Traffic with Fare Increase Marker",
@@ -125,8 +125,8 @@ Plot.plot({
       y: "traffic",
       stroke: "steelblue"
     }),
-    Plot.ruleX([new Date("2025-07-15")], { stroke: "red" }),
-    Plot.text([new Date("2025-07-15")], {
+    Plot.ruleX(["2025-07-15"], { stroke: "red" }),
+    Plot.text(["2025-07-15"], {
       x: d => d,
       y: 25000,
       text: "Fare Increase",
@@ -271,7 +271,7 @@ Plot.plot({
   <div class="observablehq--inspect observablehq--error">SyntaxError: Unterminated template (1:3)</div>
 </div>
 <p>This bar chart compares average subway traffic before and after the July 15 fare increase. The data shows the average ridership slightly decreased after July 15, suggesting that the fare increase may have had a small negative impact on subway usage among locals, although overall demand remained relatively high. The subway system still remains essential despite the increase.</p>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:841222a1:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:8b29cacf:--></div>
 <p>Local events appear to contribute to noticeable spikes in ridership at nearby stations during summer 2025. Periods of increased traffic often align with likely event activity, suggesting that scheduled events play a meaningful role in driving short-term demand, even alongside broader policy changes like the fare increase.</p>
 <h2 id="2-how-do-the-stations-compare-when-it-comes-to-response-time-which-are-the-best-which-are-the-worst" tabindex="-1"><a class="observablehq-header-anchor" href="#2-how-do-the-stations-compare-when-it-comes-to-response-time-which-are-the-best-which-are-the-worst">2. How do the stations compare when it comes to response time? Which are the best, which are the worst?</a></h2>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:4bd4ac0d:--></div>
@@ -285,7 +285,7 @@ Plot.plot({
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-04-20T00:21:56">Apr 20, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-04-20T00:23:35">Apr 20, 2026</a>.</div>
 </footer>
 </div>
 </body>
