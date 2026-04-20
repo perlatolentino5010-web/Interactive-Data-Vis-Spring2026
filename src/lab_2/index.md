@@ -58,7 +58,6 @@ const ridershipWithFare = ridershipWithTraffic.map(d => ({
 ## 1. How did local events impact ridership in summer 2025? What effect did the July 15 fare increase have?
 
 ```js
-```js
 Plot.plot({
   title: "Average Traffic Before vs After Fare Increase",
   y: { label: "Average Traffic" },
