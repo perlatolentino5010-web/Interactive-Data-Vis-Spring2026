@@ -80,7 +80,7 @@ This bar chart compares average subway traffic before and after the July 15 fare
 Plot.plot({
   title: "Daily Subway Traffic with Fare Increase Marker",
   y: { label: "Traffic" },
-  x: { label: "Date" },
+  x: { label: "Date", tickFormat: d => d.toLocaleDateString("en-US", { month: "short", day: "numeric" }), ticks: 6 },
   marks: [
     Plot.lineY(ridershipWithTraffic, {
       x: "date",
