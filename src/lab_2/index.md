@@ -160,4 +160,4 @@ This chart estimates staffing pressure by comparing projected event attendance i
 
 ## Conclusion
 
-Overall, the dashboard shows that ridership demand, response performance, and projected event pressure vary substantially across stations, which supports targeted staffing decisions rather than uniform staffing increases.The analysis suggests that factors such as event activity and staffing distribution have a greater impact on system strain than fare changes alone.
+Overall, the dashboard shows that ridership demand, response performance, and projected event pressure vary substantially across stations, which supports targeted staffing decisions rather than uniform staffing increases. The analysis suggests that factors such as event activity and staffing distribution have a greater impact on system strain than fare changes alone.
