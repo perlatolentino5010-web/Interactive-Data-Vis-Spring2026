@@ -74,7 +74,7 @@ Plot.plot({
 })
 ```
 
-This bar chart compares average subway traffic before and after the July 15 fare increase. The data shows the average ridership slightly decreased after July 15, suggesting that the fare increase may have had a small negative impact on subway usage among locals, although overall demand remained relatively high. The subway system still remains essential despite the increase.
+This bar chart compares average subway traffic before and after the July 15 fare increase. The data shows the average ridership slightly decreased after July 15, suggesting that the fare increase may have had a small negative impact on subway usage among locals, although overall demand remained relatively high. The subway system still remains essential despite the increase. This suggests that subway demand is relatively stable and not highly sensitive to fare changes, indicating that many riders rely on it regardless of price.
 
 ```js
 Plot.plot({
@@ -99,7 +99,7 @@ Plot.plot({
 })
 ```
 
- Local events appear to contribute to noticeable spikes in ridership at nearby stations during summer 2025. Periods of increased traffic often align with likely event activity, suggesting that scheduled events play a meaningful role in driving short-term demand, even alongside broader policy changes like the fare increase.
+ Local events appear to contribute to noticeable spikes in ridership at nearby stations during summer 2025. Periods of increased traffic often align with likely event activity, suggesting that scheduled events play a meaningful role in driving short-term demand, even alongside broader policy changes like the fare increase. The presence of multiple spikes throughout the timeline supports the idea that local events contribute to short-term increases in ridership, while the fare increase does not appear to cause a clear or immediate drop in usage.
 
 ## 2. How do the stations compare when it comes to response time? Which are the best, which are the worst?
 
@@ -121,7 +121,7 @@ Plot.plot({
 })
 ```
 
-This chart ranks stations by average incident response time, showing clear differences in performance across locations. Stations with lower response times are more efficient, while those with higher response times may face operational challenges such as higher traffic, staffing limitations, or more complex incidents.
+This chart ranks stations by average incident response time, showing clear differences in performance across locations. Stations with lower response times are more efficient, while those with higher response times may face operational challenges such as higher traffic, staffing limitations, or more complex incidents. For example, stations toward the top of the chart demonstrate faster response times, while those toward the bottom may require operational improvements or additional resources.
 
 ```js
 const staffingPressure = Object.entries(
@@ -156,8 +156,8 @@ Plot.plot({
 })
 ```
 
-This chart estimates staffing pressure by comparing projected event attendance in summer 2026 to current station staffing levels. Stations with the highest pressure values are likely to experience the greatest strain, indicating a clear need for additional staffing at those locations to manage anticipated demand.
+This chart estimates staffing pressure by comparing projected event attendance in summer 2026 to current station staffing levels. Stations with the highest pressure values are likely to experience the greatest strain, indicating a clear need for additional staffing at those locations to manage anticipated demand. Canal Street stands out as having the highest staffing pressure, which can be explained by its low staffing level combined with projected event attendance. This results in a significantly higher number of attendees per staff member compared to other stations.
 
 ## Conclusion
 
-Overall, the dashboard shows that ridership demand, response performance, and projected event pressure vary substantially across stations, which supports targeted staffing decisions rather than uniform staffing increases.
+Overall, the dashboard shows that ridership demand, response performance, and projected event pressure vary substantially across stations, which supports targeted staffing decisions rather than uniform staffing increases.The analysis suggests that factors such as event activity and staffing distribution have a greater impact on system strain than fare changes alone.
