@@ -48,8 +48,8 @@ export default {
       name: "Lab 3: Mayoral Mystery",
       open: false,
       pages: [
-        // { name: "Instructions", path: "/lab_3/readme" },
-        // { name: "Dashboard", path: "/lab_3/index" },
+        { name: "Instructions", path: "/lab_3/readme" },
+        { name: "Dashboard", path: "/lab_3/index" },
       ],
     },
     {
