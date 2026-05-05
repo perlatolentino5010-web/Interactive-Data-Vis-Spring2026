@@ -152,5 +152,5 @@ Plot.plot({
 })
 ```
 
-Finally, this chart shows a summary of how survey respondents aligned with the candidate's issue positions. Scores above 3 suggest stronger agreement, while scores closer to 3 suggest weaker or more neutral alignment.
-
+Finally, this chart shows a summary of how survey respondents aligned with the candidate's issue positions. Scores above 3 suggest stronger agreement, while scores closer to 3 suggest
+weaker or more neutral alignment.
