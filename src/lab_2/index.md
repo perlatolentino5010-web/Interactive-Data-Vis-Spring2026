@@ -61,7 +61,10 @@ const ridershipWithFare = ridershipWithTraffic.map(d => ({
 Plot.plot({
   title: "Average Traffic Before vs After Fare Increase",
   y: { label: "Average Traffic" },
-  x: { label: "Fare Period", domain: ["before", "after"]},
+  x: {
+    label: "Fare Period",
+    domain: ["Before", "After"]
+  },
   marks: [
     Plot.barY(
       ridershipWithFare,
