@@ -58,12 +58,12 @@
 import {define} from "../_observablehq/client.cdc818d4.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1777962255587,"size":8105});
-registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1777962255587,"size":2892});
-registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1777962255587,"size":131971});
-registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1777962255587,"size":6301});
+registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1777962996487,"size":8105});
+registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1777962996487,"size":2892});
+registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1777962996487,"size":131971});
+registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1777962996487,"size":6301});
 
-define({id: "9f09b63b", inputs: ["FileAttachment","topojson","d3","display"], outputs: ["nyc","results","survey","events","districts","totalCandidateVotes","totalOpponentVotes","totalVotes","overallShare"], body: async (FileAttachment,topojson,d3,display) => {
+define({id: "a87f56f3", inputs: ["FileAttachment","topojson","d3","display"], outputs: ["nyc","results","survey","events","districts","totalCandidateVotes","totalOpponentVotes","totalVotes","overallShare"], body: async (FileAttachment,topojson,d3,display) => {
 const nyc = await FileAttachment("./data/nyc.json").json();
 const results = await FileAttachment("./data/election_results.csv").csv({ typed: true });
 const survey = await FileAttachment("./data/survey_responses.csv").csv({ typed: true });
@@ -82,20 +82,15 @@ display({
   "Candidate Vote Share": d3.format(".1%")(overallShare)
 });
 
-// NYC geoJSON data
-display(nyc)
-// Campaign data (first 10 objects)
-display(results.slice(0,10))
-display(survey.slice(0,10))
-display(events.slice(0,10))
+// display(nyc)
+// display(results.slice(0,10))
+// display(survey.slice(0,10))
+// display(events.slice(0,10))
 return {nyc,results,survey,events,districts,totalCandidateVotes,totalOpponentVotes,totalVotes,overallShare};
 }});
 
-define({id: "55e824c9", body: () => {
-// The nyc file is saved in data as a topoJSON instead of a geoJSON. Thats primarily for size reasons -- it saves us 3MB of data. For Plot to render it, we have to convert it back to its geoJSON feature collection. 
-}});
-
-define({id: "065d923a", inputs: ["results","districts"], outputs: ["resultsByDistrict","getBoroCd","districtResults","resultsWithShare"], body: (results,districts) => {
+define({id: "39c585a4", inputs: ["results","districts"], outputs: ["resultsByDistrict","getBoroCd","districtResults","resultsWithShare"], body: (results,districts) => {
+// The nyc file is saved in data as a topoJSON instead of a geoJSON. Thats primarily for size reasons -- it saves us 3MB of data. For Plot to render it, we have to convert it back to its geoJSON feature collection.
 const resultsByDistrict = new Map(results.map(d => [String(d.boro_cd), d]));
 
 const getBoroCd = d => String(d.properties.boro_cd);
@@ -274,14 +269,14 @@ return {issueSummary};
 </nav>
 </aside>
 <main id="observablehq-main" class="observablehq">
-<p>The following is a review of the NYC majoral election campaign's perfomance, results, and post-election survey responses across districts.</p>
+<h1 id="lab-3-mayoral-mystery" tabindex="-1"><a class="observablehq-header-anchor" href="#lab-3-mayoral-mystery">Lab 3: Mayoral Mystery</a></h1>
+<p>The following is an analysis and review of the NYC mayoral election campaign's performance, results, and post-election survey responses across districts.</p>
 <!-- Import Data -->
-<div class="observablehq observablehq--block"><!--:9f09b63b:--></div>
+<div class="observablehq observablehq--block"><!--:a87f56f3:--></div>
 <p>Although the candidate lost overall, the district-level results show that the candidate support was not evenly distributed, some being much more favorable than others, indicating that geography and district characteristics are important factors.</p>
-<div class="observablehq observablehq--block"><!--:55e824c9:--></div>
-<div class="observablehq observablehq--block"><!--:065d923a:--></div>
+<div class="observablehq observablehq--block"><!--:39c585a4:--></div>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:0b1fcc9b:--></div>
-<p>This map shows where the candidate performed strongest and weakest across NYC districts. Darker areas represent stronger candidate vote share, while lighter areas show weaker support.</p>
+<p>This map shows where campaign events were held across NYC. Larger dots represent higher estimated attendance, and colors show different event types.</p>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:15cb6b40:--></div>
 <p>This chart on the other hand shows the vote margin by district, which helps identify where the campaign was strongest and where it struggled most. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better.</p>
 <div class="observablehq observablehq--block"><!--:a427880c:--></div>
@@ -290,7 +285,7 @@ weaker or more neutral alignment.</p>
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-05T06:24:23">May 5, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-05T06:36:41">May 5, 2026</a>.</div>
 </footer>
 </div>
 </body>
