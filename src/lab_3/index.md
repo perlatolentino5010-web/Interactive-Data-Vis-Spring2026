@@ -65,24 +65,28 @@ const resultsWithShare = results.map(d => ({
 ```
 
 ```js
-// Candidate vote share by district
+// Campaign events by location and attendance
 Plot.plot({
   projection: {
     domain: districts,
     type: "mercator",
   },
   color: {
-    scheme: "Blues",
-    label: "Candidate vote share",
-    percent: true
+    legend: true
   },
   marks: [
-    Plot.geo(districtResults, {
-      fill: d => d.properties.candidate_vote_share ?? 0,
-      stroke: "white",
-      title: d => `District: ${getBoroCd(d)}
-Candidate vote share: ${d3.format(".1%")(d.properties.candidate_vote_share)}
-Income category: ${d.properties.income_category}`
+    Plot.geo(districts, {
+      fill: "#eeeeee",
+      stroke: "white"
+    }),
+    Plot.dot(events, {
+      x: "longitude",
+      y: "latitude",
+      r: d => Math.sqrt(d.estimated_attendance),
+      fill: "event_type",
+      title: d => `${d.event_type}
+Attendance: ${d.estimated_attendance}
+District: ${d.boro_cd}`
     })
   ]
 })
