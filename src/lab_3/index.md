@@ -32,7 +32,7 @@ display({
 // display(survey.slice(0,10))
 // display(events.slice(0,10))
 ```
-Although the candidate lost overall, the district-level results show that the candidate support was not evenly distributed, some being much more favorable than others, indicating that geography and district characteristics are important factors.
+Although the candidate lost overall, district-level support was not evenly distributed. Some districts were much more favorable than others, indicating that geography and district characteristics were important factors.
 
 ```js
 // The nyc file is saved in data as a topoJSON instead of a geoJSON. Thats primarily for size reasons -- it saves us 3MB of data. For Plot to render it, we have to convert it back to its geoJSON feature collection.
@@ -116,16 +116,16 @@ Income category: ${d.income_category}`
 })
 ```
 
-This chart on the other hand shows the vote margin by district, which helps identify where the campaign was strongest and where it struggled most. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better.
+This chart shows vote margin by district. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better.
 
 ```js
 // Average issue alignment from survey responses
 const issueSummary = [
-  { issue: "Affordable housing", average: d3.mean(survey, d => d.affordable_housing_alignment) },
-  { issue: "Public transit", average: d3.mean(survey, d => d.public_transit_alignment) },
-  { issue: "Childcare", average: d3.mean(survey, d => d.childcare_support_alignment) },
-  { issue: "Small business tax", average: d3.mean(survey, d => d.small_business_tax_alignment) },
-  { issue: "Police reform", average: d3.mean(survey, d => d.police_reform_alignment) }
+  { issue: "Affordable housing", average: d3.mean(survey, d => +d.affordable_housing_alignment) },
+  { issue: "Public transit", average: d3.mean(survey, d => +d.public_transit_alignment) },
+  { issue: "Childcare", average: d3.mean(survey, d => +d.childcare_support_alignment) },
+  { issue: "Small business tax", average: d3.mean(survey, d => +d.small_business_tax_alignment) },
+  { issue: "Police reform", average: d3.mean(survey, d => +d.police_reform_alignment) }
 ];
 
 Plot.plot({
@@ -149,5 +149,4 @@ Plot.plot({
 })
 ```
 
-Finally, this chart shows a summary of how survey respondents aligned with the candidate's issue positions. Scores above 3 suggest stronger agreement, while scores closer to 3 suggest
-weaker or more neutral alignment.
+Finally, this chart shows a summary of how survey respondents aligned with the candidate's issue positions. Scores above 3 suggest stronger agreement, while scores closer to 3 suggest weaker or more neutral alignment.
