@@ -89,7 +89,7 @@ District: ${d.boro_cd}`
 })
 ```
 
-This map shows where campaign events were held across NYC. Larger dots represent higher estimated attendance, and colors show different event types.
+This map shows where campaign events were held across NYC. Larger dots represent higher estimated attendance, and colors show different event types. Some areas appear to have higher comunity engagement such as Manhattan, Bronx and part of Brooklyn (Faro Rockaway being a major exception), where as Queens seems somewhat active. Staten Island on the other hand shows the lowest engagement, hinting to a disconnect in this city's role in the broader NYC community.
 
 ```js
 // Vote margin by district
@@ -116,7 +116,7 @@ Income category: ${d.income_category}`
 })
 ```
 
-This chart shows vote margin by district. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better.
+This chart shows vote margin by district. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better. While the candidate dominated the district count (36), the oponent had an overwhelming majority of voter suport int he fewer districts that supported him (23), showing the importance of voter's power.
 
 ```js
 // Survey awareness and voting behavior
@@ -147,4 +147,4 @@ Plot.plot({
 })
 ```
 
-Finally, this chart compares whether survey respondents had heard of the candidate and whether they voted. This helps connect campaign awareness with voter participation.
+Finally, this chart compares whether survey respondents had heard of the candidate and whether they voted. This helps connect campaign awareness with voter participation. Overall, this chart is a reflection of conscious voting having greater impact in this NYC majoral election.
