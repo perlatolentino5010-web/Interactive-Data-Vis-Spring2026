@@ -73,7 +73,7 @@ Plot.plot({
   },
   marks: [
     Plot.geo(districts, {
-      fill: "#e3e1fe",
+      fill: "#e6e4fb",
       stroke: "white"
     }),
     Plot.dot(events, {
