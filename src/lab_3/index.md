@@ -1,6 +1,6 @@
 ---
 title: "Lab 3: Mayoral Mystery"
-toc: false
+toc: true
 ---
 
 The following is a review of the NYC majoral election campaign's perfomance, results, and post-election survey responses across districts.
@@ -119,7 +119,7 @@ Income category: ${d.income_category}`
 })
 ```
 
-This chart shows the vote margin by district. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better. This helps identify where the campaign was strongest and where it struggled most.
+This chart on the other hand shows the vote margin by district, which helps identify where the campaign was strongest and where it struggled most. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better.
 
 ```js
 // Average issue alignment from survey responses
@@ -152,5 +152,5 @@ Plot.plot({
 })
 ```
 
-Here is a summary of how survey respondents aligned with the candidate's issue positions. Scores above 3 suggest stronger agreement, while scores closer to 3 suggest weaker or more neutral alignment.
+Finally, this chart shows a summary of how survey respondents aligned with the candidate's issue positions. Scores above 3 suggest stronger agreement, while scores closer to 3 suggest weaker or more neutral alignment.
 
