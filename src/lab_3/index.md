@@ -132,7 +132,7 @@ Plot.plot({
   color: {
     legend: true,
     domain: ["No", "Yes"],
-    range: ["#fb923c", "#4ade80"] // muted orange, muted green
+    range: ["#fdc242", "#5df798"] // muted orange, muted green
   },
   marks: [
     Plot.barY(
