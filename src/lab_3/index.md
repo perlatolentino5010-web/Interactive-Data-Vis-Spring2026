@@ -12,6 +12,8 @@ const results = await FileAttachment("data/election_results.csv").csv({ typed: t
 const survey = await FileAttachment("data/survey_responses.csv").csv({ typed: true });
 const events = await FileAttachment("data/campaign_events.csv").csv({ typed: true });
 
+const districts = topojson.feature(nyc, nyc.objects.districts)
+
 const totalCandidateVotes = d3.sum(results, d => d.votes_candidate);
 const totalOpponentVotes = d3.sum(results, d => d.votes_opponent);
 const totalVotes = totalCandidateVotes + totalOpponentVotes;
@@ -34,21 +36,14 @@ Although the candidate lost overall, the district-level results show that the ca
 
 ```js
 // The nyc file is saved in data as a topoJSON instead of a geoJSON. Thats primarily for size reasons -- it saves us 3MB of data. For Plot to render it, we have to convert it back to its geoJSON feature collection. 
-const districts = topojson.feature(nyc, nyc.objects.districts)
-display(districts)
 ```
 
 ```js
 const resultsByDistrict = new Map(results.map(d => [String(d.boro_cd), d]));
 
-const getBoroCd = d =>
-  String(
-    d.properties.boro_cd ??
-    d.properties.BoroCD ??
-    d.properties.borocd ??
-    d.properties.Boro_CD
-  );
+const getBoroCd = d => String(d.properties.BoroCD);
 
+const districtResults = districts.features.map(d => {
   const result = resultsByDistrict.get(getBoroCd(d));
   return {
     ...d,
@@ -72,24 +67,25 @@ const resultsWithShare = results.map(d => ({
 ```js
 // Candidate vote share by district
 Plot.plot({
-projection: {
-  domain: districts,
-  type: "mercator",
+  projection: {
+    domain: districts,
+    type: "mercator",
   },
   color: {
     scheme: "Blues",
     label: "Candidate vote share",
     percent: true
-    },
-    marks: [
-      Plot.geo(districtResults, {
-        fill: d => d.properties.candidate_vote_share,
-        stroke: "white",
-        title: d => `District: ${getBoroCd(d)}
+  },
+  marks: [
+    Plot.geo(districtResults, {
+      fill: d => d.properties.candidate_vote_share,
+      stroke: "white",
+      title: d => `District: ${getBoroCd(d)}
 Candidate vote share: ${d3.format(".1%")(d.properties.candidate_vote_share)}
 Income category: ${d.properties.income_category}`
     })
   ]
 })
 ```
+
 This map shows where the candidate performed strongest and weakest across NYC districts. Darker areas represent stronger candidate vote share, while lighter areas show weaker support.
