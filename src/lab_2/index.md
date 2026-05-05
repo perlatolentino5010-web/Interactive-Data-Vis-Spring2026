@@ -2,9 +2,9 @@
 title: "Lab 2: Subway Staffing"
 toc: true
 ---
+# Lab 2: Subway Staffing
 
-This page is where you can iterate. Follow the lab instructions in the [readme.md](./README.md).
-
+By Perla Tolentino
 
 <!-- Import Data -->
 ```js
