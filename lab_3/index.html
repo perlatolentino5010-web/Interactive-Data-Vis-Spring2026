@@ -58,10 +58,10 @@
 import {define} from "../_observablehq/client.cdc818d4.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1777964070647,"size":8105});
-registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1777964070647,"size":2892});
-registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1777964070647,"size":131971});
-registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1777964070647,"size":6301});
+registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1777964576834,"size":8105});
+registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1777964576834,"size":2892});
+registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1777964576834,"size":131971});
+registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1777964576834,"size":6301});
 
 define({id: "a87f56f3", inputs: ["FileAttachment","topojson","d3","display"], outputs: ["nyc","results","survey","events","districts","totalCandidateVotes","totalOpponentVotes","totalVotes","overallShare"], body: async (FileAttachment,topojson,d3,display) => {
 const nyc = await FileAttachment("./data/nyc.json").json();
@@ -174,36 +174,33 @@ Income category: ${d.income_category}`
 ))
 }});
 
-define({id: "c623022c", inputs: ["d3","survey","Plot"], outputs: ["issueSummary"], body: (d3,survey,Plot) => {
-// Average issue alignment from survey responses
-const issueSummary = [
-  { issue: "Affordable housing", average: d3.mean(survey, d => +d.affordable_housing_alignment) },
-  { issue: "Public transit", average: d3.mean(survey, d => +d.public_transit_alignment) },
-  { issue: "Childcare", average: d3.mean(survey, d => +d.childcare_support_alignment) },
-  { issue: "Small business tax", average: d3.mean(survey, d => +d.small_business_tax_alignment) },
-  { issue: "Police reform", average: d3.mean(survey, d => +d.police_reform_alignment) }
-];
-
+define({id: "26c1c125", inputs: ["Plot","survey","display"], body: async (Plot,survey,display) => {
+display(await(
+// Survey awareness and voting behavior
 Plot.plot({
-  width: 750,
+  width: 700,
   height: 400,
   x: {
-    label: "Average alignment score",
-    domain: [1, 5]
+    label: "Heard of candidate"
   },
   y: {
-    label: "Issue"
+    label: "Number of respondents"
+  },
+  color: {
+    legend: true
   },
   marks: [
-    Plot.barX(issueSummary, {
-      y: "issue",
-      x: "average",
-      title: d => `${d.issue}: ${d3.format(".2f")(d.average)}`
-    }),
-    Plot.ruleX([3])
+    Plot.barY(
+      survey,
+      Plot.groupX(
+        { y: "count" },
+        { x: "heard_of_candidate", fill: "voted", title: "heard_of_candidate" }
+      )
+    ),
+    Plot.ruleY([0])
   ]
 })
-return {issueSummary};
+))
 }});
 
 </script>
@@ -279,12 +276,12 @@ return {issueSummary};
 <p>This map shows where campaign events were held across NYC. Larger dots represent higher estimated attendance, and colors show different event types.</p>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:15cb6b40:--></div>
 <p>This chart shows vote margin by district. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better.</p>
-<div class="observablehq observablehq--block"><!--:c623022c:--></div>
-<p>Finally, this chart shows a summary of how survey respondents aligned with the candidate's issue positions. Scores above 3 suggest stronger agreement, while scores closer to 3 suggest weaker or more neutral alignment.</p>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:26c1c125:--></div>
+<p>Finally, this chart compares whether survey respondents had heard of the candidate and whether they voted. This helps connect campaign awareness with voter participation.</p>
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-05T06:54:38">May 5, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-05T07:03:03">May 5, 2026</a>.</div>
 </footer>
 </div>
 </body>
