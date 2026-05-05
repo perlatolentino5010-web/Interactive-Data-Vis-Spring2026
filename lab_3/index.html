@@ -58,10 +58,10 @@
 import {define} from "../_observablehq/client.cdc818d4.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1777960477629,"size":8105});
-registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1777960477629,"size":2892});
-registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1777960477629,"size":131971});
-registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1777960477629,"size":6301});
+registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1777960702515,"size":8105});
+registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1777960702515,"size":2892});
+registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1777960702515,"size":131971});
+registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1777960702515,"size":6301});
 
 define({id: "9f09b63b", inputs: ["FileAttachment","topojson","d3","display"], outputs: ["nyc","results","survey","events","districts","totalCandidateVotes","totalOpponentVotes","totalVotes","overallShare"], body: async (FileAttachment,topojson,d3,display) => {
 const nyc = await FileAttachment("./data/nyc.json").json();
@@ -122,26 +122,30 @@ const resultsWithShare = results.map(d => ({
 return {resultsByDistrict,getBoroCd,districtResults,resultsWithShare};
 }});
 
-define({id: "d4ec90be", inputs: ["Plot","districts","districtResults","getBoroCd","d3","display"], body: async (Plot,districts,districtResults,getBoroCd,d3,display) => {
+define({id: "0b1fcc9b", inputs: ["Plot","districts","events","display"], body: async (Plot,districts,events,display) => {
 display(await(
-// Candidate vote share by district
+// Campaign events by location and attendance
 Plot.plot({
   projection: {
     domain: districts,
     type: "mercator",
   },
   color: {
-    scheme: "Blues",
-    label: "Candidate vote share",
-    percent: true
+    legend: true
   },
   marks: [
-    Plot.geo(districtResults, {
-      fill: d => d.properties.candidate_vote_share ?? 0,
-      stroke: "white",
-      title: d => `District: ${getBoroCd(d)}
-Candidate vote share: ${d3.format(".1%")(d.properties.candidate_vote_share)}
-Income category: ${d.properties.income_category}`
+    Plot.geo(districts, {
+      fill: "#eeeeee",
+      stroke: "white"
+    }),
+    Plot.dot(events, {
+      x: "longitude",
+      y: "latitude",
+      r: d => Math.sqrt(d.estimated_attendance),
+      fill: "event_type",
+      title: d => `${d.event_type}
+Attendance: ${d.estimated_attendance}
+District: ${d.boro_cd}`
     })
   ]
 })
@@ -213,12 +217,12 @@ Income category: ${d.properties.income_category}`
 <p>Although the candidate lost overall, the district-level results show that the candidate support was not evenly distributed, some being much more favorable than others, indicating that geography and district characteristics are important factors.</p>
 <div class="observablehq observablehq--block"><!--:55e824c9:--></div>
 <div class="observablehq observablehq--block"><!--:065d923a:--></div>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:d4ec90be:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:0b1fcc9b:--></div>
 <p>This map shows where the candidate performed strongest and weakest across NYC districts. Darker areas represent stronger candidate vote share, while lighter areas show weaker support.</p>
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-05T05:54:44">May 5, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-05T05:58:27">May 5, 2026</a>.</div>
 </footer>
 </div>
 </body>
