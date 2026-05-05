@@ -58,10 +58,10 @@
 import {define} from "../_observablehq/client.cdc818d4.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1777964576834,"size":8105});
-registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1777964576834,"size":2892});
-registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1777964576834,"size":131971});
-registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1777964576834,"size":6301});
+registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1777964821788,"size":8105});
+registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1777964821788,"size":2892});
+registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1777964821788,"size":131971});
+registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1777964821788,"size":6301});
 
 define({id: "a87f56f3", inputs: ["FileAttachment","topojson","d3","display"], outputs: ["nyc","results","survey","events","districts","totalCandidateVotes","totalOpponentVotes","totalVotes","overallShare"], body: async (FileAttachment,topojson,d3,display) => {
 const nyc = await FileAttachment("./data/nyc.json").json();
@@ -174,30 +174,30 @@ Income category: ${d.income_category}`
 ))
 }});
 
-define({id: "26c1c125", inputs: ["Plot","survey","display"], body: async (Plot,survey,display) => {
+define({id: "99c74155", inputs: ["Plot","survey","display"], body: async (Plot,survey,display) => {
 display(await(
 // Survey awareness and voting behavior
 Plot.plot({
-  width: 700,
+  width: 750,
   height: 400,
+  color: {
+    domain: ["No", "Yes"],
+    range: ["#f97316", "#22c55e"], // orange, green
+    legend: true
+  },
   x: {
     label: "Heard of candidate"
   },
   y: {
     label: "Number of respondents"
   },
-  color: {
-    legend: true
-  },
   marks: [
-    Plot.barY(
-      survey,
-      Plot.groupX(
-        { y: "count" },
-        { x: "heard_of_candidate", fill: "voted", title: "heard_of_candidate" }
-      )
-    ),
-    Plot.ruleY([0])
+    Plot.barY(survey, {
+      x: "heard_of_candidate",
+      y: 1,
+      fill: "voted", // this drives the stacking
+      stack: true
+    })
   ]
 })
 ))
@@ -276,12 +276,12 @@ Plot.plot({
 <p>This map shows where campaign events were held across NYC. Larger dots represent higher estimated attendance, and colors show different event types.</p>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:15cb6b40:--></div>
 <p>This chart shows vote margin by district. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better.</p>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:26c1c125:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:99c74155:--></div>
 <p>Finally, this chart compares whether survey respondents had heard of the candidate and whether they voted. This helps connect campaign awareness with voter participation.</p>
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-05T07:03:03">May 5, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-05T07:07:06">May 5, 2026</a>.</div>
 </footer>
 </div>
 </body>
