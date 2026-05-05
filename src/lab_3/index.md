@@ -78,7 +78,7 @@ Plot.plot({
   },
   marks: [
     Plot.geo(districtResults, {
-      fill: d => d.properties.candidate_vote_share,
+      fill: d => d.properties.candidate_vote_share ?? 0,
       stroke: "white",
       title: d => `District: ${getBoroCd(d)}
 Candidate vote share: ${d3.format(".1%")(d.properties.candidate_vote_share)}
