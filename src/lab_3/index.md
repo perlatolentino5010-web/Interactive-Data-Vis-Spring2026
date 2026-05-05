@@ -3,7 +3,9 @@ title: "Lab 3: Mayoral Mystery"
 toc: true
 ---
 
-The following is a review of the NYC majoral election campaign's perfomance, results, and post-election survey responses across districts.
+# Lab 3: Mayoral Mystery
+
+The following is an analysis and review of the NYC mayoral election campaign's performance, results, and post-election survey responses across districts.
 
 <!-- Import Data -->
 ```js
@@ -25,20 +27,15 @@ display({
   "Candidate Vote Share": d3.format(".1%")(overallShare)
 });
 
-// NYC geoJSON data
-display(nyc)
-// Campaign data (first 10 objects)
-display(results.slice(0,10))
-display(survey.slice(0,10))
-display(events.slice(0,10))
+// display(nyc)
+// display(results.slice(0,10))
+// display(survey.slice(0,10))
+// display(events.slice(0,10))
 ```
 Although the candidate lost overall, the district-level results show that the candidate support was not evenly distributed, some being much more favorable than others, indicating that geography and district characteristics are important factors.
 
 ```js
-// The nyc file is saved in data as a topoJSON instead of a geoJSON. Thats primarily for size reasons -- it saves us 3MB of data. For Plot to render it, we have to convert it back to its geoJSON feature collection. 
-```
-
-```js
+// The nyc file is saved in data as a topoJSON instead of a geoJSON. Thats primarily for size reasons -- it saves us 3MB of data. For Plot to render it, we have to convert it back to its geoJSON feature collection.
 const resultsByDistrict = new Map(results.map(d => [String(d.boro_cd), d]));
 
 const getBoroCd = d => String(d.properties.boro_cd);
@@ -92,7 +89,7 @@ District: ${d.boro_cd}`
 })
 ```
 
-This map shows where the candidate performed strongest and weakest across NYC districts. Darker areas represent stronger candidate vote share, while lighter areas show weaker support.
+This map shows where campaign events were held across NYC. Larger dots represent higher estimated attendance, and colors show different event types.
 
 ```js
 // Vote margin by district
