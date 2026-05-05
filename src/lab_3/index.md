@@ -41,7 +41,7 @@ Although the candidate lost overall, the district-level results show that the ca
 ```js
 const resultsByDistrict = new Map(results.map(d => [String(d.boro_cd), d]));
 
-const getBoroCd = d => String(d.properties.BoroCD);
+const getBoroCd = d => String(d.properties.boro_cd);
 
 const districtResults = districts.features.map(d => {
   const result = resultsByDistrict.get(getBoroCd(d));
