@@ -93,3 +93,64 @@ District: ${d.boro_cd}`
 ```
 
 This map shows where the candidate performed strongest and weakest across NYC districts. Darker areas represent stronger candidate vote share, while lighter areas show weaker support.
+
+```js
+// Vote margin by district
+Plot.plot({
+  width: 900,
+  height: 450,
+  x: {
+    label: "District"
+  },
+  y: {
+    label: "Vote margin"
+  },
+  marks: [
+    Plot.barY(resultsWithShare, {
+      x: "boro_cd",
+      y: "vote_margin",
+      fill: d => d.vote_margin > 0 ? "Candidate ahead" : "Opponent ahead",
+      title: d => `District: ${d.boro_cd}
+Vote margin: ${d.vote_margin}
+Income category: ${d.income_category}`
+    }),
+    Plot.ruleY([0])
+  ]
+})
+```
+
+This chart shows the vote margin by district. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better. This helps identify where the campaign was strongest and where it struggled most.
+
+```js
+// Average issue alignment from survey responses
+const issueSummary = [
+  { issue: "Affordable housing", average: d3.mean(survey, d => d.affordable_housing_alignment) },
+  { issue: "Public transit", average: d3.mean(survey, d => d.public_transit_alignment) },
+  { issue: "Childcare", average: d3.mean(survey, d => d.childcare_support_alignment) },
+  { issue: "Small business tax", average: d3.mean(survey, d => d.small_business_tax_alignment) },
+  { issue: "Police reform", average: d3.mean(survey, d => d.police_reform_alignment) }
+];
+
+Plot.plot({
+  width: 750,
+  height: 400,
+  x: {
+    label: "Average alignment score",
+    domain: [1, 5]
+  },
+  y: {
+    label: "Issue"
+  },
+  marks: [
+    Plot.barX(issueSummary, {
+      y: "issue",
+      x: "average",
+      title: d => `${d.issue}: ${d3.format(".2f")(d.average)}`
+    }),
+    Plot.ruleX([3])
+  ]
+})
+```
+
+Here is a summary of how survey respondents aligned with the candidate's issue positions. Scores above 3 suggest stronger agreement, while scores closer to 3 suggest weaker or more neutral alignment.
+
