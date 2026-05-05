@@ -63,7 +63,7 @@ Plot.plot({
   y: { label: "Average Traffic" },
   x: {
     label: "Fare Period",
-    domain: ["Before", "After"]
+    domain: ["Before Fare Increase", "After Fare Increase"]
   },
   marks: [
     Plot.barY(
