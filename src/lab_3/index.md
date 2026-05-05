@@ -120,27 +120,30 @@ This chart shows vote margin by district. Positive margins indicate districts wh
 
 ```js
 // Survey awareness and voting behavior
+// Survey awareness and voting behavior
 Plot.plot({
-  width: 750,
+  width: 700,
   height: 400,
-  color: {
-    domain: ["No", "Yes"],
-    range: ["#f97316", "#22c55e"], // orange, green
-    legend: true
-  },
   x: {
     label: "Heard of candidate"
   },
   y: {
     label: "Number of respondents"
   },
+  color: {
+    domain: ["No", "Yes"],
+    range: ["#f97316", "#22c55e"],
+    legend: true
+  },
   marks: [
-    Plot.barY(survey, {
-      x: "heard_of_candidate",
-      y: 1,
-      fill: "voted", // this drives the stacking
-      stack: true
-    })
+    Plot.barY(
+      survey,
+      Plot.groupZ(
+        { y: "count" },
+        { x: "heard_of_candidate", fill: "voted" }
+      )
+    ),
+    Plot.ruleY([0])
   ]
 })
 ```
