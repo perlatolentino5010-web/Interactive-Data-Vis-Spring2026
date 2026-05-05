@@ -119,34 +119,30 @@ Income category: ${d.income_category}`
 This chart shows vote margin by district. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better.
 
 ```js
-// Average issue alignment from survey responses
-const issueSummary = [
-  { issue: "Affordable housing", average: d3.mean(survey, d => +d.affordable_housing_alignment) },
-  { issue: "Public transit", average: d3.mean(survey, d => +d.public_transit_alignment) },
-  { issue: "Childcare", average: d3.mean(survey, d => +d.childcare_support_alignment) },
-  { issue: "Small business tax", average: d3.mean(survey, d => +d.small_business_tax_alignment) },
-  { issue: "Police reform", average: d3.mean(survey, d => +d.police_reform_alignment) }
-];
-
+// Survey awareness and voting behavior
 Plot.plot({
-  width: 750,
+  width: 700,
   height: 400,
   x: {
-    label: "Average alignment score",
-    domain: [1, 5]
+    label: "Heard of candidate"
   },
   y: {
-    label: "Issue"
+    label: "Number of respondents"
+  },
+  color: {
+    legend: true
   },
   marks: [
-    Plot.barX(issueSummary, {
-      y: "issue",
-      x: "average",
-      title: d => `${d.issue}: ${d3.format(".2f")(d.average)}`
-    }),
-    Plot.ruleX([3])
+    Plot.barY(
+      survey,
+      Plot.groupX(
+        { y: "count" },
+        { x: "heard_of_candidate", fill: "voted", title: "heard_of_candidate" }
+      )
+    ),
+    Plot.ruleY([0])
   ]
 })
 ```
 
-Finally, this chart shows a summary of how survey respondents aligned with the candidate's issue positions. Scores above 3 suggest stronger agreement, while scores closer to 3 suggest weaker or more neutral alignment.
+Finally, this chart compares whether survey respondents had heard of the candidate and whether they voted. This helps connect campaign awareness with voter participation.
