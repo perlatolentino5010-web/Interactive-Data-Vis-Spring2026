@@ -3,7 +3,7 @@ title: "Lab 3: Mayoral Mystery"
 toc: false
 ---
 
-This page is where you can iterate. Follow the lab instructions in the [readme.md](./README.md).
+The following is a review of the NYC majoral election campaign's perfomance, results, and post-election survey responses across districts.
 
 <!-- Import Data -->
 ```js
@@ -12,7 +12,17 @@ const results = await FileAttachment("data/election_results.csv").csv({ typed: t
 const survey = await FileAttachment("data/survey_responses.csv").csv({ typed: true });
 const events = await FileAttachment("data/campaign_events.csv").csv({ typed: true });
 
-// Note: you don't have to keep this, but some helpful data exposure to see what we've loaded. 
+const totalCandidateVotes = d3.sum(results, d => d.votes_candidate);
+const totalOpponentVotes = d3.sum(results, d => d.votes_opponent);
+const totalVotes = totalCandidateVotes + totalOpponentVotes;
+const overallShare = totalCandidateVotes / totalVotes;
+
+display({
+  "Candidate Votes": totalCandidateVotes,
+  "Opponent Votes": totalOpponentVotes,
+  "Candidate Vote Share": d3.format(".1%")(overallShare)
+});
+
 // NYC geoJSON data
 display(nyc)
 // Campaign data (first 10 objects)
@@ -20,7 +30,7 @@ display(results.slice(0,10))
 display(survey.slice(0,10))
 display(events.slice(0,10))
 ```
-
+Although the candidate lost overall, the district-level results show that the candidate support was not evenly distributed, some being much more favorable than others, indicating that geography and district characteristics are important factors.
 
 ```js
 // The nyc file is saved in data as a topoJSON instead of a geoJSON. Thats primarily for size reasons -- it saves us 3MB of data. For Plot to render it, we have to convert it back to its geoJSON feature collection. 
@@ -29,15 +39,57 @@ display(districts)
 ```
 
 ```js
-// Simple rendering of the NYC districts topoJSON
+const resultsByDistrict = new Map(results.map(d => [String(d.boro_cd), d]));
+
+const getBoroCd = d =>
+  String(
+    d.properties.boro_cd ??
+    d.properties.BoroCD ??
+    d.properties.borocd ??
+    d.properties.Boro_CD
+  );
+
+  const result = resultsByDistrict.get(getBoroCd(d));
+  return {
+    ...d,
+    properties: {
+      ...d.properties,
+      ...result,
+      candidate_vote_share: result
+        ? result.votes_candidate / (result.votes_candidate + result.votes_opponent)
+        : null
+    }
+  };
+});
+
+const resultsWithShare = results.map(d => ({
+  ...d,
+  candidate_vote_share: d.votes_candidate / (d.votes_candidate + d.votes_opponent),
+  vote_margin: d.votes_candidate - d.votes_opponent
+}));
+```
+
+```js
+// Candidate vote share by district
 Plot.plot({
-  // this projection is already zoomed into NYC
-  projection: {
-    domain: districts,
-    type: "mercator",
+projection: {
+  domain: districts,
+  type: "mercator",
   },
-  marks: [
-    Plot.geo(districts),
+  color: {
+    scheme: "Blues",
+    label: "Candidate vote share",
+    percent: true
+    },
+    marks: [
+      Plot.geo(districtResults, {
+        fill: d => d.properties.candidate_vote_share,
+        stroke: "white",
+        title: d => `District: ${getBoroCd(d)}
+Candidate vote share: ${d3.format(".1%")(d.properties.candidate_vote_share)}
+Income category: ${d.properties.income_category}`
+    })
   ]
 })
 ```
+This map shows where the candidate performed strongest and weakest across NYC districts. Darker areas represent stronger candidate vote share, while lighter areas show weaker support.
