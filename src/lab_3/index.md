@@ -5,6 +5,8 @@ toc: true
 
 # Lab 3: Mayoral Mystery
 
+By Perla Tolentino
+
 The following is an analysis and review of the NYC mayoral election campaign's performance, results, and post-election survey responses across districts.
 
 <!-- Import Data -->
