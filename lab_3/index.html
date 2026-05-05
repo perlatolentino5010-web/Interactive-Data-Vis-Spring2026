@@ -58,10 +58,10 @@
 import {define} from "../_observablehq/client.cdc818d4.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1777959935199,"size":8105});
-registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1777959935199,"size":2892});
-registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1777959935199,"size":131971});
-registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1777959935199,"size":6301});
+registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1777960339272,"size":8105});
+registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1777960339272,"size":2892});
+registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1777960339272,"size":131971});
+registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1777960339272,"size":6301});
 
 define({id: "9f09b63b", inputs: ["FileAttachment","topojson","d3","display"], outputs: ["nyc","results","survey","events","districts","totalCandidateVotes","totalOpponentVotes","totalVotes","overallShare"], body: async (FileAttachment,topojson,d3,display) => {
 const nyc = await FileAttachment("./data/nyc.json").json();
@@ -95,10 +95,10 @@ define({id: "55e824c9", body: () => {
 // The nyc file is saved in data as a topoJSON instead of a geoJSON. Thats primarily for size reasons -- it saves us 3MB of data. For Plot to render it, we have to convert it back to its geoJSON feature collection. 
 }});
 
-define({id: "ecdf417b", inputs: ["results","districts"], outputs: ["resultsByDistrict","getBoroCd","districtResults","resultsWithShare"], body: (results,districts) => {
+define({id: "065d923a", inputs: ["results","districts"], outputs: ["resultsByDistrict","getBoroCd","districtResults","resultsWithShare"], body: (results,districts) => {
 const resultsByDistrict = new Map(results.map(d => [String(d.boro_cd), d]));
 
-const getBoroCd = d => String(d.properties.BoroCD);
+const getBoroCd = d => String(d.properties.boro_cd);
 
 const districtResults = districts.features.map(d => {
   const result = resultsByDistrict.get(getBoroCd(d));
@@ -212,13 +212,13 @@ Income category: ${d.properties.income_category}`
 <div class="observablehq observablehq--block"><!--:9f09b63b:--></div>
 <p>Although the candidate lost overall, the district-level results show that the candidate support was not evenly distributed, some being much more favorable than others, indicating that geography and district characteristics are important factors.</p>
 <div class="observablehq observablehq--block"><!--:55e824c9:--></div>
-<div class="observablehq observablehq--block"><!--:ecdf417b:--></div>
+<div class="observablehq observablehq--block"><!--:065d923a:--></div>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:b08788bd:--></div>
 <p>This map shows where the candidate performed strongest and weakest across NYC districts. Darker areas represent stronger candidate vote share, while lighter areas show weaker support.</p>
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-05T05:45:41">May 5, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-05T05:52:23">May 5, 2026</a>.</div>
 </footer>
 </div>
 </body>
