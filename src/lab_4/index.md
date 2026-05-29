@@ -72,8 +72,7 @@ Heavy metals are a leading suspect because they directly affect sensitive fish s
 display(html`
   <div style="max-width: 100%; font-family: system-ui, sans-serif;">
     <h2 style="font-size: 2rem;">
-  🧪 Heavy Metals (ppb) Over Time by Monitoring Site
-</h2>
+  🧪 Heavy Metals (ppb) Over Time by Monitoring Site </h2>
 
     <div style="
       border: 1px solid #9ec5fe;
