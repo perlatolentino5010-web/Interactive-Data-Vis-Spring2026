@@ -85,19 +85,19 @@ display(html`
       padding: 10px 14px;
       border-radius: 6px;
       margin-bottom: 18px;
-      max-width: 760px;
+      max-width: 900px;
     ">
-      <b>ppb = parts per billion | EPA = Environmental Protection Agency</b> 
       Higher values indicate more heavy metal contamination in the water.
+      <b>ppb = parts per billion | EPA = Environmental Protection Agency</b>
     </div>
 
-    <div style="display: flex; gap: 20px; align-items: flex-start;">
+    <div style="display: flex; gap: 16px; align-items: flex-start;">
       <div>
         ${Plot.plot({
-          width: Math.min(width, 1400),
+          width: Math.min(width * 1.2, 1700),
           height: 520,
           marginLeft: 60,
-          marginRight: 210,
+          marginRight: 150,
           marginBottom: 50,
           x: {
             label: "Date",
@@ -172,7 +172,7 @@ display(html`
           padding: 10px 14px;
           border: 1px solid #ddd;
           border-radius: 6px;
-          max-width: 820px;
+          max-width: 900px;
           background: #fafafa;
           text-align: center;
         ">
@@ -183,14 +183,14 @@ display(html`
       <div style="
         border: 1px solid #ddd;
         border-radius: 8px;
-        padding: 14px 16px;
-        width: 180px;
+        padding: 12px 14px;
+        width: 150px;
         background: white;
         margin-top: 55px;
       ">
         <h3 style="
           margin-top: 0;
-          font-size: 1.1rem;
+          font-size: 0.95rem;
           line-height: 1.2;
         ">
           Lake Clearwater<br>Monitoring Sites
@@ -202,9 +202,9 @@ display(html`
           ["#e74c3c", "South Shore"],
           ["#16a085", "West Shore"]
         ].map(([color, title]) => html`
-          <div style="display: flex; gap: 10px; margin-bottom: 16px; align-items: center;">
+          <div style="display: flex; gap: 8px; margin-bottom: 14px; align-items: center;">
             <div style="
-              width: 55px;
+              width: 50px;
               height: 3px;
               background: ${color};
               position: relative;
@@ -212,7 +212,7 @@ display(html`
             ">
               <span style="
                 position: absolute;
-                left: 21px;
+                left: 19px;
                 top: -5px;
                 width: 12px;
                 height: 12px;
@@ -223,7 +223,7 @@ display(html`
 
             <div style="
               font-weight: 600;
-              font-size: 0.95rem;
+              font-size: 0.85rem;
               white-space: nowrap;
             ">
               ${title}
