@@ -3,6 +3,8 @@ title: "Lab 4: Clearwater Crisis"
 toc: false
 ---
 
+# Lab 4: Clearwater Crisis
+
 ## Research Question
 
 Who is responsible for the ecological collapse of Lake Clearwater?
@@ -38,23 +40,23 @@ Inputs.table(stations)
 
 ```js
 Inputs.table(activities)
-
-## Evidence 1: Heavy metals over time by station
-
-Heavy metals are the key pollutant to investigate because the Clearwater Crisis prompt states that levels above 20 ppb harm sensitive fish and levels above 30 ppb violate regulatory limits.
 ```
+
+## Evidence 1: Heavy Metals by Station Over Time
+
+Heavy metals are a leading suspect because they directly affect sensitive fish species such as trout.
 
 ```js
 display(Plot.plot({
   width,
-  height: 400,
+  height: 450,
   marginLeft: 60,
   x: {
     label: "Date",
     grid: true
   },
   y: {
-    label: "Heavy metals (ppb)",
+    label: "Heavy Metals (ppb)",
     grid: true
   },
   color: {
@@ -62,14 +64,59 @@ display(Plot.plot({
     label: "Station"
   },
   marks: [
-    Plot.ruleY([20], { strokeDasharray: "4,4" }),
-    Plot.ruleY([30], { strokeDasharray: "4,4" }),
+    Plot.ruleY([20], { stroke: "orange" }),
+    Plot.ruleY([30], { stroke: "red" }),
+
     Plot.lineY(water, {
       x: "date",
       y: "heavy_metals_ppb",
       stroke: "station_id",
       tip: true
     })
+  ]
+}))
+```
+
+## Initial Findings
+
+Based on EPA guidance:
+
+- Heavy metals above 20 ppb harm sensitive fish.
+- Heavy metals above 30 ppb violate regulatory standards.
+- Trout are highly sensitive to pollution.
+- The suspect whose location and activities align with heavy-metal contamination will be the strongest candidate.
+
+
+## Evidence 2: Trout Population Trends
+
+Trout are highly sensitive to pollution and serve as an early warning indicator of ecosystem stress.
+
+```js
+display(Plot.plot({
+  width,
+  height: 450,
+  marginLeft: 60,
+  x: {
+    label: "Date",
+    grid: true
+  },
+  y: {
+    label: "Fish Count",
+    grid: true
+  },
+  color: {
+    legend: true
+  },
+  marks: [
+    Plot.lineY(
+      fish.filter(d => d.species === "Trout"),
+      {
+        x: "date",
+        y: "count",
+        stroke: "station_id",
+        tip: true
+      }
+    )
   ]
 }))
 ```
