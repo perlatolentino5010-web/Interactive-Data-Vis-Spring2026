@@ -120,3 +120,48 @@ display(Plot.plot({
   ]
 }))
 ```
+
+## Evidence 3: Suspect Distance to Each Monitoring Station
+
+The worst contamination and trout decline appear at the West station. This graph compares how close each suspect is to each monitoring station.
+
+```js
+const stationDistances = stations.flatMap(d => [
+  { station_id: d.station_id, suspect: "ChemTech Manufacturing", distance_m: d.distance_to_chemtech_m },
+  { station_id: d.station_id, suspect: "Riverside Farm", distance_m: d.distance_to_farm_m },
+  { station_id: d.station_id, suspect: "Lakeview Resort", distance_m: d.distance_to_resort_m },
+  { station_id: d.station_id, suspect: "Clearwater Fishing Lodge", distance_m: d.distance_to_lodge_m }
+]);
+```
+
+```js
+display(Plot.plot({
+  width,
+  height: 450,
+  marginLeft: 160,
+  x: {
+    label: "Distance to Station (meters)",
+    grid: true
+  },
+  y: {
+    label: "Suspect"
+  },
+  color: {
+    legend: true,
+    label: "Station"
+  },
+  marks: [
+    Plot.dot(stationDistances, {
+      x: "distance_m",
+      y: "suspect",
+      fill: "station_id",
+      r: 7,
+      tip: true
+    })
+  ]
+}))
+```
+
+## Conclusion
+
+The evidence points most strongly to **ChemTech Manufacturing**. The heavy metals graph shows repeated spikes above the EPA concern threshold and regulatory limit, especially at the West station. The trout population graph shows the steepest trout decline at the West station, which matches the scientific hint that trout are highly sensitive to heavy metal exposure. Finally, the distance comparison shows that the West station is closest to ChemTech Manufacturing. Together, the temporal, biological, and spatial evidence support ChemTech as the strongest suspect in the Lake Clearwater ecosystem crisis.
