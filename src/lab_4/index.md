@@ -10,13 +10,6 @@ author: "Perla Holmes 🕵🏻‍♀️"
 **Case File:** The Clearwater Crisis  
 **Main Question:** Who is responsible for the ecological collapse of Lake Clearwater?
 
-## Background
-
-Lake Clearwater was once a healthy recreational lake known for clear water and thriving fish populations. Over the last two years, however, the ecosystem has experienced a dramatic decline. Sensitive fish species, particularly trout, have suffered major population losses, while water quality measurements suggest that pollution may be affecting parts of the lake.
-
-Four potential suspects operate around Lake Clearwater: Riverside Farm, Clearwater Fishing Lodge, Lakeview Resort, and ChemTech Manufacturing. Each has activities that could potentially impact the environment. The challenge of this investigation is to determine whether the ecological collapse can be linked to a specific suspect using evidence from water quality measurements, fish population surveys, station locations, and documented activity records.
-
-Like any good detective case, the goal is not simply to identify a suspect, but to determine which suspect best matches the available temporal, biological, and spatial evidence.
 
 ```js
 const water = await FileAttachment("data/water_quality.csv").csv({ typed: true });
@@ -24,6 +17,14 @@ const fish = await FileAttachment("data/fish_surveys.csv").csv({ typed: true });
 const stations = await FileAttachment("data/monitoring_stations.csv").csv({ typed: true });
 const activities = await FileAttachment("data/suspect_activities.csv").csv({ typed: true });
 ```
+
+## Background
+
+Lake Clearwater was once a healthy recreational lake known for clear water and thriving fish populations. Over the last two years, however, the ecosystem has experienced a dramatic decline. Sensitive fish species, particularly trout, have suffered major population losses, while water quality measurements suggest that pollution may be affecting parts of the lake.
+
+Four potential suspects operate around Lake Clearwater: Riverside Farm, Clearwater Fishing Lodge, Lakeview Resort, and ChemTech Manufacturing. Each has activities that could potentially impact the environment. The challenge of this investigation is to determine whether the ecological collapse can be linked to a specific suspect using evidence from water quality measurements, fish population surveys, station locations, and documented activity records.
+
+Like any good detective case, the goal is not simply to identify a suspect, but to determine which suspect best matches the available temporal, biological, and spatial evidence.
 
 ## Case Strategy
 
