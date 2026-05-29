@@ -61,10 +61,10 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780087614926,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780087614926,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780087614926,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780087614926,"size":26191});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780089376633,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780089376633,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780089376633,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780089376633,"size":26191});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -334,7 +334,8 @@ display(Plot.plot({
 <li><strong>Spatial evidence</strong> — which suspect was closest to the worst station.</li>
 </ol>
 <p>In other words: means, motive, opportunity... but make it data visualization.</p>
-<h2 id="data-preview" tabindex="-1"><a class="observablehq-header-anchor" href="#data-preview">Data Preview</a></h2>
+<h2 id="key-data-findings" tabindex="-1"><a class="observablehq-header-anchor" href="#key-data-findings">Key Data Findings</a></h2>
+<p>Before identifying a suspect, investigators must examine the evidence collected from Lake Clearwater. The following indicators reveal changes in water quality, fish populations, and contaminant levels that may help explain the ecological collapse.</p>
 <h3 id="water-quality-data" tabindex="-1"><a class="observablehq-header-anchor" href="#water-quality-data">Water Quality Data</a></h3>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:20af46a9:--></div>
 <h3 id="fish-survey-data" tabindex="-1"><a class="observablehq-header-anchor" href="#fish-survey-data">Fish Survey Data</a></h3>
@@ -374,7 +375,7 @@ display(Plot.plot({
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-29T20:47:02">May 29, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-29T21:16:24">May 29, 2026</a>.</div>
 </footer>
 </div>
 </body>
