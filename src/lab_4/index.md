@@ -182,13 +182,13 @@ display(html`
         background: white;
         margin-top: 55px;
       ">
-        <h3 style="margin-top: 0;">Monitoring Sites</h3>
+        <h3 style="margin-top: 0;">Lake Clearwater Monitoring Sites</h3>
 
         ${[
-          ["#3366cc", "East Shore", "Monitoring station on the east side of Lake Clearwater"],
-          ["#f39c12", "North Shore", "Monitoring station on the north side of Lake Clearwater"],
-          ["#e74c3c", "South Shore", "Monitoring station on the south side of Lake Clearwater"],
-          ["#16a085", "West Shore", "Monitoring station on the west side of Lake Clearwater (near ChemTech facility)"]
+          ["#3366cc", "East Shore"],
+          ["#f39c12", "North Shore"],
+          ["#e74c3c", "South Shore"],
+          ["#16a085", "West Shore"]
         ].map(([color, title, desc]) => html`
           <div style="display: flex; gap: 12px; margin-bottom: 18px;">
             <div style="
