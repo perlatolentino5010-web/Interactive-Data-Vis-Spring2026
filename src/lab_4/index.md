@@ -84,84 +84,138 @@ display(html`
       <b>ppb = parts per billion.</b> Higher values indicate more heavy metal contamination in the water.
     </div>
 
-    ${Plot.plot({
-      width,
-      height: 520,
-      marginLeft: 60,
-      marginRight: 180,
-      marginBottom: 50,
-      x: {
-        label: "Date",
-        grid: true
-      },
-      y: {
-        label: "↑ Heavy Metals (ppb)",
-        grid: true
-      },
-      color: {
-        legend: true,
-        label: "Monitoring Sites",
-        domain: ["East", "North", "South", "West"],
-        range: ["#3366cc", "#f39c12", "#e74c3c", "#16a085"]
-      },
-      marks: [
-        Plot.ruleY([20], {
-          stroke: "#f39c12",
-          strokeDasharray: "5,5"
-        }),
+    <div style="display: flex; gap: 28px; align-items: flex-start;">
+      <div>
+        ${Plot.plot({
+          width: Math.min(width * 0.78, 1100),
+          height: 520,
+          marginLeft: 60,
+          marginRight: 210,
+          marginBottom: 50,
+          x: {
+            label: "Date",
+            grid: true
+          },
+          y: {
+            label: "↑ Heavy Metals (ppb)",
+            grid: true
+          },
+          color: {
+            legend: false,
+            domain: ["East", "North", "South", "West"],
+            range: ["#3366cc", "#f39c12", "#e74c3c", "#16a085"]
+          },
+          marks: [
+            Plot.ruleY([20], {
+              stroke: "#f39c12",
+              strokeDasharray: "5,5",
+              strokeWidth: 1
+            }),
 
-        Plot.ruleY([30], {
-          stroke: "red",
-          strokeDasharray: "5,5"
-        }),
+            Plot.ruleY([30], {
+              stroke: "red",
+              strokeDasharray: "5,5",
+              strokeWidth: 1
+            }),
 
-        Plot.text([{date: d3.max(water, d => d.date), y: 20, label: "EPA Action Level (20 ppb)"}], {
-          x: "date",
-          y: "y",
-          text: "label",
-          dx: 12,
-          dy: -6,
-          fill: "#f39c12",
-          textAnchor: "start"
-        }),
+            Plot.text([{date: d3.max(water, d => d.date), y: 20, label: "EPA Action Level\n(20 ppb)"}], {
+              x: "date",
+              y: "y",
+              text: "label",
+              dx: 14,
+              dy: -4,
+              fill: "#f39c12",
+              textAnchor: "start",
+              lineAnchor: "top",
+              fontSize: 13
+            }),
 
-        Plot.text([{date: d3.max(water, d => d.date), y: 30, label: "EPA Chronic Aquatic Life Criterion (30 ppb)"}], {
-          x: "date",
-          y: "y",
-          text: "label",
-          dx: 12,
-          dy: -6,
-          fill: "red",
-          textAnchor: "start"
-        }),
+            Plot.text([{date: d3.max(water, d => d.date), y: 30, label: "EPA Chronic Aquatic\nLife Criterion (30 ppb)"}], {
+              x: "date",
+              y: "y",
+              text: "label",
+              dx: 14,
+              dy: -4,
+              fill: "red",
+              textAnchor: "start",
+              lineAnchor: "top",
+              fontSize: 13
+            }),
 
-        Plot.lineY(water, {
-          x: "date",
-          y: "heavy_metals_ppb",
-          stroke: "station_id",
-          strokeWidth: 2,
-          tip: true
-        }),
+            Plot.lineY(water, {
+              x: "date",
+              y: "heavy_metals_ppb",
+              stroke: "station_id",
+              strokeWidth: 1.2,
+              tip: true
+            }),
 
-        Plot.dot(water, {
-          x: "date",
-          y: "heavy_metals_ppb",
-          fill: "station_id",
-          r: 2.5,
-          tip: true
-        })
-      ]
-    })}
+            Plot.dot(water, {
+              x: "date",
+              y: "heavy_metals_ppb",
+              fill: "station_id",
+              r: 2,
+              tip: true
+            })
+          ]
+        })}
 
-    <div style="
-      margin-top: 14px;
-      padding: 10px 14px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      max-width: 820px;
-      background: #fafafa;
-    ">
-      <b>Note:</b> The dashed lines mark possible concern thresholds. Repeated spikes above these lines suggest moments when heavy metal contamination may have reached levels harmful to aquatic life.
+        <div style="
+          margin-top: 14px;
+          padding: 10px 14px;
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          max-width: 820px;
+          background: #fafafa;
+          text-align: center;
+        ">
+          <b>Note:</b> The EPA Chronic Aquatic Life Criterion (30 ppb) is the recommended maximum concentration
+          for the protection of aquatic life over long-term exposure.
+        </div>
+      </div>
+
+      <div style="
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px 18px;
+        min-width: 230px;
+        background: white;
+        margin-top: 55px;
+      ">
+        <h3 style="margin-top: 0;">Monitoring Sites</h3>
+
+        ${[
+          ["#3366cc", "East Shore", "Monitoring station on the east side of Lake Clearwater"],
+          ["#f39c12", "North Shore", "Monitoring station on the north side of Lake Clearwater"],
+          ["#e74c3c", "South Shore", "Monitoring station on the south side of Lake Clearwater"],
+          ["#16a085", "West Shore", "Monitoring station on the west side of Lake Clearwater (near ChemTech facility)"]
+        ].map(([color, title, desc]) => html`
+          <div style="display: flex; gap: 12px; margin-bottom: 18px;">
+            <div style="
+              width: 38px;
+              height: 2px;
+              background: ${color};
+              margin-top: 11px;
+              position: relative;
+            ">
+              <span style="
+                position: absolute;
+                left: 15px;
+                top: -5px;
+                width: 10px;
+                height: 10px;
+                background: ${color};
+                border-radius: 50%;
+              "></span>
+            </div>
+
+            <div>
+              <div style="font-weight: 700;">${title}</div>
+              <div style="font-size: 14px; line-height: 1.35;">${desc}</div>
+            </div>
+          </div>
+        `)}
+      </div>
     </div>
   </div>
 `)
