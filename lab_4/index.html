@@ -61,10 +61,10 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780098544602,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780098544602,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780098544602,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780098544602,"size":26191});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780099148312,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780099148312,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780099148312,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780099148312,"size":26191});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -315,30 +315,36 @@ display(Plot.plot({
 }))
 }});
 
-define({id: "6f8477fa", inputs: ["display","Plot","width","fish"], body: (display,Plot,width,fish) => {
+define({id: "9289ae25", inputs: ["display","Plot","width","fish"], body: (display,Plot,width,fish) => {
 display(Plot.plot({
   width,
   height: 450,
   marginLeft: 60,
+
   x: {
     label: "Date",
     grid: true
   },
+
   y: {
     label: "Fish Count",
     grid: true
   },
+
   color: {
     legend: true,
-    label: "Species"
+    label: "Species",
+    range: ["#7b2cbf", "#c77dff", "#ff66c4"]
   },
+
   marks: [
-    Plot.lineY(
+    Plot.dot(
       fish.filter(d => d.station_id === "West"),
       {
         x: "date",
         y: "count",
-        stroke: "species",
+        fill: "species",
+        r: 7,
         tip: true
       }
     )
@@ -510,7 +516,7 @@ display(Plot.plot({
 <p>Trout populations decline most sharply at the West station, dropping from more than 40 fish per survey to approximately 13 by the end of the study period. This matches the scientific reference, which shows that trout are especially vulnerable to heavy metal contamination.</p>
 <h2 id="evidence-3-species-sensitivity-check" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-3-species-sensitivity-check">Evidence 3: Species Sensitivity Check</a></h2>
 <p>If heavy metals are driving the collapse, the most sensitive species should be affected first and most severely.</p>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:6f8477fa:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:9289ae25:--></div>
 <p>At the West station, trout show the most dramatic decline compared with bass and carp. This matters because the scientific reference identifies trout as the most sensitive species, bass as moderately sensitive, and carp as the most tolerant. The biological pattern therefore matches heavy metal contamination more than general overfishing or ordinary seasonal change.</p>
 <h2 id="evidence-4-suspect-distance-to-each-monitoring-station" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-4-suspect-distance-to-each-monitoring-station">Evidence 4: Suspect Distance to Each Monitoring Station</a></h2>
 <p>The worst contamination and trout decline appear at the West station. This graph compares how close each suspect is to each monitoring station.</p>
@@ -531,7 +537,7 @@ display(Plot.plot({
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-29T23:49:09">May 29, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-29T23:59:18">May 29, 2026</a>.</div>
 </footer>
 </div>
 </body>
