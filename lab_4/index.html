@@ -61,10 +61,10 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780080166044,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780080166044,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780080166044,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780080166044,"size":26191});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780086691849,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780086691849,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780086691849,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780086691849,"size":26191});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -98,7 +98,7 @@ Inputs.table(activities)
 ))
 }});
 
-define({id: "5a587702", inputs: ["display","Plot","width","water"], body: (display,Plot,width,water) => {
+define({id: "e2105759", inputs: ["display","Plot","width","water"], body: (display,Plot,width,water) => {
 display(Plot.plot({
   width,
   height: 450,
@@ -116,9 +116,8 @@ display(Plot.plot({
     label: "Station"
   },
   marks: [
-    Plot.ruleY([20], { stroke: "orange" }),
-    Plot.ruleY([30], { stroke: "red" }),
-
+    Plot.ruleY([20], { stroke: "orange", strokeDasharray: "4,4" }),
+    Plot.ruleY([30], { stroke: "red", strokeDasharray: "4,4" }),
     Plot.lineY(water, {
       x: "date",
       y: "heavy_metals_ppb",
@@ -129,7 +128,7 @@ display(Plot.plot({
 }))
 }});
 
-define({id: "f7d7adc7", inputs: ["display","Plot","width","fish"], body: (display,Plot,width,fish) => {
+define({id: "898f99a5", inputs: ["display","Plot","width","fish"], body: (display,Plot,width,fish) => {
 display(Plot.plot({
   width,
   height: 450,
@@ -143,7 +142,8 @@ display(Plot.plot({
     grid: true
   },
   color: {
-    legend: true
+    legend: true,
+    label: "Station"
   },
   marks: [
     Plot.lineY(
@@ -152,6 +152,37 @@ display(Plot.plot({
         x: "date",
         y: "count",
         stroke: "station_id",
+        tip: true
+      }
+    )
+  ]
+}))
+}});
+
+define({id: "6f8477fa", inputs: ["display","Plot","width","fish"], body: (display,Plot,width,fish) => {
+display(Plot.plot({
+  width,
+  height: 450,
+  marginLeft: 60,
+  x: {
+    label: "Date",
+    grid: true
+  },
+  y: {
+    label: "Fish Count",
+    grid: true
+  },
+  color: {
+    legend: true,
+    label: "Species"
+  },
+  marks: [
+    Plot.lineY(
+      fish.filter(d => d.station_id === "West"),
+      {
+        x: "date",
+        y: "count",
+        stroke: "species",
         tip: true
       }
     )
@@ -191,6 +222,34 @@ display(Plot.plot({
       y: "suspect",
       fill: "station_id",
       r: 7,
+      tip: true
+    })
+  ]
+}))
+}});
+
+define({id: "f1cbf9cf", inputs: ["display","Plot","width","activities"], body: (display,Plot,width,activities) => {
+display(Plot.plot({
+  width,
+  height: 420,
+  marginLeft: 170,
+  x: {
+    label: "Date",
+    grid: true
+  },
+  y: {
+    label: "Suspect"
+  },
+  color: {
+    legend: true,
+    label: "Intensity"
+  },
+  marks: [
+    Plot.dot(activities, {
+      x: "date",
+      y: "suspect",
+      fill: "intensity",
+      r: d => d.intensity === "High" ? 8 : d.intensity === "Medium" ? 6 : 4,
       tip: true
     })
   ]
@@ -259,9 +318,18 @@ display(Plot.plot({
 <div id="observablehq-center">
 <main id="observablehq-main" class="observablehq">
 <h1 id="lab-4-clearwater-crisis" tabindex="-1"><a class="observablehq-header-anchor" href="#lab-4-clearwater-crisis">Lab 4: Clearwater Crisis</a></h1>
-<h2 id="research-question" tabindex="-1"><a class="observablehq-header-anchor" href="#research-question">Research Question</a></h2>
-<p>Who is responsible for the ecological collapse of Lake Clearwater?</p>
+<p><strong>Investigator:</strong> Perla Holmes 🕵🏻‍♀️<br>
+<strong>Case File:</strong> The Clearwater Crisis<br>
+<strong>Main Question:</strong> Who is responsible for the ecological collapse of Lake Clearwater?</p>
 <div class="observablehq observablehq--block"><!--:4550bdcc:--></div>
+<h2 id="case-strategy" tabindex="-1"><a class="observablehq-header-anchor" href="#case-strategy">Case Strategy</a></h2>
+<p>To identify the most likely culprit, I looked for a suspect that matched three types of evidence:</p>
+<ol>
+<li><strong>Temporal evidence</strong> — when pollution spikes happened.</li>
+<li><strong>Biological evidence</strong> — which fish species declined most severely.</li>
+<li><strong>Spatial evidence</strong> — which suspect was closest to the worst station.</li>
+</ol>
+<p>In other words: means, motive, opportunity... but make it data visualization.</p>
 <h2 id="data-preview" tabindex="-1"><a class="observablehq-header-anchor" href="#data-preview">Data Preview</a></h2>
 <h3 id="water-quality-data" tabindex="-1"><a class="observablehq-header-anchor" href="#water-quality-data">Water Quality Data</a></h3>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:20af46a9:--></div>
@@ -272,29 +340,37 @@ display(Plot.plot({
 <h3 id="suspect-activities" tabindex="-1"><a class="observablehq-header-anchor" href="#suspect-activities">Suspect Activities</a></h3>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:44c2cced:--></div>
 <h2 id="evidence-1-heavy-metals-by-station-over-time" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-1-heavy-metals-by-station-over-time">Evidence 1: Heavy Metals by Station Over Time</a></h2>
-<p>Heavy metals are a leading suspect because they directly affect sensitive fish species such as trout.</p>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:5a587702:--></div>
-<h2 id="initial-findings" tabindex="-1"><a class="observablehq-header-anchor" href="#initial-findings">Initial Findings</a></h2>
-<p>Based on EPA guidance:</p>
-<ul>
-<li>Heavy metals above 20 ppb harm sensitive fish.</li>
-<li>Heavy metals above 30 ppb violate regulatory standards.</li>
-<li>Trout are highly sensitive to pollution.</li>
-<li>The suspect whose location and activities align with heavy-metal contamination will be the strongest candidate.</li>
-</ul>
+<p>Heavy metals are a leading suspect because they directly affect sensitive fish species such as trout. The orange line marks the EPA concern threshold of 20 ppb, and the red line marks the regulatory limit of 30 ppb.</p>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:e2105759:--></div>
+<p><strong>Interpretation:</strong> The West station shows the most severe heavy metal spikes. Several readings exceed the EPA concern threshold, and some exceed the regulatory limit. This suggests the crisis is not evenly spread across the lake. The pollution pattern is concentrated near the West station.</p>
 <h2 id="evidence-2-trout-population-trends" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-2-trout-population-trends">Evidence 2: Trout Population Trends</a></h2>
 <p>Trout are highly sensitive to pollution and serve as an early warning indicator of ecosystem stress.</p>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:f7d7adc7:--></div>
-<h2 id="evidence-3-suspect-distance-to-each-monitoring-station" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-3-suspect-distance-to-each-monitoring-station">Evidence 3: Suspect Distance to Each Monitoring Station</a></h2>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:898f99a5:--></div>
+<p><strong>Interpretation:</strong> Trout populations decline most sharply at the West station, dropping from more than 40 fish per survey to approximately 13 by the end of the study period. This matches the scientific reference, which shows that trout are especially vulnerable to heavy metal contamination.</p>
+<h2 id="evidence-3-species-sensitivity-check" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-3-species-sensitivity-check">Evidence 3: Species Sensitivity Check</a></h2>
+<p>If heavy metals are driving the collapse, the most sensitive species should be affected first and most severely.</p>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:6f8477fa:--></div>
+<p><strong>Interpretation:</strong> At the West station, trout show the most dramatic decline compared with bass and carp. This matters because the scientific reference identifies trout as the most sensitive species, bass as moderately sensitive, and carp as the most tolerant. The biological pattern therefore matches heavy metal contamination more than general overfishing or ordinary seasonal change.</p>
+<h2 id="evidence-4-suspect-distance-to-each-monitoring-station" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-4-suspect-distance-to-each-monitoring-station">Evidence 4: Suspect Distance to Each Monitoring Station</a></h2>
 <p>The worst contamination and trout decline appear at the West station. This graph compares how close each suspect is to each monitoring station.</p>
 <div class="observablehq observablehq--block"><!--:c44b1b2a:--></div>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:8b22275e:--></div>
-<h2 id="conclusion" tabindex="-1"><a class="observablehq-header-anchor" href="#conclusion">Conclusion</a></h2>
-<p>The evidence points most strongly to <strong>ChemTech Manufacturing</strong>. The heavy metals graph shows repeated spikes above the EPA concern threshold and regulatory limit, especially at the West station. The trout population graph shows the steepest trout decline at the West station, which matches the scientific hint that trout are highly sensitive to heavy metal exposure. Finally, the distance comparison shows that the West station is closest to ChemTech Manufacturing. Together, the temporal, biological, and spatial evidence support ChemTech as the strongest suspect in the Lake Clearwater ecosystem crisis.</p>
+<p><strong>Interpretation:</strong> ChemTech Manufacturing is only 800 meters from the West station. Other suspects are much farther from the West station. This makes ChemTech the strongest spatial match for the area with the worst contamination and the steepest trout decline.</p>
+<h2 id="evidence-5-suspect-activity-timeline" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-5-suspect-activity-timeline">Evidence 5: Suspect Activity Timeline</a></h2>
+<p>This timeline helps compare documented suspect activities against the pollution story.</p>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:f1cbf9cf:--></div>
+<p><strong>Interpretation:</strong> ChemTech has repeated high-intensity maintenance shutdowns across the study period. Because ChemTech is also the closest suspect to the West station and is associated with heavy metal discharge, its activity pattern strengthens the case against it.</p>
+<h2 id="alternative-suspects-considered" tabindex="-1"><a class="observablehq-header-anchor" href="#alternative-suspects-considered">Alternative Suspects Considered</a></h2>
+<p><strong>Riverside Farm</strong> is closest to the North station and would more likely explain nitrogen or phosphorus problems. However, the most severe heavy metal spikes and trout collapse occur at the West station, not the North station.</p>
+<p><strong>Clearwater Fishing Lodge</strong> is closest to the South station and could contribute to fish removal or boat activity. However, the South station does not show the strongest heavy metal contamination or the steepest trout collapse.</p>
+<p><strong>Lakeview Resort</strong> is closest to the East station and has wastewater and construction activity. However, the East station remains comparatively stable and does not show the strongest ecological decline.</p>
+<h2 id="final-conclusion" tabindex="-1"><a class="observablehq-header-anchor" href="#final-conclusion">Final Conclusion</a></h2>
+<p>The evidence most strongly implicates <strong>ChemTech Manufacturing</strong> as the source of the ecological crisis in Lake Clearwater. The heavy metals analysis shows repeated spikes at the West monitoring station, with concentrations exceeding both the EPA concern threshold and, at times, the regulatory limit. The biological evidence shows that trout populations declined most dramatically at the West station, which matches the scientific reference showing that trout are highly sensitive to heavy metal contamination. The species comparison further supports this pattern because trout decline more sharply than more tolerant species. Finally, the spatial evidence shows that the West station is only 800 meters from ChemTech Manufacturing, making it the closest suspect by a substantial margin.</p>
+<p>Taken together, the temporal, biological, and spatial evidence support ChemTech Manufacturing as the most likely contributor to the ecological collapse of Lake Clearwater. Case closed... unless ChemTech has a very good lawyer.</p>
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-29T18:42:51">May 29, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-29T20:31:36">May 29, 2026</a>.</div>
 </footer>
 </div>
 </body>
