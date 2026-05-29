@@ -36,7 +36,9 @@ To identify the most likely culprit, I looked for a suspect that matched three t
 
 In other words: means, motive, opportunity... but make it data visualization.
 
-## Data Preview
+## Key Data Findings
+
+Before identifying a suspect, investigators must examine the evidence collected from Lake Clearwater. The following indicators reveal changes in water quality, fish populations, and contaminant levels that may help explain the ecological collapse.
 
 ### Water Quality Data
 
