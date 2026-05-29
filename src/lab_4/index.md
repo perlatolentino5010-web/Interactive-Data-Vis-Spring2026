@@ -69,33 +69,102 @@ Inputs.table(activities)
 Heavy metals are a leading suspect because they directly affect sensitive fish species such as trout. The orange line marks the EPA concern threshold of 20 ppb, and the red line marks the regulatory limit of 30 ppb.
 
 ```js
-display(Plot.plot({
-  width,
-  height: 450,
-  marginLeft: 60,
-  x: {
-    label: "Date",
-    grid: true
-  },
-  y: {
-    label: "Heavy Metals (ppb)",
-    grid: true
-  },
-  color: {
-    legend: true,
-    label: "Station"
-  },
-  marks: [
-    Plot.ruleY([20], { stroke: "orange", strokeDasharray: "4,4" }),
-    Plot.ruleY([30], { stroke: "red", strokeDasharray: "4,4" }),
-    Plot.lineY(water, {
-      x: "date",
-      y: "heavy_metals_ppb",
-      stroke: "station_id",
-      tip: true
-    })
-  ]
-}))
+display(html`
+  <div style="max-width: 100%; font-family: system-ui, sans-serif;">
+    <h2>🧪 Heavy Metals (ppb) Over Time by Monitoring Site</h2>
+
+    <div style="
+      border: 1px solid #9ec5fe;
+      background: #f8fbff;
+      padding: 10px 14px;
+      border-radius: 6px;
+      margin-bottom: 18px;
+      max-width: 760px;
+    ">
+      <b>ppb = parts per billion.</b> Higher values indicate more heavy metal contamination in the water.
+    </div>
+
+    ${Plot.plot({
+      width,
+      height: 520,
+      marginLeft: 60,
+      marginRight: 180,
+      marginBottom: 50,
+      x: {
+        label: "Date",
+        grid: true
+      },
+      y: {
+        label: "↑ Heavy Metals (ppb)",
+        grid: true
+      },
+      color: {
+        legend: true,
+        label: "Monitoring Sites",
+        domain: ["East", "North", "South", "West"],
+        range: ["#3366cc", "#f39c12", "#e74c3c", "#16a085"]
+      },
+      marks: [
+        Plot.ruleY([20], {
+          stroke: "#f39c12",
+          strokeDasharray: "5,5"
+        }),
+
+        Plot.ruleY([30], {
+          stroke: "red",
+          strokeDasharray: "5,5"
+        }),
+
+        Plot.text([{date: d3.max(water, d => d.date), y: 20, label: "EPA Action Level (20 ppb)"}], {
+          x: "date",
+          y: "y",
+          text: "label",
+          dx: 12,
+          dy: -6,
+          fill: "#f39c12",
+          textAnchor: "start"
+        }),
+
+        Plot.text([{date: d3.max(water, d => d.date), y: 30, label: "EPA Chronic Aquatic Life Criterion (30 ppb)"}], {
+          x: "date",
+          y: "y",
+          text: "label",
+          dx: 12,
+          dy: -6,
+          fill: "red",
+          textAnchor: "start"
+        }),
+
+        Plot.lineY(water, {
+          x: "date",
+          y: "heavy_metals_ppb",
+          stroke: "station_id",
+          strokeWidth: 2,
+          tip: true
+        }),
+
+        Plot.dot(water, {
+          x: "date",
+          y: "heavy_metals_ppb",
+          fill: "station_id",
+          r: 2.5,
+          tip: true
+        })
+      ]
+    })}
+
+    <div style="
+      margin-top: 14px;
+      padding: 10px 14px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      max-width: 820px;
+      background: #fafafa;
+    ">
+      <b>Note:</b> The dashed lines mark possible concern thresholds. Repeated spikes above these lines suggest moments when heavy metal contamination may have reached levels harmful to aquatic life.
+    </div>
+  </div>
+`)
 ```
 
 **Interpretation:** The West station shows the most severe heavy metal spikes. Several readings exceed the EPA concern threshold, and some exceed the regulatory limit. This suggests the crisis is not evenly spread across the lake. The pollution pattern is concentrated near the West station.
