@@ -109,7 +109,7 @@ display(html`
           },
           marks: [
             Plot.ruleY([20], {
-              stroke: "#f39c12",
+              stroke: "#2112f3",
               strokeDasharray: "5,5",
               strokeWidth: 1
             }),
