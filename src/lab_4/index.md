@@ -189,7 +189,7 @@ display(html`
           ["#f39c12", "North Shore"],
           ["#e74c3c", "South Shore"],
           ["#16a085", "West Shore"]
-        ].map(([color, title, desc]) => html`
+        ].map(([color, title]) => html`
           <div style="display: flex; gap: 12px; margin-bottom: 18px;">
             <div style="
               width: 38px;
@@ -209,10 +209,7 @@ display(html`
               "></span>
             </div>
 
-            <div>
-              <div style="font-weight: 700;">${title}</div>
-              <div style="font-size: 14px; line-height: 1.35;">${desc}</div>
-            </div>
+            <div style="font-weight: 700;">${title}</div>
           </div>
         `)}
       </div>
