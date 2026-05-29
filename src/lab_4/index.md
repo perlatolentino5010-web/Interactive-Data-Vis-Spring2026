@@ -85,7 +85,7 @@ display(html`
       padding: 10px 14px;
       border-radius: 6px;
       margin-bottom: 18px;
-      max-width: 700px;
+      max-width: 650px;
     ">
       Higher values indicate more heavy metal contamination in the water.
       <br>
