@@ -258,7 +258,7 @@ display(Plot.plot({
     grid: true
   },
   y: {
-    label: "Fish Count",
+    label: "↑ Fish Count Decline",
     grid: true
   },
   color: {
@@ -272,6 +272,18 @@ display(Plot.plot({
         x: "date",
         y: "count",
         stroke: "station_id",
+        strokeWidth: 2.5,
+        tip: true
+      }
+    ),
+
+    Plot.dot(
+      fish.filter(d => d.species === "Trout"),
+      {
+        x: "date",
+        y: "count",
+        fill: "station_id",
+        r: 3,
         tip: true
       }
     )
