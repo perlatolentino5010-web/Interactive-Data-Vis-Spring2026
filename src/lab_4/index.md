@@ -71,9 +71,9 @@ Heavy metals are a leading suspect because they directly affect sensitive fish s
 ```js
 display(html`
   <div style="max-width: 100%; font-family: system-ui, sans-serif;">
-    <h2 style="font-size: 1.8rem;">
-  🧪 Heavy Metals (ppb) Over Time by Monitoring Site
-</h2>
+    <h2 style="font-size: 1.8rem; margin-bottom: 8px;">
+      🧪 Heavy Metals (ppb) Over Time by Monitoring Site
+    </h2>
 
     <div style="
       border: 1px solid #9ec5fe;
@@ -83,7 +83,7 @@ display(html`
       margin-bottom: 18px;
       max-width: 760px;
     ">
-      <b>ppb = parts per billion.</b> Higher values indicate more heavy metal contamination in the water.
+      <b>ppb = parts per billion.</b> EPA = Environmental Protection Agency. Higher values indicate more heavy metal contamination in the water.
     </div>
 
     <div style="display: flex; gap: 28px; align-items: flex-start;">
@@ -120,19 +120,19 @@ display(html`
               strokeWidth: 1
             }),
 
-            Plot.text([{date: d3.max(water, d => d.date), y: 20, label: "EPA Action Level\n(20 ppb)"}], {
+            Plot.text([{date: d3.max(water, d => d.date), y: 20, label: "Warning Level\n(20 ppb)"}], {
               x: "date",
               y: "y",
               text: "label",
               dx: 14,
               dy: -4,
-              fill: "#f39c12",
+              fill: "#003366",
               textAnchor: "start",
               lineAnchor: "top",
               fontSize: 13
             }),
 
-            Plot.text([{date: d3.max(water, d => d.date), y: 30, label: "EPA Chronic Aquatic\nLife Criterion (30 ppb)"}], {
+            Plot.text([{date: d3.max(water, d => d.date), y: 30, label: "Danger Zone\n(30 ppb)"}], {
               x: "date",
               y: "y",
               text: "label",
@@ -171,8 +171,7 @@ display(html`
           background: #fafafa;
           text-align: center;
         ">
-          <b>Note:</b> The EPA Chronic Aquatic Life Criterion (30 ppb) is the recommended maximum concentration
-          for the protection of aquatic life over long-term exposure.
+          <b>Note:</b> The warning level (20 ppb) and danger zone (30 ppb) are reference thresholds used to identify potentially harmful concentrations of heavy metals in the lake.
         </div>
       </div>
 
