@@ -302,25 +302,31 @@ display(Plot.plot({
   width,
   height: 450,
   marginLeft: 60,
+
   x: {
     label: "Date",
     grid: true
   },
+
   y: {
     label: "Fish Count",
     grid: true
   },
+
   color: {
     legend: true,
-    label: "Species"
+    label: "Species",
+    range: ["#7b2cbf", "#c77dff", "#ff66c4"]
   },
+
   marks: [
-    Plot.lineY(
+    Plot.dot(
       fish.filter(d => d.station_id === "West"),
       {
         x: "date",
         y: "count",
-        stroke: "species",
+        fill: "species",
+        r: 7,
         tip: true
       }
     )
