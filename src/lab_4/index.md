@@ -85,7 +85,7 @@ display(html`
       padding: 10px 14px;
       border-radius: 6px;
       margin-bottom: 18px;
-      max-width: 650px;
+      max-width: 700px;
     ">
       Higher values indicate more heavy metal contamination in the water.
       <br>
@@ -97,16 +97,21 @@ display(html`
         ${Plot.plot({
           width: Math.min(width * 1.2, 1700),
           height: 520,
-          marginLeft: 60,
+          style: {
+            fontSize: "15px"
+          },
+          marginLeft: 75,
           marginRight: 150,
           marginBottom: 50,
           x: {
             label: "Date",
-            grid: true
+            grid: true,
+            tickSize: 6
           },
           y: {
             label: "↑ Heavy Metals (ppb)",
-            grid: true
+            grid: true,
+            tickSize: 6
           },
           color: {
             legend: false,
@@ -135,7 +140,7 @@ display(html`
               fill: "#003366",
               textAnchor: "start",
               lineAnchor: "top",
-              fontSize: 13
+              fontSize: 14
             }),
 
             Plot.text([{date: d3.max(water, d => d.date), y: 30, label: "Danger Zone\n(30 ppb)"}], {
@@ -147,7 +152,7 @@ display(html`
               fill: "red",
               textAnchor: "start",
               lineAnchor: "top",
-              fontSize: 13
+              fontSize: 14
             }),
 
             Plot.lineY(water, {
