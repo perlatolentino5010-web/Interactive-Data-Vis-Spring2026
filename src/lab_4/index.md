@@ -70,13 +70,14 @@ Heavy metals are a leading suspect because they directly affect sensitive fish s
 
 ```js
 display(html`
-  <<h2 style="
-  font-size: 1.8rem;
-  margin-bottom: 8px;
-  white-space: nowrap;
-"
-Heavy Metals (ppb) Over Time by Monitoring Site
-</h2>
+  <div style="max-width: 100%; font-family: system-ui, sans-serif;">
+    <h2 style="
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+      white-space: nowrap;
+    ">
+      Heavy Metals (ppb) Over Time by Monitoring Site
+    </h2>
 
     <div style="
       border: 1px solid #9ec5fe;
@@ -89,10 +90,10 @@ Heavy Metals (ppb) Over Time by Monitoring Site
       <b>ppb = parts per billion.</b> EPA = Environmental Protection Agency. Higher values indicate more heavy metal contamination in the water.
     </div>
 
-    <div style="display: flex; gap: 28px; align-items: flex-start;">
+    <div style="display: flex; gap: 20px; align-items: flex-start;">
       <div>
         ${Plot.plot({
-          width: Math.min(width * 0.78, 1100),
+          width: Math.min(width, 1400),
           height: 520,
           marginLeft: 60,
           marginRight: 210,
@@ -181,12 +182,18 @@ Heavy Metals (ppb) Over Time by Monitoring Site
       <div style="
         border: 1px solid #ddd;
         border-radius: 8px;
-        padding: 16px 18px;
-        min-width: 230px;
+        padding: 14px 16px;
+        width: 180px;
         background: white;
         margin-top: 55px;
       ">
-        <h3 style="margin-top: 0;">Lake Clearwater Monitoring Sites</h3>
+        <h3 style="
+          margin-top: 0;
+          font-size: 1.1rem;
+          line-height: 1.2;
+        ">
+          Lake Clearwater<br>Monitoring Sites
+        </h3>
 
         ${[
           ["#3366cc", "East Shore"],
@@ -194,26 +201,32 @@ Heavy Metals (ppb) Over Time by Monitoring Site
           ["#e74c3c", "South Shore"],
           ["#16a085", "West Shore"]
         ].map(([color, title]) => html`
-          <div style="display: flex; gap: 12px; margin-bottom: 18px;">
+          <div style="display: flex; gap: 10px; margin-bottom: 16px; align-items: center;">
             <div style="
-              width: 38px;
-              height: 2px;
+              width: 55px;
+              height: 3px;
               background: ${color};
-              margin-top: 11px;
               position: relative;
+              flex-shrink: 0;
             ">
               <span style="
                 position: absolute;
-                left: 15px;
+                left: 21px;
                 top: -5px;
-                width: 10px;
-                height: 10px;
+                width: 12px;
+                height: 12px;
                 background: ${color};
                 border-radius: 50%;
               "></span>
             </div>
 
-            <div style="font-weight: 700;">${title}</div>
+            <div style="
+              font-weight: 600;
+              font-size: 0.95rem;
+              white-space: nowrap;
+            ">
+              ${title}
+            </div>
           </div>
         `)}
       </div>
