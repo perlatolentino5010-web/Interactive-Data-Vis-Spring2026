@@ -74,7 +74,8 @@ display(html`
   font-size: 1.8rem;
   margin-bottom: 8px;
   white-space: nowrap;
-"Heavy Metals (ppb) Over Time by Monitoring Site"
+"
+Heavy Metals (ppb) Over Time by Monitoring Site
 </h2>
 
     <div style="
