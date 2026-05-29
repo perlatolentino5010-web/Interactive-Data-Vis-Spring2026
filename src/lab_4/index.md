@@ -87,7 +87,8 @@ display(html`
       margin-bottom: 18px;
       max-width: 760px;
     ">
-      <b>ppb = parts per billion.</b> EPA = Environmental Protection Agency. Higher values indicate more heavy metal contamination in the water.
+      <b>ppb = parts per billion | EPA = Environmental Protection Agency</b> 
+      Higher values indicate more heavy metal contamination in the water.
     </div>
 
     <div style="display: flex; gap: 20px; align-items: flex-start;">
