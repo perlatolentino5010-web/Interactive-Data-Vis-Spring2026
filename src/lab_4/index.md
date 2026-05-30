@@ -356,10 +356,9 @@ display(html`
   ">
     ${Plot.plot({
       width: Math.min(width * 0.78, 920),
-      height: 330,
-      marginLeft: 90,
-      marginRight: 110,
-      marginBottom: 50,
+      height: 380,
+      marginLeft: 70,
+      marginBottom: 55,
 
       style: {
         background: "#07111f",
@@ -368,52 +367,64 @@ display(html`
       },
 
       x: {
-        label: "Percent Change in Fish Count",
-        grid: true,
-        percent: true,
-        tickSize: 6
+        label: "Date",
+        grid: true
       },
 
       y: {
-        label: null
+        label: "↑ Fish Count by Species",
+        grid: true
+      },
+
+      color: {
+        legend: true,
+        label: "Species",
+        domain: ["Bass", "Carp", "Trout"],
+        range: ["#9c2f36", "#f6d98b", "#2f358f"]
       },
 
       marks: [
-        Plot.gridX({stroke: "rgba(215, 247, 255, 0.08)"}),
-
-        Plot.ruleX([0], {
-          stroke: "#d7f7ff",
-          strokeWidth: 1,
-          strokeOpacity: 0.7
+        Plot.gridX({
+          stroke: "rgba(215,247,255,0.08)"
         }),
 
-        Plot.barX([
-          {species: "Trout", change: -0.70, color: "#2f358f"},
-          {species: "Bass", change: -0.38, color: "#9c2f36"},
-          {species: "Carp", change: 0.35, color: "#f6d98b"}
-        ], {
-          x: "change",
-          y: "species",
-          fill: "color",
-          fillOpacity: 0.78,
-          rx: 8,
-          tip: true
+        Plot.gridY({
+          stroke: "rgba(215,247,255,0.08)"
         }),
 
-        Plot.text([
-          {species: "Trout", change: -0.70, label: "Trout declined 70%"},
-          {species: "Bass", change: -0.38, label: "Bass declined 38%"},
-          {species: "Carp", change: 0.35, label: "Carp increased 35%"}
-        ], {
-          x: "change",
-          y: "species",
-          text: "label",
-          dx: d => d.change < 0 ? -10 : 10,
-          textAnchor: d => d.change < 0 ? "end" : "start",
-          fontSize: 14,
-          fontWeight: "bold",
-          fill: "#d7f7ff"
-        })
+        Plot.areaY(
+          fish.filter(d => d.station_id === "West"),
+          {
+            x: "date",
+            y: "count",
+            fill: "species",
+            fillOpacity: 0.28,
+            curve: "linear"
+          }
+        ),
+
+        Plot.lineY(
+          fish.filter(d => d.station_id === "West"),
+          {
+            x: "date",
+            y: "count",
+            stroke: "species",
+            strokeWidth: 3,
+            curve: "linear",
+            tip: true
+          }
+        ),
+
+        Plot.dot(
+          fish.filter(d => d.station_id === "West"),
+          {
+            x: "date",
+            y: "count",
+            fill: "species",
+            r: 4,
+            tip: true
+          }
+        )
       ]
     })}
   </div>
