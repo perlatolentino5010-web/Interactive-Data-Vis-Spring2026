@@ -383,7 +383,12 @@ display(html`
 
         return html`
           <div>
-            <div style="text-align:center; font-weight:600; color:#555; margin-bottom:4px;">
+            <div style="
+              text-align:center;
+              font-weight:600;
+              color:#555;
+              margin-bottom:4px;
+            ">
               ${species}
             </div>
 
@@ -391,7 +396,7 @@ display(html`
               width: 270,
               height: 320,
               marginLeft: species === "Bass" ? 55 : 35,
-              marginBottom: 60,
+              marginBottom: 70,
 
               style: {
                 background: "white",
@@ -401,7 +406,8 @@ display(html`
 
               x: {
                 label: null,
-                tickRotate: -45
+                tickRotate: -45,
+                tickFormat: d3.timeFormat("%b\n%Y")
               },
 
               y: {
