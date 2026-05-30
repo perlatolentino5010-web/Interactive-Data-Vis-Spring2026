@@ -244,7 +244,7 @@ display(html`
 
 The West station shows the most severe heavy metal spikes. Several readings exceed the EPA concern threshold, and some exceed the regulatory limit. This suggests the crisis is not evenly spread across the lake. The pollution pattern is concentrated near the West station.
 
-## Evidence 2: Trout Population Trends
+## Evidence 2: Trends in Trout Population Over Time
 
 Trout are highly sensitive to pollution and serve as an early warning indicator of ecosystem stress.
 
@@ -659,3 +659,7 @@ ChemTech has repeated high-intensity maintenance shutdowns across the study peri
 The evidence most strongly implicates **ChemTech Manufacturing** as the source of the ecological crisis in Lake Clearwater. The heavy metals analysis shows repeated spikes at the West monitoring station, with concentrations exceeding both the EPA concern threshold and, at times, the regulatory limit. The biological evidence shows that trout populations declined most dramatically at the West station, which matches the scientific reference showing that trout are highly sensitive to heavy metal contamination. The species comparison further supports this pattern because trout decline more sharply than more tolerant species. Finally, the spatial evidence shows that the West station is only 800 meters from ChemTech Manufacturing, making it the closest suspect by a substantial margin.
 
 Taken together, the temporal, biological, and spatial evidence support ChemTech Manufacturing as the most likely contributor to the ecological collapse of Lake Clearwater. Case closed... unless ChemTech has a very good lawyer.
+
+**"When you have eliminated the impossible, whatever remains, however improbable, must be the truth." ~ Sherlock Holmes**
+
+# The End
