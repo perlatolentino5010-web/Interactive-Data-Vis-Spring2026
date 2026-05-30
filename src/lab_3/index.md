@@ -213,57 +213,54 @@ Income category: ${d.income_category}`
 This chart shows vote margin by district. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better. While the candidate dominated the district count (36), the oponent had an overwhelming majority of voter suport int he fewer districts that supported him (23), showing the importance of voter's power.
 
 ```js
-// Candidate vote share by income category and district
 Plot.plot({
-  width: 900,
-  height: 500,
+  width: 1100,
+  height: 850,
   marginLeft: 70,
-  marginBottom: 60,
+  marginRight: 40,
+  marginBottom: 50,
 
   x: {
-    label: "Candidate Vote Share →",
-    percent: true,
+    label: "Vote Margin →",
     grid: true
   },
 
   y: {
-    label: "Income Category"
+    label: "District",
+    domain: resultsWithShare
+      .slice()
+      .sort((a, b) => a.vote_margin - b.vote_margin)
+      .map(d => d.boro_cd)
   },
 
   color: {
     legend: true,
     label: "Income Category",
     domain: ["Low", "Middle", "High"],
-    range: ["#fdc086", "#7fc97f", "#386cb0"]
+    range: ["#e8b23a", "#7fbf7b", "#4f6fd5"]
   },
 
   marks: [
-    Plot.ruleX([overallShare], {
-      stroke: "black",
-      strokeDasharray: "4,4",
-      strokeWidth: 1.5
+    Plot.barX(resultsWithShare, {
+      y: "boro_cd",
+      x: "vote_margin",
+      fill: "income_category",
+      title: d => `District: ${d.boro_cd}
+Vote Margin: ${d.vote_margin}
+Income Category: ${d.income_category}
+Candidate Vote Share: ${d3.format(".1%")(d.candidate_vote_share)}`
     }),
 
-    Plot.dot(resultsWithShare, {
-      x: "candidate_vote_share",
-      y: "income_category",
-      fill: "income_category",
-      stroke: "white",
-      strokeWidth: 1,
-      r: 6,
-      fillOpacity: 0.85,
-      title: d => `District: ${d.boro_cd}
-Candidate vote share: ${d3.format(".1%")(d.candidate_vote_share)}
-Vote margin: ${d.vote_margin}
-Income category: ${d.income_category}`,
-      tip: true
+    Plot.ruleX([0], {
+      stroke: "black",
+      strokeWidth: 1.2
     })
   ]
 })
 ```
 
 
-This chart shows each district as a dot, grouped by income category. The vertical dashed line marks the candidate's overall citywide vote share. Dots to the right of the line show districts where the candidate performed better than the citywide average, while dots to the left show weaker performance.
+This chart shows vote margin by district, sorted from the candidate's weakest districts to strongest districts. Colors represent income categories. The chart reveals that support was not distributed evenly across income groups. Some income categories appear more frequently among the candidate's strongest districts, while others appear more often among districts where the opponent performed better. This helps identify demographic patterns that may explain campaign strengths and weaknesses.
 
 
 ```js
