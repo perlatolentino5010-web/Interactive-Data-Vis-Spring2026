@@ -65,6 +65,7 @@ Inputs.table(stations)
 Inputs.table(activities)
 ```
 
+
 ## Evidence 1: Heavy Metals by Station Over Time
 
 Heavy metals are a leading suspect because they directly affect sensitive fish species such as trout. The blue line marks the warning threshold of 20 ppb, and the red line marks the danger zone of 30 ppb.
