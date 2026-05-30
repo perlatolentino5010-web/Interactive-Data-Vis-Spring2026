@@ -167,15 +167,20 @@ The scatterplot suggests that temperature and nectar production may be connected
 ## Average Nectar Production by Flower
 
 ```js
+const flowerOrder = ["Lavender", "Coneflower", "Sunflower", "Rose", "Tulip", "Daisy"];
+
 Plot.plot({
   title: "Average Nectar Production by Flower",
-  x: { label: "Flower Species" },
+  x: {
+    label: "Flower Species",
+    domain: flowerOrder
+  },
   y: { label: "Average Nectar Production" },
 
   color: {
     legend: true,
     label: "Flower Species",
-    domain: ["Lavender", "Coneflower", "Sunflower", "Rose", "Tulip", "Daisy"],
+    domain: flowerOrder,
     range: ["#b57edc", "#f4a261", "#f6c85f", "#e76f91", "#f7b7c3", "#f2f2f2"]
   },
 
@@ -192,9 +197,7 @@ Plot.plot({
       )
     ),
 
-    Plot.ruleY([0], {
-      stroke: "#333"
-    })
+    Plot.ruleY([0], { stroke: "#333" })
   ]
 })
 ```
