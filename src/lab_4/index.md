@@ -357,49 +357,67 @@ display(html`
     padding: 18px;
     border-radius: 10px;
     max-width: 920px;
+    font-family: system-ui, sans-serif;
   ">
-    ${Plot.plot({
-      width: Math.min(width * 0.82, 920),
-      height: 350,
+    <div style="display: flex; gap: 18px; margin-bottom: 12px;">
+      <span><span style="display:inline-block;width:14px;height:14px;background:#f6b26b;margin-right:6px;"></span>Bass</span>
+      <span><span style="display:inline-block;width:14px;height:14px;background:#e76f51;margin-right:6px;"></span>Carp</span>
+      <span><span style="display:inline-block;width:14px;height:14px;background:#9c2f36;margin-right:6px;"></span>Trout</span>
+    </div>
 
-      marginLeft: 65,
-      marginBottom: 60,
+    <div style="display: flex; gap: 18px;">
+      ${["Bass", "Carp", "Trout"].map(species => {
+        const colors = {
+          Bass: "#f6b26b",
+          Carp: "#e76f51",
+          Trout: "#9c2f36"
+        };
 
-      x: {
-        label: "Date",
-        tickRotate: -45
-      },
+        return html`
+          <div>
+            <div style="text-align:center; font-weight:600; color:#555; margin-bottom:4px;">
+              ${species}
+            </div>
 
-      y: {
-        label: "Fish Count",
-        grid: true
-      },
+            ${Plot.plot({
+              width: 270,
+              height: 320,
+              marginLeft: species === "Bass" ? 55 : 35,
+              marginBottom: 60,
 
-      color: {
-        legend: true,
-        label: "Species",
-        domain: ["Bass", "Carp", "Trout"],
-        range: ["#f6b26b", "#e76f51", "#9c2f36"]
-      },
+              style: {
+                background: "white",
+                color: "#555",
+                fontSize: "12px"
+              },
 
-      fx: {
-        label: null
-      },
+              x: {
+                label: null,
+                tickRotate: -45
+              },
 
-      marks: [
-        Plot.barY(
-          fish.filter(d => d.station_id === "West"),
-          {
-            x: "date",
-            y: "count",
-            fill: "species",
-            fx: "species",
-            inset: 1,
-            tip: true
-          }
-        )
-      ]
-    })}
+              y: {
+                label: species === "Bass" ? "↑ Fish Count" : null,
+                grid: true
+              },
+
+              marks: [
+                Plot.barY(
+                  fish.filter(d => d.station_id === "West" && d.species === species),
+                  {
+                    x: "date",
+                    y: "count",
+                    fill: colors[species],
+                    inset: 2,
+                    tip: true
+                  }
+                )
+              ]
+            })}
+          </div>
+        `;
+      })}
+    </div>
   </div>
 `)
 ```
