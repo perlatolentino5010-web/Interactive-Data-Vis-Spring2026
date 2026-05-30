@@ -7,7 +7,7 @@ author: "Perla Holmes 🕵🏻‍♀️"
 # Lab 4: Clearwater Crisis
 
 **Investigator:** Perla Holmes 🕵🏻‍♀️  
-**Case File:** The Clearwater Crisis  
+**Case File:** The Crisis on Lake Clearwater
 **Main Question:** Who is responsible for the ecological collapse of Lake Clearwater?
 
 
@@ -396,7 +396,7 @@ display(html`
               width: 270,
               height: 320,
               marginLeft: species === "Bass" ? 55 : 35,
-              marginBottom: 70,
+              marginBottom: 95,
 
               style: {
                 background: "white",
@@ -405,9 +405,7 @@ display(html`
               },
 
               x: {
-                label: null,
-                tickRotate: -45,
-                tickFormat: d3.timeFormat("%b\n%Y")
+                label: null
               },
 
               y: {
@@ -424,6 +422,17 @@ display(html`
                   fill: colors[species],
                   fillOpacity: 0.9,
                   tip: true
+                }),
+
+                Plot.text(speciesData, {
+                  x: "date",
+                  y: 0,
+                  text: d => d3.timeFormat("%b %Y")(d.date),
+                  dy: 22,
+                  rotate: -45,
+                  fontSize: 10,
+                  fill: "#555",
+                  textAnchor: "end"
                 })
               ]
             })}
