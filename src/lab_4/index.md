@@ -31,7 +31,7 @@ Lake Clearwater was once a healthy recreational lake known for clear water and t
 
 Four potential suspects operate around Lake Clearwater: Riverside Farm, Clearwater Fishing Lodge, Lakeview Resort, and ChemTech Manufacturing. Each has activities that could potentially impact the environment. The challenge of this investigation is to determine whether the ecological collapse can be linked to a specific suspect using evidence from water quality measurements, fish population surveys, station locations, and documented activity records.
 
-Like any good detective case, the goal is not simply to identify a suspect, but to determine which suspect best matches the available temporal, biological, and spatial evidence.
+The goal of this investigation is to determine which suspect best matches the available evidence.
 
 ## Case Strategy
 
