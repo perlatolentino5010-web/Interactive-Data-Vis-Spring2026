@@ -460,136 +460,136 @@ Trout populations decline most sharply at the West station, dropping from more t
 The worst contamination and trout decline appear at the West station. This graph compares how close each suspect is to each monitoring station.
 
 ```js
-<h2 class="sr-only">SVG diagram showing distance from the damaged West Station to four suspects, with ChemTech Manufacturing as the closest.</h2>
+const stationDistances = stations.flatMap(d => [
+  { station_id: d.station_id, suspect: "ChemTech Manufacturing", distance_m: d.distance_to_chemtech_m, icon: "🏭" },
+  { station_id: d.station_id, suspect: "Riverside Farm", distance_m: d.distance_to_farm_m, icon: "🌽" },
+  { station_id: d.station_id, suspect: "Lakeview Resort", distance_m: d.distance_to_resort_m, icon: "🏨" },
+  { station_id: d.station_id, suspect: "Clearwater Fishing Lodge", distance_m: d.distance_to_lodge_m, icon: "🎣" }
+]);
 
-<style>
-.distance-wrap {
-  background: #f4eadf;
-  padding: 18px 20px;
-  border-radius: 12px;
-  max-width: 940px;
-  font-family: system-ui, sans-serif;
-}
-.distance-title {
-  margin: 0 0 6px 0;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #222;
-}
-.distance-desc {
-  font-size: 0.84rem;
-  margin-bottom: 14px;
-  line-height: 1.4;
-  max-width: 860px;
-  color: #444;
-}
-.key-finding {
-  font-size: 12px;
-  line-height: 1.4;
-  margin-top: 8px;
-  color: #444;
-  max-width: 860px;
-}
-</style>
+const westDistances = stationDistances
+  .filter(d => d.station_id === "West")
+  .sort((a, b) => a.distance_m - b.distance_m);
 
-<div class="distance-wrap">
-  <h3 class="distance-title">Distance from the Damaged West Station to Each Suspect</h3>
-  <p class="distance-desc">
-    The West station is the monitoring location with the strongest heavy metal spikes and trout decline.
-    This diagram connects the damaged West station to each suspect and places them according to distance.
-  </p>
+const maxWestDistance = Math.max(...westDistances.map(d => d.distance_m));
+```
 
-  <svg id="distanceSvg" width="900" height="370" style="background:#f4eadf; overflow:visible; display:block;"></svg>
+```js
+display(html`
+  <div style="
+    background:#f4eadf;
+    padding:18px 20px;
+    border-radius:12px;
+    max-width:940px;
+    font-family:system-ui, sans-serif;
+  ">
+    <h2 style="margin:0 0 6px 0; font-size:1rem;">
+      Distance from the Damaged West Station to Each Suspect
+    </h2>
 
-  <p class="key-finding">
-    <b>Key Finding:</b>
-    ChemTech Manufacturing is the closest suspect to the damaged West station. Since the strongest contamination and trout decline appear at West, this gives ChemTech the strongest geographic opportunity in the case.
-  </p>
-</div>
+    <div style="
+      font-size:0.84rem;
+      margin-bottom:14px;
+      line-height:1.4;
+      max-width:860px;
+      color:#444;
+    ">
+      The West station is the monitoring location with the strongest heavy metal spikes and trout decline.
+      This diagram connects the damaged West station to each suspect and places them according to distance.
+    </div>
 
-<script>
-const westDistances = [
-  { suspect: "ChemTech Manufacturing", distance_m: 420,  icon: "🏭" },
-  { suspect: "Riverside Farm",          distance_m: 890,  icon: "🌽" },
-  { suspect: "Lakeview Resort",         distance_m: 1340, icon: "🏨" },
-  { suspect: "Clearwater Fishing Lodge",distance_m: 1780, icon: "🎣" }
-];
+    <svg width="900" height="370" style="background:#f4eadf; overflow:visible; display:block;">
 
-const maxDist = Math.max(...westDistances.map(d => d.distance_m));
-const svg = document.getElementById("distanceSvg");
-const ns = "http://www.w3.org/2000/svg";
+      <circle cx="95" cy="185" r="28" fill="#084081" stroke="#08304f" stroke-width="3"></circle>
 
-function el(tag, attrs, text) {
-  const e = document.createElementNS(ns, tag);
-  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
-  if (text !== undefined) e.textContent = text;
-  return e;
-}
+      <text x="95" y="135" text-anchor="middle" font-size="15" font-weight="700" fill="#222">
+        West Station
+      </text>
 
-const stationCX = 95, stationCY = 185;
+      <text x="95" y="154" text-anchor="middle" font-size="11" fill="#555">
+        damaged site
+      </text>
 
-// West Station circle
-svg.appendChild(el("circle", { cx: stationCX, cy: stationCY, r: 28, fill: "#084081", stroke: "#08304f", "stroke-width": 3 }));
-svg.appendChild(el("text", { x: stationCX, y: 135, "text-anchor": "middle", "font-size": 15, "font-weight": 700, fill: "#222" }, "West Station"));
-svg.appendChild(el("text", { x: stationCX, y: 154, "text-anchor": "middle", "font-size": 11, fill: "#555" }, "damaged site"));
+      ${westDistances.map((d, i) => {
+        const x = 95 + (d.distance_m / maxWestDistance) * 690;
+        const y = 55 + i * 82;
+        const isChemTech = d.suspect === "ChemTech Manufacturing";
 
-westDistances.forEach((d, i) => {
-  const x = stationCX + (d.distance_m / maxDist) * 690;
-  const y = 55 + i * 82;
-  const isChemTech = d.suspect === "ChemTech Manufacturing";
+        return html`
+          <line
+            x1="123"
+            y1="185"
+            x2="${x - (isChemTech ? 24 : 21)}"
+            y2="${y}"
+            stroke="${isChemTech ? "#084081" : "#888"}"
+            stroke-width="${isChemTech ? 4 : 2.5}"
+            stroke-opacity="${isChemTech ? 0.85 : 0.45}"
+          ></line>
 
-  // Connecting line
-  svg.appendChild(el("line", {
-    x1: stationCX + 28, y1: stationCY,
-    x2: x - (isChemTech ? 24 : 21), y2: y,
-    stroke: isChemTech ? "#084081" : "#888",
-    "stroke-width": isChemTech ? 4 : 2.5,
-    "stroke-opacity": isChemTech ? 0.85 : 0.45
-  }));
+          <text
+            x="${(123 + x) / 2}"
+            y="${(185 + y) / 2 - 8}"
+            text-anchor="middle"
+            font-size="12"
+            font-weight="700"
+            fill="#333"
+          >
+            ${d.distance_m} m
+          </text>
 
-  // Distance label on line
-  svg.appendChild(el("text", {
-    x: (stationCX + 28 + x) / 2,
-    y: (stationCY + y) / 2 - 8,
-    "text-anchor": "middle",
-    "font-size": 12,
-    "font-weight": 700,
-    fill: "#333"
-  }, `${d.distance_m} m`));
+          <circle
+            cx="${x}"
+            cy="${y}"
+            r="${isChemTech ? 24 : 21}"
+            fill="#084081"
+            fill-opacity="${isChemTech ? 0.95 : 0.62}"
+            stroke="#08304f"
+            stroke-width="2.5"
+          ></circle>
 
-  // Suspect circle
-  svg.appendChild(el("circle", {
-    cx: x, cy: y,
-    r: isChemTech ? 24 : 21,
-    fill: "#084081",
-    "fill-opacity": isChemTech ? 0.95 : 0.62,
-    stroke: "#08304f",
-    "stroke-width": 2.5
-  }));
+          <text
+            x="${x}"
+            y="${y + 7}"
+            text-anchor="middle"
+            font-size="${isChemTech ? 22 : 19}"
+          >
+            ${d.icon}
+          </text>
 
-  // Emoji icon
-  svg.appendChild(el("text", {
-    x: x, y: y + 7,
-    "text-anchor": "middle",
-    "font-size": isChemTech ? 22 : 19
-  }, d.icon));
+          <text
+            x="${x + 34}"
+            y="${y - 4}"
+            font-size="13"
+            font-weight="${isChemTech ? 700 : 500}"
+            fill="#222"
+          >
+            ${d.suspect}
+          </text>
 
-  // Suspect name
-  svg.appendChild(el("text", {
-    x: x + 34, y: y - 4,
-    "font-size": 13,
-    "font-weight": isChemTech ? 700 : 500,
-    fill: "#222"
-  }, d.suspect));
+          <text
+            x="${x + 34}"
+            y="${y + 14}"
+            font-size="12"
+            fill="#444"
+          >
+            ${d.distance_m} m from West
+          </text>
+        `;
+      })}
+    </svg>
 
-  // Distance sub-label
-  svg.appendChild(el("text", {
-    x: x + 34, y: y + 14,
-    "font-size": 12,
-    fill: "#444"
-  }, `${d.distance_m} m from West`));
-});
-</script>
+    <div style="
+      font-size:12px;
+      line-height:1.4;
+      margin-top:8px;
+      color:#444;
+      max-width:860px;
+    ">
+      <b>Key Finding:</b>
+      ChemTech Manufacturing is closest to the West station, the same station where the strongest heavy metal spikes and trout decline appear. This spatial pattern strengthens the case that ChemTech had the clearest geographic opportunity to affect the most damaged part of the lake.
+    </div>
+  </div>
+`)
 ```
 
 ChemTech Manufacturing is closest to the West station, the same station where the strongest heavy metal spikes and trout decline appear. This spatial pattern strengthens the case that ChemTech had the clearest geographic opportunity to affect the most damaged part of the lake.
