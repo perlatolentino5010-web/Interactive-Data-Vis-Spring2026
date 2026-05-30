@@ -215,27 +215,30 @@ This chart shows vote margin by district. Positive margins indicate districts wh
 ```js
 Plot.plot({
   width: 900,
-  height: 500,
+  height: 420,
   marginLeft: 60,
   marginBottom: 60,
 
   x: {
-    label: "Income Category"
+    label: "Income Category",
+    domain: ["High", "Middle", "Low"]
   },
 
   y: {
     label: "Candidate Vote Share (%)",
     percent: true,
-    grid: true
+    grid: true,
+    domain: [0.24, 0.62]
   },
 
   color: {
+    legend: true,
+    label: "Income Category",
     domain: ["Low", "Middle", "High"],
     range: ["#fdc086", "#7fc97f", "#386cb0"]
   },
 
   marks: [
-
     Plot.ruleY([overallShare], {
       stroke: "black",
       strokeDasharray: "4,4",
@@ -256,12 +259,12 @@ Plot.plot({
       stroke: "white",
       strokeWidth: 1,
       r: 5,
-      fillOpacity: 0.8,
-
+      fillOpacity: 0.85,
       title: d => `District: ${d.boro_cd}
 Vote share: ${d3.format(".1%")(d.candidate_vote_share)}
 Vote margin: ${d.vote_margin}
-Income category: ${d.income_category}`
+Income category: ${d.income_category}`,
+      tip: true
     })
   ]
 })
