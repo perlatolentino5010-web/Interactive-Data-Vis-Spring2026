@@ -6,8 +6,10 @@ author: "Perla Holmes 🕵🏻‍♀️"
 
 # Lab 4: Clearwater Crisis
 
-**Investigator:** Perla Holmes 🕵🏻‍♀️  
+**Investigator:** Perla Holmes 🕵🏻‍♀️
+
 **Case File:** The Crisis on Lake Clearwater
+
 **Main Question:** Who is responsible for the ecological collapse of Lake Clearwater?
 
 
