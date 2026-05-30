@@ -559,6 +559,208 @@ display(html`
 
 ChemTech has repeated high-intensity maintenance shutdowns across the study period. Because ChemTech is also the closest suspect to the West station and is associated with heavy metal discharge, its activity pattern strengthens the case against it.
 
+<h2 style="white-space: nowrap; font-size: 1.6rem;">
+  Evidence 4: Suspect Distance to Each Monitoring Station
+</h2>
+
+The worst contamination and trout decline appear at the West station. This graph compares how close each suspect is to each monitoring station.
+
+```js
+const stationDistances = stations.flatMap(d => [
+  { station_id: d.station_id, suspect: "ChemTech Manufacturing", distance_m: d.distance_to_chemtech_m },
+  { station_id: d.station_id, suspect: "Riverside Farm", distance_m: d.distance_to_farm_m },
+  { station_id: d.station_id, suspect: "Lakeview Resort", distance_m: d.distance_to_resort_m },
+  { station_id: d.station_id, suspect: "Clearwater Fishing Lodge", distance_m: d.distance_to_lodge_m }
+]);
+```
+```js
+display(html`
+  <div style="
+    background: #f4eadf;
+    padding: 12px 16px;
+    border-radius: 12px;
+    max-width: 760px;
+    font-family: system-ui, sans-serif;
+  ">
+    <h2 style="
+      margin: 0 0 4px 0;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    ">
+      Suspect Distance to Lake Clearwater Monitoring Stations
+    </h2>
+
+    <div style="
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+    ">
+      Shorter distances may indicate stronger geographic opportunity for contamination.
+    </div>
+
+    ${Plot.plot({
+      width: 700,
+      height: 250,
+      marginLeft: 150,
+      marginRight: 20,
+      marginBottom: 40,
+
+      style: {
+        background: "#f4eadf",
+        color: "#333",
+        fontSize: "12px"
+      },
+
+      x: {
+        label: "Distance to Monitoring Station (meters)",
+        grid: true,
+        tickSize: 6
+      },
+
+      y: {
+        label: null,
+        grid: true
+      },
+
+      color: {
+        legend: true,
+        label: "Monitoring Station",
+        domain: ["East", "North", "South", "West"],
+        range: ["#b9c9e6", "#74a9cf", "#2b8cbe", "#084081"]
+      },
+
+      marks: [
+        Plot.gridX({
+          stroke: "#888",
+          strokeOpacity: 0.35,
+          strokeDasharray: "3,4"
+        }),
+
+        Plot.gridY({
+          stroke: "#ffffff",
+          strokeOpacity: 0.35
+        }),
+
+        Plot.dot(stationDistances, {
+          x: "distance_m",
+          y: "suspect",
+          fill: "station_id",
+          stroke: "#08304f",
+          strokeWidth: 1.2,
+          r: 8,
+          fillOpacity: 0.85,
+          tip: true
+        })
+      ]
+    })}
+
+    <div style="
+      font-size: 11px;
+      text-align: center;
+      margin-top: 4px;
+      color: #555;
+    ">
+      Blue tones represent Lake Clearwater monitoring stations.
+    </div>
+  </div>
+`)
+```
+
+ChemTech Manufacturing is closest to the West station, the same station where the strongest heavy metal spikes and trout decline appear. This spatial pattern strengthens the case that ChemTech had the clearest geographic opportunity to affect the most damaged part of the lake.
+
+## Evidence 5: Suspect Activity Timeline
+
+This timeline helps compare documented suspect activities against the pollution story.
+
+```js
+display(html`
+  <div style="
+    background: #f7fbff;
+    padding: 14px;
+    border-radius: 10px;
+    max-width: 820px;
+  ">
+    <div style="
+      font-family: system-ui, sans-serif;
+      font-size: 13px;
+      color: #374151;
+      margin-bottom: 8px;
+      font-weight: 600;
+    ">
+      Activity Intensity: Low, Medium, High
+    </div>
+
+    ${Plot.plot({
+      width: Math.min(width * 0.68, 820),
+      height: 330,
+      marginLeft: 165,
+      marginBottom: 55,
+
+      style: {
+        background: "#f7fbff",
+        color: "#374151",
+        fontSize: "13px"
+      },
+
+      x: {
+        label: "Date",
+        grid: true,
+        tickSize: 6
+      },
+
+      y: {
+        label: "Suspect"
+      },
+
+      color: {
+        legend: true,
+        label: "Activity Intensity",
+        domain: ["Low", "Medium", "High"],
+        range: ["#93c5fd", "#3b82f6", "#1e3a8a"]
+      },
+
+      marks: [
+        Plot.gridX({
+          stroke: "#cbd5e1",
+          strokeOpacity: 0.55
+        }),
+
+        Plot.line(activities, {
+          x: "date",
+          y: "suspect",
+          z: "suspect",
+          stroke: "#111827",
+          strokeWidth: 3,
+          strokeOpacity: 0.5
+        }),
+
+        Plot.barX(activities, {
+          x1: "date",
+          x2: d => new Date(+d.date + 35 * 24 * 60 * 60 * 1000),
+          y: "suspect",
+          fill: "intensity",
+          rx: 10,
+          insetTop: 8,
+          insetBottom: 8,
+          tip: true
+        }),
+
+        Plot.dot(activities, {
+          x: "date",
+          y: "suspect",
+          fill: "intensity",
+          stroke: "white",
+          strokeWidth: 1.8,
+          r: d =>
+            d.intensity === "High" ? 5 :
+            d.intensity === "Medium" ? 4.5 : 4,
+          tip: true
+        })
+      ]
+    })}
+  </div>
+`)
+```
+
 ## Alternative Suspects Considered
 
 **Riverside Farm** is closest to the North station and would more likely explain nitrogen or phosphorus problems. However, the most severe heavy metal spikes and trout collapse occur at the West station, not the North station.
