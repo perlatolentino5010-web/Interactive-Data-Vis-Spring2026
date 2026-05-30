@@ -61,10 +61,10 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780104646176,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780104646176,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780104646176,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780104646176,"size":26191});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780104936922,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780104936922,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780104936922,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780104936922,"size":26191});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -272,15 +272,14 @@ display(html`
 `)
 }});
 
-define({id: "09a4ac55", inputs: ["display","html","Plot","width","fish"], body: (display,html,Plot,width,fish) => {
+define({id: "82657fe8", inputs: ["display","html","Plot","fish"], body: (display,html,Plot,fish) => {
 display(html`
   <style>
-    .neon-trout-chart .plot-swatches {
+    .neon-trout-chart,
+    .neon-trout-chart * {
       color: #d7f7ff !important;
-      font-size: 13px;
     }
 
-    .neon-trout-chart .plot-swatches text,
     .neon-trout-chart svg text {
       fill: #d7f7ff !important;
     }
@@ -292,7 +291,7 @@ display(html`
     }
 
     .neon-trout-chart svg g[aria-label="tip"] text {
-      fill: #d7f7ff;
+      fill: #d7f7ff !important;
       font-weight: 600;
     }
   </style>
@@ -305,9 +304,10 @@ display(html`
     max-width: 820px;
   ">
     ${Plot.plot({
-      width: Math.min(width * 0.68, 820),
+      width: 790,
       height: 315,
       marginLeft: 60,
+      marginRight: 20,
       marginBottom: 45,
 
       style: {
@@ -318,13 +318,13 @@ display(html`
 
       x: {
         label: "Date",
-        grid: false,
+        grid: true,
         tickSize: 6
       },
 
       y: {
         label: "↑ Trout Species Decline",
-        grid: false,
+        grid: true,
         tickSize: 6
       },
 
@@ -336,8 +336,8 @@ display(html`
       },
 
       marks: [
-        Plot.gridX({stroke: "rgba(215, 247, 255, 0.05)"}),
-        Plot.gridY({stroke: "rgba(215, 247, 255, 0.05)"}),
+        Plot.gridX({stroke: "rgba(215, 247, 255, 0.10)"}),
+        Plot.gridY({stroke: "rgba(215, 247, 255, 0.10)"}),
 
         Plot.lineY(
           fish.filter(d => d.species === "Trout"),
@@ -600,7 +600,7 @@ display(Plot.plot({
 <p>The West station shows the most severe heavy metal spikes. Several readings exceed the EPA concern threshold, and some exceed the regulatory limit. This suggests the crisis is not evenly spread across the lake. The pollution pattern is concentrated near the West station.</p>
 <h2 id="evidence-2-trout-population-trends" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-2-trout-population-trends">Evidence 2: Trout Population Trends</a></h2>
 <p>Trout are highly sensitive to pollution and serve as an early warning indicator of ecosystem stress.</p>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:09a4ac55:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:82657fe8:--></div>
 <p>Trout populations decline most sharply at the West station, dropping from more than 40 fish per survey to approximately 13 by the end of the study period. This matches the scientific reference, which shows that trout are especially vulnerable to heavy metal contamination.</p>
 <h2 id="evidence-3-species-sensitivity-check" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-3-species-sensitivity-check">Evidence 3: Species Sensitivity Check</a></h2>
 <p>If heavy metals are driving the collapse, the most sensitive species should be affected first and most severely.</p>
@@ -625,7 +625,7 @@ display(Plot.plot({
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T01:30:50">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T01:35:47">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
