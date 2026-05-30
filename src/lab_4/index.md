@@ -14,7 +14,7 @@ author: "Perla Holmes 🕵🏻‍♀️"
   <strong>Case File:</strong> The Crisis on Lake Clearwater
 </p>
 
-<div style="white-space: nowrap; width: 1200px;">
+<div style="white-space: nowrap; width: 1200px; margin-bottom: 24px;">
   <strong>Main Question:</strong> Who is responsible for the ecological collapse of Lake Clearwater?
 </div>
 
@@ -24,7 +24,6 @@ const fish = await FileAttachment("data/fish_surveys.csv").csv({ typed: true });
 const stations = await FileAttachment("data/monitoring_stations.csv").csv({ typed: true });
 const activities = await FileAttachment("data/suspect_activities.csv").csv({ typed: true });
 ```
-
 
 ## Background
 
