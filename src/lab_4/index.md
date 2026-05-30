@@ -366,7 +366,7 @@ display(html`
 
       style: {
         background: "white",
-        color: "#6b6b6b",
+        color: "#555",
         fontSize: "13px"
       },
 
@@ -391,6 +391,17 @@ display(html`
       },
 
       marks: [
+        Plot.gridX({
+          stroke: "#999",
+          strokeOpacity: 0.35,
+          strokeDasharray: "4,4"
+        }),
+
+        Plot.gridY({
+          stroke: "#ddd",
+          strokeOpacity: 0.6
+        }),
+
         Plot.dot(
           fish.filter(d => d.station_id === "West"),
           {
@@ -398,21 +409,9 @@ display(html`
             y: "count",
             fill: "species",
             stroke: "species",
-            r: 4,
-            fillOpacity: 0.65,
-            strokeOpacity: 0.85,
-            tip: true
-          }
-        ),
-
-        Plot.lineY(
-          fish.filter(d => d.station_id === "West"),
-          {
-            x: "date",
-            y: "count",
-            stroke: "species",
-            strokeWidth: 1.4,
-            strokeOpacity: 0.55,
+            r: 3,
+            fillOpacity: 0.75,
+            strokeOpacity: 0.9,
             tip: true
           }
         )
