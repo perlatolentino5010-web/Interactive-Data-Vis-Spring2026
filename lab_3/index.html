@@ -58,10 +58,10 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1780135741563,"size":8105});
-registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1780135741563,"size":2892});
-registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1780135741563,"size":131971});
-registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1780135741563,"size":6301});
+registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1780135924397,"size":8105});
+registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1780135924397,"size":2892});
+registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1780135924397,"size":131971});
+registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1780135924397,"size":6301});
 
 define({id: "a87f56f3", inputs: ["FileAttachment","topojson","d3","display"], outputs: ["nyc","results","survey","events","districts","totalCandidateVotes","totalOpponentVotes","totalVotes","overallShare"], body: async (FileAttachment,topojson,d3,display) => {
 const nyc = await FileAttachment("./data/nyc.json").json();
@@ -273,7 +273,7 @@ const incomeVoteShareChartData = resultsWithShare.map(d => ({
 return {incomeVoteShareChartData};
 }});
 
-define({id: "b75e668a", inputs: ["Plot","overallShare","incomeVoteShareChartData","d3","display"], body: async (Plot,overallShare,incomeVoteShareChartData,d3,display) => {
+define({id: "4fadbbfa", inputs: ["Plot","overallShare","incomeVoteShareChartData","d3","display"], body: async (Plot,overallShare,incomeVoteShareChartData,d3,display) => {
 display(await(
 Plot.plot({
   width: 900,
@@ -283,7 +283,7 @@ Plot.plot({
 
   x: {
     label: "Income Category",
-    domain: ["Low", "Middle", "High"]
+    domain: ["High", "Middle", "Low"]
   },
 
   y: {
@@ -295,8 +295,8 @@ Plot.plot({
   color: {
     legend: true,
     label: "Income Category",
-    domain: ["Low", "Middle", "High"],
-    range: ["#fdc086", "#7fc97f", "#386cb0"]
+    domain: ["High", "Middle", "Low"],
+    range: ["#386cb0", "#7fc97f", "#fdc086"]
   },
 
   marks: [
@@ -449,14 +449,14 @@ Plot.plot({
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:c4bcfa19:--></div>
 <p>This chart shows vote margin by district. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better. While the candidate dominated the district count (36), the oponent had an overwhelming majority of voter suport int he fewer districts that supported him (23), showing the importance of voter's power.</p>
 <div class="observablehq observablehq--block"><!--:d3fb3f33:--></div>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:b75e668a:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:4fadbbfa:--></div>
 <p>This chart compares candidate vote share across low-, middle-, and high-income districts. The candidate performed strongest in low-income districts, where vote share was consistently above the citywide average. Middle-income districts showed more mixed results, with some districts strongly supporting the candidate and others providing weaker support. High-income districts had the lowest levels of support overall, with most districts falling below the citywide average. These patterns suggest that income may have influenced voting behavior and that the campaign was more successful in lower-income communities than in wealthier areas.</p>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:be489001:--></div>
 <p>Finally, this chart compares whether survey respondents had heard of the candidate and whether they voted. This helps connect campaign awareness with voter participation. Overall, this chart is a reflection of conscious voting having greater impact in this NYC majoral election.</p>
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a><a rel="next" href="../lab_4/readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T10:09:06">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T10:12:13">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
