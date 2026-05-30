@@ -94,12 +94,42 @@ District: ${d.boro_cd}`
 This map shows where campaign events were held across NYC. Larger dots represent higher estimated attendance, and colors show different event types. Some areas appear to have higher comunity engagement such as Manhattan, Bronx and part of Brooklyn (Faro Rockaway being a major exception), where as Queens seems somewhat active. Staten Island on the other hand shows the lowest engagement, hinting to a disconnect in this city's role in the broader NYC community.
 
 ```js
-// Choropleth map of candidate vote share
+const resultsByDistrict = new Map(
+  results.map(d => [String(d.boro_cd), d])
+);
 
+const districtResults = {
+  type: "FeatureCollection",
+  features: districts.features.map(d => {
+    const boro_cd = String(d.properties.boro_cd ?? d.properties.BoroCD ?? d.id);
+    const result = resultsByDistrict.get(boro_cd);
+
+    return {
+      ...d,
+      properties: {
+        ...d.properties,
+        ...result,
+        boro_cd,
+        candidate_vote_share: result
+          ? result.votes_candidate / (result.votes_candidate + result.votes_opponent)
+          : null,
+        vote_margin: result
+          ? result.votes_candidate - result.votes_opponent
+          : null
+      }
+    };
+  })
+};
+```
+```js
+// Candidate vote share choropleth map
 Plot.plot({
+  width: 800,
+  height: 700,
+
   projection: {
-    domain: districts,
-    type: "mercator"
+    type: "mercator",
+    domain: districtResults
   },
 
   color: {
@@ -112,19 +142,20 @@ Plot.plot({
   marks: [
     Plot.geo(districtResults, {
       fill: d => d.properties.candidate_vote_share,
-      stroke: "white",
-
-      title: d => `
-District: ${d.properties.boro_cd}
-Vote Share: ${d3.format(".1%")(d.properties.candidate_vote_share)}
-Income Category: ${d.properties.income_category}
-`
+      stroke: "#404040",
+      strokeWidth: 0.7,
+      title: d => `District: ${d.properties.boro_cd}
+Vote share: ${d3.format(".1%")(d.properties.candidate_vote_share)}
+Vote margin: ${d.properties.vote_margin}
+Income category: ${d.properties.income_category}`,
+      tip: true
     })
   ]
 })
 ```
 
 This choropleth map shows the candidate's vote share across NYC districts. Darker districts indicate stronger electoral performance, while lighter districts indicate weaker support. Viewing vote share geographically helps identify clusters of support and reveals whether the campaign performed consistently across boroughs or relied heavily on a few strong districts.
+
 
 ```js
 // Vote margin by district, sorted vertically
