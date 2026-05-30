@@ -61,11 +61,11 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780121900798,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780121900798,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780121900798,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780121900798,"size":26191});
-registerFile("./docs/Lake-Clearwater-Image.png", {"name":"./docs/Lake-Clearwater-Image.png","mimeType":"image/png","path":"../_file/lab_4/docs/Lake-Clearwater-Image.0473b1c3.png","lastModified":1780121900798,"size":1697706});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780122049760,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780122049760,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780122049760,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780122049760,"size":26191});
+registerFile("./docs/Lake-Clearwater-Image.png", {"name":"./docs/Lake-Clearwater-Image.png","mimeType":"image/png","path":"../_file/lab_4/docs/Lake-Clearwater-Image.0473b1c3.png","lastModified":1780122049761,"size":1697706});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -788,7 +788,7 @@ return {lakeImage};
 <h2 id="evidence-3-trends-in-trout-population-across-stations" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-3-trends-in-trout-population-across-stations">Evidence 3: Trends in Trout Population Across Stations</a></h2>
 <p>Trout are highly sensitive to pollution and serve as an early warning indicator of ecosystem stress.</p>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:a4fea65c:--></div>
-<p>Trout populations decline most sharply at the West station, dropping from more than 40 fish per survey to approximately 13 by the end of the study period. This matches the scientific reference, which shows that trout are especially vulnerable to heavy metal contamination.</p>
+<p>Trout populations decline most sharply at the West station, dropping from more than 40 fish per survey to approximately 13 by the end of the study period. This matches the scientific reference, which shows that trout are especially vulnerable to heavy metal contamination and exposes the west as the most inhabitable location.</p>
 <h2 style="white-space: nowrap; font-size: 1.6rem;">
   Evidence 4: Suspect Distance to Each Monitoring Station
 </h2>
@@ -813,7 +813,7 @@ return {lakeImage};
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T06:18:28">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T06:20:58">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
