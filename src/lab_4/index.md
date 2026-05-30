@@ -466,6 +466,10 @@ const stationDistances = stations.flatMap(d => [
   { station_id: d.station_id, suspect: "Lakeview Resort", distance_m: d.distance_to_resort_m },
   { station_id: d.station_id, suspect: "Clearwater Fishing Lodge", distance_m: d.distance_to_lodge_m }
 ]);
+
+const westDistances = stationDistances
+  .filter(d => d.station_id === "West")
+  .sort((a, b) => a.distance_m - b.distance_m);
 ```
 
 ```js
