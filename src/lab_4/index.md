@@ -419,13 +419,14 @@ display(html`
     background: #f4eadf;
     padding: 12px 16px;
     border-radius: 12px;
-    max-width: 760px;
+    max-width: 900px;
     font-family: system-ui, sans-serif;
   ">
     <h2 style="
       margin: 0 0 4px 0;
-      font-size: 1rem;
+      font-size: 1.1rem;
       white-space: nowrap;
+      overflow: visible;
     ">
       Suspect Distance to Lake Clearwater Monitoring Stations
     </h2>
