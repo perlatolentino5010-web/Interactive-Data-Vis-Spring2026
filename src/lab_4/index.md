@@ -351,6 +351,21 @@ Trout populations decline most sharply at the West station, dropping from more t
 If heavy metals are driving the collapse, the most sensitive species should be affected first and most severely.
 
 ```js
+const speciesOffsetDays = {
+  Bass: -8,
+  Carp: 0,
+  Trout: 8
+};
+
+const evidence3Bars = fish
+  .filter(d => d.station_id === "West")
+  .map(d => ({
+    ...d,
+    shifted_date: new Date(+d.date + speciesOffsetDays[d.species] * 24 * 60 * 60 * 1000)
+  }));
+```
+
+```js
 display(html`
   <div style="
     background: white;
@@ -362,7 +377,7 @@ display(html`
       width: Math.min(width * 0.78, 920),
       height: 380,
       marginLeft: 70,
-      marginBottom: 70,
+      marginBottom: 75,
 
       style: {
         background: "white",
@@ -391,30 +406,28 @@ display(html`
       },
 
       marks: [
+        Plot.gridY({
+          stroke: "#ddd",
+          strokeOpacity: 0.75
+        }),
+
         Plot.gridX({
-          stroke: "#999",
-          strokeOpacity: 0.35,
+          stroke: "#aaa",
+          strokeOpacity: 0.25,
           strokeDasharray: "4,4"
         }),
 
-        Plot.gridY({
-          stroke: "#ddd",
-          strokeOpacity: 0.6
-        }),
-
-        Plot.dot(
-          fish.filter(d => d.station_id === "West"),
-          {
-            x: "date",
-            y: "count",
-            fill: "species",
-            stroke: "species",
-            r: 3,
-            fillOpacity: 0.75,
-            strokeOpacity: 0.9,
-            tip: true
-          }
-        )
+        Plot.barY(evidence3Bars, {
+          x: "shifted_date",
+          y: "count",
+          fill: "species",
+          stroke: "#6b2d2d",
+          strokeOpacity: 0.25,
+          fillOpacity: 0.88,
+          insetLeft: 2,
+          insetRight: 2,
+          tip: true
+        })
       ]
     })}
   </div>
