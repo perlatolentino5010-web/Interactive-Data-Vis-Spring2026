@@ -407,27 +407,33 @@ const stationDistances = stations.flatMap(d => [
 display(html`
   <div style="
     background: #f4eadf;
-    padding: 14px 18px;
-    border-radius: 14px;
-    border-left: 10px solid #333;
-    border-right: 10px solid #333;
-    max-width: 980px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    max-width: 860px;
     font-family: system-ui, sans-serif;
   ">
-    <h2 style="margin: 0 0 4px 0; font-size: 1.3rem;">
+    <h2 style="
+      margin: 0 0 4px 0;
+      font-size: 1.15rem;
+      white-space: nowrap;
+    ">
       Suspect Distance to Lake Clearwater Monitoring Stations
     </h2>
 
-    <div style="font-size: 0.95rem; margin-bottom: 8px;">
+    <div style="
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    ">
       Shorter distances may indicate stronger geographic opportunity for contamination.
     </div>
 
     ${Plot.plot({
-      width: Math.min(width * 0.86, 940),
-      height: 300,
-      marginLeft: 165,
-      marginRight: 35,
-      marginBottom: 45,
+      width: Math.min(width * 0.72, 820),
+      height: 260,
+
+      marginLeft: 155,
+      marginRight: 25,
+      marginBottom: 40,
 
       style: {
         background: "#f4eadf",
@@ -455,33 +461,39 @@ display(html`
 
       marks: [
         Plot.gridX({
-          stroke: "#777",
-          strokeOpacity: 0.45,
+          stroke: "#888",
+          strokeOpacity: 0.35,
           strokeDasharray: "3,4"
         }),
 
         Plot.gridY({
           stroke: "#ffffff",
-          strokeOpacity: 0.45
+          strokeOpacity: 0.35
         }),
 
         Plot.dot(stationDistances, {
           x: "distance_m",
           y: "suspect",
+
           fill: "station_id",
+
           stroke: "#08304f",
           strokeWidth: 1.2,
-          r: 9,
+
+          r: 8,
+
           fillOpacity: 0.85,
+
           tip: true
         })
       ]
     })}
 
     <div style="
-      font-size: 12px;
+      font-size: 11px;
       text-align: center;
-      margin-top: 6px;
+      margin-top: 4px;
+      color: #555;
     ">
       Blue tones represent Lake Clearwater monitoring stations.
     </div>
