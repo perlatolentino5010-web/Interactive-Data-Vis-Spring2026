@@ -540,31 +540,70 @@ display(html`
 This timeline helps compare documented suspect activities against the pollution story.
 
 ```js
-display(Plot.plot({
-  width,
-  height: 420,
-  marginLeft: 170,
-  x: {
-    label: "Date",
-    grid: true
-  },
-  y: {
-    label: "Suspect"
-  },
-  color: {
-    legend: true,
-    label: "Intensity"
-  },
-  marks: [
-    Plot.dot(activities, {
-      x: "date",
-      y: "suspect",
-      fill: "intensity",
-      r: d => d.intensity === "High" ? 8 : d.intensity === "Medium" ? 6 : 4,
-      tip: true
-    })
-  ]
-}))
+display(html`
+  <div style="
+    background: #f7fbff;
+    padding: 16px;
+    border-radius: 10px;
+    max-width: 920px;
+  ">
+    ${Plot.plot({
+      width: Math.min(width * 0.78, 920),
+      height: 360,
+      marginLeft: 170,
+      marginBottom: 55,
+
+      style: {
+        background: "#f7fbff",
+        color: "#374151",
+        fontSize: "13px"
+      },
+
+      x: {
+        label: "Date",
+        grid: true,
+        tickSize: 6
+      },
+
+      y: {
+        label: "Suspect"
+      },
+
+      color: {
+        legend: true,
+        label: "Activity Intensity",
+        domain: ["Low", "Medium", "High"],
+        range: ["#93c5fd", "#3b82f6", "#1e3a8a"]
+      },
+
+      marks: [
+        Plot.gridX({
+          stroke: "#cbd5e1",
+          strokeOpacity: 0.55
+        }),
+
+        Plot.barX(activities, {
+          x1: "date",
+          x2: d => new Date(+d.date + 20 * 24 * 60 * 60 * 1000),
+          y: "suspect",
+          fill: "intensity",
+          rx: 5,
+          tip: true
+        }),
+
+        Plot.dot(activities, {
+          x: "date",
+          y: "suspect",
+          fill: "intensity",
+          stroke: "white",
+          strokeWidth: 1.5,
+          r: d => d.intensity === "High" ? 6 : d.intensity === "Medium" ? 5 : 4,
+          tip: true
+        })
+      ]
+    })}
+  </div>
+`)
 ```
 
 **Interpretation:** ChemTech has repeated high-intensity maintenance shutdowns across the study period. Because ChemTech is also the closest suspect to the West station and is associated with heavy metal discharge, its activity pattern strengthens the case against it.
