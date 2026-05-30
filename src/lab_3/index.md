@@ -225,9 +225,9 @@ const incomeVoteShareChartData = resultsWithShare.map(d => ({
 
 ```js
 Plot.plot({
-  width: 900,
-  height: 450,
-  marginLeft: 60,
+  width: 950,
+  height: 500,
+  marginLeft: 80,
   marginBottom: 60,
 
   x: {
@@ -236,51 +236,42 @@ Plot.plot({
   },
 
   y: {
-    label: "Candidate Vote Share (%)",
-    grid: true,
-    domain: [24, 62]
+    label: "↑ Candidate Vote Share (%)",
+    domain: [24, 61],
+    grid: true
   },
 
   color: {
     legend: true,
-    label: "Income Category",
     domain: ["High", "Middle", "Low"],
-    range: ["#386cb0", "#7fc97f", "#fdc086"]
+    range: ["#4b67a1", "#88c080", "#e8b67a"]
   },
 
   marks: [
-
-    Plot.ruleY(
-      [overallShare > 1 ? overallShare : overallShare * 100],
-      {
-        stroke: "black",
-        strokeDasharray: "4,4",
-        strokeWidth: 1.5
-      }
-    ),
-
-    Plot.boxY(incomeVoteShareChartData, {
-      x: "income_category",
-      y: "vote_share_percent",
-      fill: "income_category",
-      fillOpacity: 0.35
+    Plot.ruleY([overallShare * 100], {
+      stroke: "black",
+      strokeDasharray: "4,4"
     }),
 
-    Plot.dot(incomeVoteShareChartData, {
+    Plot.boxY(resultsWithShare, {
       x: "income_category",
-      y: "vote_share_percent",
+      y: d => d.candidate_vote_share * 100,
       fill: "income_category",
-      stroke: "white",
-      strokeWidth: 1,
+      fillOpacity: 0.35,
+      stroke: "#444"
+    }),
+
+    Plot.dot(resultsWithShare, {
+      x: "income_category",
+      y: d => d.candidate_vote_share * 100,
+      fill: "income_category",
       r: 5,
-      fillOpacity: 0.85,
-
+      stroke: "white",
+      strokeWidth: 1.2,
+      tip: true,
       title: d => `District: ${d.boro_cd}
-Vote share: ${d3.format(".1f")(d.vote_share_percent)}%
-Vote margin: ${d.vote_margin}
-Income category: ${d.income_category}`,
-
-      tip: true
+Income: ${d.income_category}
+Vote Share: ${d3.format(".1%")(d.candidate_vote_share)}`
     })
   ]
 })
