@@ -94,26 +94,47 @@ District: ${d.boro_cd}`
 This map shows where campaign events were held across NYC. Larger dots represent higher estimated attendance, and colors show different event types. Some areas appear to have higher comunity engagement such as Manhattan, Bronx and part of Brooklyn (Faro Rockaway being a major exception), where as Queens seems somewhat active. Staten Island on the other hand shows the lowest engagement, hinting to a disconnect in this city's role in the broader NYC community.
 
 ```js
-// Vote margin by district
+// Vote margin by district, sorted vertically
 Plot.plot({
-  width: 900,
-  height: 450,
+  width: 1100,
+  height: 850,
+  marginLeft: 70,
+  marginRight: 40,
+  marginBottom: 50,
+
   x: {
-    label: "District"
+    label: "Vote Margin →",
+    grid: true
   },
+
   y: {
-    label: "Vote margin"
+    label: "District",
+    domain: resultsWithShare
+      .slice()
+      .sort((a, b) => a.vote_margin - b.vote_margin)
+      .map(d => d.boro_cd)
   },
+
+  color: {
+    legend: true,
+    domain: ["Opponent ahead", "Candidate ahead"],
+    range: ["#e8b23a", "#4f6fd5"]
+  },
+
   marks: [
-    Plot.barY(resultsWithShare, {
-      x: "boro_cd",
-      y: "vote_margin",
+    Plot.barX(resultsWithShare, {
+      y: "boro_cd",
+      x: "vote_margin",
       fill: d => d.vote_margin > 0 ? "Candidate ahead" : "Opponent ahead",
       title: d => `District: ${d.boro_cd}
 Vote margin: ${d.vote_margin}
 Income category: ${d.income_category}`
     }),
-    Plot.ruleY([0])
+
+    Plot.ruleX([0], {
+      stroke: "black",
+      strokeWidth: 1
+    })
   ]
 })
 ```
