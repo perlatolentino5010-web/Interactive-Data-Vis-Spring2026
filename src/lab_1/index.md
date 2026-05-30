@@ -143,12 +143,14 @@ Plot.plot({
   title: "Average Nectar Production by Flower",
   x: { label: "Flower Species" },
   y: { label: "Average Nectar Production" },
+
   color: {
     legend: true,
     label: "Flower Species",
-    domain: ["Lavender", "Sunflower", "Rose", "Tulip", "Daisy"],
-    range: ["#b57edc", "#f6c85f", "#e76f91", "#f4a6b8", "#ffffff"]
+    domain: ["Lavender", "Coneflower", "Rose", "Tulip", "Daisy"],
+    range: ["#b57edc", "#f4a261", "#e76f91", "#f7b7c3", "#ffffff"]
   },
+
   marks: [
     Plot.barY(
       data,
