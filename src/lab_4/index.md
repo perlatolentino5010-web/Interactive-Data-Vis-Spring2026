@@ -299,9 +299,11 @@ If heavy metals are driving the collapse, the most sensitive species should be a
 
 ```js
 display(Plot.plot({
+  display(Plot.plot({
   width,
   height: 450,
   marginLeft: 60,
+  marginBottom: 50,
 
   x: {
     label: "Date",
@@ -309,24 +311,38 @@ display(Plot.plot({
   },
 
   y: {
-    label: "Fish Count",
+    label: "↑ Fish Count by Species",
     grid: true
   },
 
   color: {
     legend: true,
     label: "Species",
-    range: ["#7b2cbf", "#c77dff", "#ff66c4"]
+    domain: ["Bass", "Carp", "Trout"],
+    range: ["#f99b30", "#d7fb95", "#8fa6fb"]
   },
 
   marks: [
-    Plot.dot(
+    Plot.areaY(
       fish.filter(d => d.station_id === "West"),
       {
         x: "date",
         y: "count",
         fill: "species",
-        r: 7,
+        fillOpacity: 0.25,
+        curve: "basis",
+        tip: true
+      }
+    ),
+
+    Plot.lineY(
+      fish.filter(d => d.station_id === "West"),
+      {
+        x: "date",
+        y: "count",
+        stroke: "species",
+        strokeWidth: 2.5,
+        curve: "basis",
         tip: true
       }
     )
