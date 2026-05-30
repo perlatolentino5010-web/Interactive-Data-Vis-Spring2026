@@ -219,7 +219,138 @@ display(html`
 
 The West station shows the most severe heavy metal spikes. Several readings exceed the EPA concern threshold, and some exceed the regulatory limit. This suggests the crisis is not evenly spread across the lake. The pollution pattern is concentrated near the West station.
 
-## Evidence 2: Trends in Trout Population Over Time
+
+## Evidence 2: Species Sensitivity Check
+
+If heavy metals are driving the collapse, the most sensitive species should be affected first and most severely.
+
+```js
+display(html`
+  <div style="
+    background: white;
+    padding: 18px;
+    border-radius: 10px;
+    max-width: 920px;
+    font-family: system-ui, sans-serif;
+  ">
+
+    <div style="
+      background:#faf6ef;
+      border-left:4px solid #9c2f36;
+      padding:10px 14px;
+      margin-bottom:14px;
+      max-width:880px;
+      font-size:14px;
+      line-height:1.4;
+    ">
+      <b>Location:</b> West Monitoring Station<br>
+      This chart focuses only on the West station, where the strongest heavy metal spikes were observed. It compares how Bass, Carp, and Trout populations changed at that same location.
+    </div>
+
+    <div style="display: flex; gap: 18px; margin-bottom: 12px;">
+      <span><span style="display:inline-block;width:14px;height:14px;background:#f6b26b;margin-right:6px;"></span>Bass: moderate decline</span>
+      <span><span style="display:inline-block;width:14px;height:14px;background:#e76f51;margin-right:6px;"></span>Carp: stable/increasing</span>
+      <span><span style="display:inline-block;width:14px;height:14px;background:#9c2f36;margin-right:6px;"></span>Trout: sharp decline</span>
+    </div>
+
+    <div style="display: flex; gap: 18px;">
+      ${["Bass", "Carp", "Trout"].map(species => {
+        const colors = {
+          Bass: "#f6b26b",
+          Carp: "#e76f51",
+          Trout: "#9c2f36"
+        };
+
+        const speciesData = fish
+          .filter(d => d.station_id === "West" && d.species === species)
+          .map(d => ({
+            ...d,
+            x1: new Date(+d.date - 10 * 24 * 60 * 60 * 1000),
+            x2: new Date(+d.date + 10 * 24 * 60 * 60 * 1000)
+          }));
+
+        return html`
+          <div>
+            <div style="
+              text-align:center;
+              font-weight:600;
+              color:#555;
+              margin-bottom:4px;
+            ">
+              ${species} at West Station
+            </div>
+
+            ${Plot.plot({
+              width: 270,
+              height: 320,
+              marginLeft: species === "Bass" ? 55 : 35,
+              marginBottom: 95,
+
+              style: {
+                background: "white",
+                color: "#555",
+                fontSize: "12px"
+              },
+
+              x: {
+                label: null,
+                axis: null
+              },
+
+              y: {
+                label: species === "Bass" ? "↑ Fish Count" : null,
+                grid: true
+              },
+
+              marks: [
+                Plot.rectY(speciesData, {
+                  x1: "x1",
+                  x2: "x2",
+                  y1: 0,
+                  y2: "count",
+                  fill: colors[species],
+                  fillOpacity: 0.9,
+                  tip: true
+                }),
+
+                Plot.text(speciesData, {
+                  x: "date",
+                  y: 0,
+                  text: d => d3.timeFormat("%b %Y")(d.date),
+                  dy: 22,
+                  rotate: -45,
+                  fontSize: 10,
+                  fill: "#555",
+                  textAnchor: "end"
+                })
+              ]
+            })}
+          </div>
+        `;
+      })}
+    </div>
+
+    <div style="
+      margin-top:14px;
+      padding:10px 14px;
+      background:#f8fbff;
+      border:1px solid #cfe2ff;
+      border-radius:8px;
+      max-width:880px;
+      font-size:14px;
+      line-height:1.4;
+    ">
+      <b>Key Finding:</b>
+      At the West station, Trout show the steepest population decline, Bass decline moderately, and Carp remain comparatively stable. This pattern supports the broader case that the most damaged station also shows the strongest biological stress.
+    </div>
+
+  </div>
+`)
+```
+
+At the West station, trout show the most dramatic decline compared with bass and carp. This matters because the scientific reference identifies trout as the most sensitive species, bass as moderately sensitive, and carp as the most tolerant. The biological pattern therefore matches heavy metal contamination more than general overfishing or ordinary seasonal change.
+
+## Evidence 3: Trends in Trout Population Over Time
 
 Trout are highly sensitive to pollution and serve as an early warning indicator of ecosystem stress.
 
@@ -320,107 +451,6 @@ display(html`
 ```
 
 Trout populations decline most sharply at the West station, dropping from more than 40 fish per survey to approximately 13 by the end of the study period. This matches the scientific reference, which shows that trout are especially vulnerable to heavy metal contamination.
-
-## Evidence 3: Species Sensitivity Check
-
-If heavy metals are driving the collapse, the most sensitive species should be affected first and most severely.
-
-```js
-display(html`
-  <div style="
-    background: white;
-    padding: 18px;
-    border-radius: 10px;
-    max-width: 920px;
-    font-family: system-ui, sans-serif;
-  ">
-    <div style="display: flex; gap: 18px; margin-bottom: 12px;">
-      <span><span style="display:inline-block;width:14px;height:14px;background:#f6b26b;margin-right:6px;"></span>Bass</span>
-      <span><span style="display:inline-block;width:14px;height:14px;background:#e76f51;margin-right:6px;"></span>Carp</span>
-      <span><span style="display:inline-block;width:14px;height:14px;background:#9c2f36;margin-right:6px;"></span>Trout</span>
-    </div>
-
-    <div style="display: flex; gap: 18px;">
-      ${["Bass", "Carp", "Trout"].map(species => {
-        const colors = {
-          Bass: "#f6b26b",
-          Carp: "#e76f51",
-          Trout: "#9c2f36"
-        };
-
-        const speciesData = fish
-          .filter(d => d.station_id === "West" && d.species === species)
-          .map(d => ({
-            ...d,
-            x1: new Date(+d.date - 10 * 24 * 60 * 60 * 1000),
-            x2: new Date(+d.date + 10 * 24 * 60 * 60 * 1000)
-          }));
-
-        return html`
-          <div>
-            <div style="
-              text-align:center;
-              font-weight:600;
-              color:#555;
-              margin-bottom:4px;
-            ">
-              ${species}
-            </div>
-
-            ${Plot.plot({
-              width: 270,
-              height: 320,
-              marginLeft: species === "Bass" ? 55 : 35,
-              marginBottom: 95,
-
-              style: {
-                background: "white",
-                color: "#555",
-                fontSize: "12px"
-              },
-
-              x: {
-                label: null,
-                axis: null
-              },
-
-              y: {
-                label: species === "Bass" ? "↑ Fish Count" : null,
-                grid: true
-              },
-
-              marks: [
-                Plot.rectY(speciesData, {
-                  x1: "x1",
-                  x2: "x2",
-                  y1: 0,
-                  y2: "count",
-                  fill: colors[species],
-                  fillOpacity: 0.9,
-                  tip: true
-                }),
-
-                Plot.text(speciesData, {
-                  x: "date",
-                  y: 0,
-                  text: d => d3.timeFormat("%b %Y")(d.date),
-                  dy: 22,
-                  rotate: -45,
-                  fontSize: 10,
-                  fill: "#555",
-                  textAnchor: "end"
-                })
-              ]
-            })}
-          </div>
-        `;
-      })}
-    </div>
-  </div>
-`)
-```
-
-At the West station, trout show the most dramatic decline compared with bass and carp. This matters because the scientific reference identifies trout as the most sensitive species, bass as moderately sensitive, and carp as the most tolerant. The biological pattern therefore matches heavy metal contamination more than general overfishing or ordinary seasonal change.
 
 <h2 style="white-space: nowrap; font-size: 1.6rem;">
   Evidence 4: Suspect Distance to Each Monitoring Station
