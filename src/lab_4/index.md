@@ -478,7 +478,7 @@ display(html`
     background:#f4eadf;
     padding:18px 20px;
     border-radius:12px;
-    max-width:820px;
+    max-width:900px;
     font-family:system-ui, sans-serif;
   ">
     <h2 style="
@@ -493,79 +493,126 @@ display(html`
       font-size:0.84rem;
       margin-bottom:14px;
       line-height:1.4;
-      max-width:760px;
+      max-width:820px;
     ">
       The West station is the monitoring location with the strongest heavy metal spikes and trout decline.
-      This diagram starts from the West station and shows how far each possible suspect is from that damaged site.
+      Suspects are positioned according to their actual distance from the West station.
+      Shorter distances may indicate greater geographic opportunity for contamination.
     </div>
 
-    <svg width="780" height="330" style="background:#f4eadf; overflow:visible;">
-      <!-- West Station starting point -->
-      <circle cx="80" cy="165" r="22" fill="#084081" stroke="#08304f" stroke-width="3"></circle>
-      <text x="80" y="120" text-anchor="middle" font-size="14" font-weight="700" fill="#222">
+    <svg width="850" height="260" style="background:#f4eadf; overflow:visible;">
+
+      <!-- Baseline -->
+      <line
+        x1="90"
+        y1="140"
+        x2="760"
+        y2="140"
+        stroke="#888"
+        stroke-width="4"
+        stroke-opacity="0.4"
+      />
+
+      <!-- West Station -->
+      <circle
+        cx="90"
+        cy="140"
+        r="24"
+        fill="#084081"
+        stroke="#08304f"
+        stroke-width="3"
+      />
+
+      <text
+        x="90"
+        y="95"
+        text-anchor="middle"
+        font-size="15"
+        font-weight="700"
+        fill="#222"
+      >
         West Station
       </text>
-      <text x="80" y="140" text-anchor="middle" font-size="11" fill="#555">
+
+      <text
+        x="90"
+        y="113"
+        text-anchor="middle"
+        font-size="11"
+        fill="#555"
+      >
         damaged site
       </text>
 
       ${westDistances.map((d, i) => {
-        const xScale = 80 + (d.distance_m / 5600) * 600;
-        const y = 65 + i * 70;
+
+        const x =
+          90 + (d.distance_m / 5600) * 650;
+
+        const labelAbove = i % 2 === 0;
 
         return html`
-          <line
-            x1="105"
-            y1="165"
-            x2="${xScale}"
-            y2="${y}"
-            stroke="#888"
-            stroke-width="3"
-            stroke-opacity="0.55"
-          ></line>
 
+          <!-- connection -->
+          <line
+            x1="114"
+            y1="140"
+            x2="${x}"
+            y2="140"
+            stroke="#999"
+            stroke-width="2"
+            stroke-opacity="0.5"
+          />
+
+          <!-- suspect node -->
           <circle
-            cx="${xScale}"
-            cy="${y}"
+            cx="${x}"
+            cy="140"
             r="${d.suspect === "ChemTech Manufacturing" ? 18 : 15}"
             fill="#084081"
-            fill-opacity="${d.suspect === "ChemTech Manufacturing" ? 0.95 : 0.55}"
+            fill-opacity="${d.suspect === "ChemTech Manufacturing" ? 0.95 : 0.65}"
             stroke="#08304f"
             stroke-width="2"
-          ></circle>
+          />
 
+          <!-- distance -->
           <text
-            x="${xScale + 26}"
-            y="${y - 5}"
-            font-size="13"
+            x="${x}"
+            y="118"
+            text-anchor="middle"
+            font-size="11"
+            font-weight="700"
+            fill="#333"
+          >
+            ${d.distance_m} m
+          </text>
+
+          <!-- suspect label -->
+          <text
+            x="${x}"
+            y="${labelAbove ? 85 : 190}"
+            text-anchor="middle"
+            font-size="12"
             font-weight="${d.suspect === "ChemTech Manufacturing" ? 700 : 500}"
             fill="#222"
           >
             ${d.suspect}
           </text>
 
-          <text
-            x="${xScale + 26}"
-            y="${y + 13}"
-            font-size="12"
-            font-weight="700"
-            fill="#333"
-          >
-            ${d.distance_m} m from West
-          </text>
         `;
       })}
+
     </svg>
 
     <div style="
       font-size:12px;
       line-height:1.4;
-      margin-top:8px;
+      margin-top:10px;
       color:#444;
-      max-width:760px;
+      max-width:820px;
     ">
       <b>Key Finding:</b>
-      ChemTech Manufacturing is the closest suspect to the West station. Since the West station is where the strongest contamination and trout decline appear, this gives ChemTech the strongest geographic opportunity in the case.
+      ChemTech Manufacturing appears closest to the West station, while Riverside Farm is farthest away. Because the strongest contamination and trout decline occur at the West station, ChemTech has the greatest geographic opportunity to contribute to the environmental damage observed there.
     </div>
   </div>
 `)
