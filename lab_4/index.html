@@ -61,10 +61,10 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780101400768,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780101400768,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780101400768,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780101400768,"size":26191});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780101829406,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780101829406,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780101829406,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780101829406,"size":26191});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -272,52 +272,73 @@ display(html`
 `)
 }});
 
-define({id: "1fb38cf3", inputs: ["display","Plot","width","fish"], body: (display,Plot,width,fish) => {
-display(Plot.plot({
-  width,
-  height: 450,
-  marginLeft: 60,
+define({id: "3bf1c94f", inputs: ["display","html","Plot","width","fish"], body: (display,html,Plot,width,fish) => {
+display(html`
+  <div style="
+    background: #07111f;
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 0 18px rgba(0, 255, 255, 0.18);
+  ">
+    ${Plot.plot({
+      width,
+      height: 470,
+      marginLeft: 70,
+      marginBottom: 55,
 
-  x: {
-    label: "Date",
-    grid: true
-  },
+      style: {
+        background: "#07111f",
+        color: "#d7f7ff",
+        fontSize: "14px"
+      },
 
-  y: {
-    label: "Fish Count",
-    grid: true
-  },
+      x: {
+        label: "Date",
+        grid: true,
+        tickSize: 6
+      },
 
-  color: {
-    legend: true,
-    label: "Species",
-    range: ["#0e3cbc", "#fa701a", "#109947"]
-  },
+      y: {
+        label: "↑ Trout Population Decline",
+        grid: true,
+        tickSize: 6
+      },
 
-  marks: [
-    Plot.dot(
-      fish.filter(d => d.station_id === "West"),
-      {
-        x: "date",
-        y: "count",
-        fill: "species",
-        r: 7,
-        tip: true
-      }
-    ),
+      color: {
+        legend: true,
+        label: "Monitoring Site",
+        domain: ["East", "North", "South", "West"],
+        range: ["#38bdf8", "#a7f3d0", "#ff4fd8", "#b7ff4a"]
+      },
 
-    Plot.lineY(
-      fish.filter(d => d.station_id === "West"),
-      {
-        x: "date",
-        y: "count",
-        stroke: "species",
-        strokeOpacity: 0.35,
-        strokeWidth: 2
-      }
-    )
-  ]
-}))
+      marks: [
+        Plot.lineY(
+          fish.filter(d => d.species === "Trout"),
+          {
+            x: "date",
+            y: "count",
+            stroke: "station_id",
+            strokeWidth: 3,
+            tip: true
+          }
+        ),
+
+        Plot.dot(
+          fish.filter(d => d.species === "Trout"),
+          {
+            x: "date",
+            y: "count",
+            fill: "station_id",
+            stroke: "#07111f",
+            strokeWidth: 1,
+            r: 4,
+            tip: true
+          }
+        )
+      ]
+    })}
+  </div>
+`)
 }});
 
 define({id: "f154c409", inputs: ["display","Plot","width"], body: (display,Plot,width) => {
@@ -538,7 +559,7 @@ display(Plot.plot({
 <p>The West station shows the most severe heavy metal spikes. Several readings exceed the EPA concern threshold, and some exceed the regulatory limit. This suggests the crisis is not evenly spread across the lake. The pollution pattern is concentrated near the West station.</p>
 <h2 id="evidence-2-trout-population-trends" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-2-trout-population-trends">Evidence 2: Trout Population Trends</a></h2>
 <p>Trout are highly sensitive to pollution and serve as an early warning indicator of ecosystem stress.</p>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:1fb38cf3:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:3bf1c94f:--></div>
 <p>Trout populations decline most sharply at the West station, dropping from more than 40 fish per survey to approximately 13 by the end of the study period. This matches the scientific reference, which shows that trout are especially vulnerable to heavy metal contamination.</p>
 <h2 id="evidence-3-species-sensitivity-check" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-3-species-sensitivity-check">Evidence 3: Species Sensitivity Check</a></h2>
 <p>If heavy metals are driving the collapse, the most sensitive species should be affected first and most severely.</p>
@@ -563,7 +584,7 @@ display(Plot.plot({
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T00:36:46">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T00:43:54">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
