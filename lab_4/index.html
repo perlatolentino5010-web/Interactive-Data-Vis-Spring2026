@@ -61,11 +61,11 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780129800933,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780129800933,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780129800933,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780129800933,"size":26191});
-registerFile("./docs/Lake-Clearwater-Image.png", {"name":"./docs/Lake-Clearwater-Image.png","mimeType":"image/png","path":"../_file/lab_4/docs/Lake-Clearwater-Image.0473b1c3.png","lastModified":1780129800935,"size":1697706});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780130491774,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780130491774,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780130491774,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780130491774,"size":26191});
+registerFile("./docs/Lake-Clearwater-Image.png", {"name":"./docs/Lake-Clearwater-Image.png","mimeType":"image/png","path":"../_file/lab_4/docs/Lake-Clearwater-Image.0473b1c3.png","lastModified":1780130491776,"size":1697706});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -463,375 +463,289 @@ display(html`
 `)
 }});
 
-define({id: "8dc0a413", inputs: ["stations"], outputs: ["stationDistances","westDistances","maxWestDistance"], body: (stations) => {
-const stationDistances = stations.flatMap(d => [
-  { station_id: d.station_id, suspect: "ChemTech Manufacturing", distance_m: d.distance_to_chemtech_m, icon: "🏭" },
-  { station_id: d.station_id, suspect: "Riverside Farm", distance_m: d.distance_to_farm_m, icon: "🌽" },
-  { station_id: d.station_id, suspect: "Lakeview Resort", distance_m: d.distance_to_resort_m, icon: "🏨" },
-  { station_id: d.station_id, suspect: "Clearwater Fishing Lodge", distance_m: d.distance_to_lodge_m, icon: "🎣" }
-]);
-
-const westDistances = stationDistances
-  .filter(d => d.station_id === "West")
-  .sort((a, b) => a.distance_m - b.distance_m);
-
-const maxWestDistance = Math.max(...westDistances.map(d => d.distance_m));
-return {stationDistances,westDistances,maxWestDistance};
-}});
-
-define({id: "e7bae4e8", inputs: ["display","html","westDistances","maxWestDistance"], body: (display,html,westDistances,maxWestDistance) => {
-display(html`
-  <div style="
-    background:#f4eadf;
-    padding:18px 20px;
-    border-radius:12px;
-    max-width:940px;
-    font-family:system-ui, sans-serif;
-  ">
-    <h2 style="margin:0 0 6px 0; font-size:1rem;">
-      Distance from the Damaged West Station to Each Suspect
-    </h2>
-
-    <div style="
-      font-size:0.84rem;
-      margin-bottom:14px;
-      line-height:1.4;
-      max-width:860px;
-      color:#444;
-    ">
-      The West station is the monitoring location with the strongest heavy metal spikes and trout decline.
-      This diagram connects the damaged West station to each suspect and places them according to distance.
-    </div>
-
-    <svg width="900" height="370" style="background:#f4eadf; overflow:visible; display:block;">
-
-      <circle cx="95" cy="185" r="28" fill="#084081" stroke="#08304f" stroke-width="3"></circle>
-
-      <text x="95" y="135" text-anchor="middle" font-size="15" font-weight="700" fill="#222">
-        West Station
-      </text>
-
-      <text x="95" y="154" text-anchor="middle" font-size="11" fill="#555">
-        damaged site
-      </text>
-
-      ${westDistances.map((d, i) => {
-        const x = 95 + (d.distance_m / maxWestDistance) * 690;
-        const y = 55 + i * 82;
-        const isChemTech = d.suspect === "ChemTech Manufacturing";
-
-        return html`
-          <line
-            x1="123"
-            y1="185"
-            x2="${x - (isChemTech ? 24 : 21)}"
-            y2="${y}"
-            stroke="${isChemTech ? "#084081" : "#888"}"
-            stroke-width="${isChemTech ? 4 : 2.5}"
-            stroke-opacity="${isChemTech ? 0.85 : 0.45}"
-          ></line>
-
-          <text
-            x="${(123 + x) / 2}"
-            y="${(185 + y) / 2 - 8}"
-            text-anchor="middle"
-            font-size="12"
-            font-weight="700"
-            fill="#333"
-          >
-            ${d.distance_m} m
-          </text>
-
-          <circle
-            cx="${x}"
-            cy="${y}"
-            r="${isChemTech ? 24 : 21}"
-            fill="#084081"
-            fill-opacity="${isChemTech ? 0.95 : 0.62}"
-            stroke="#08304f"
-            stroke-width="2.5"
-          ></circle>
-
-          <text
-            x="${x}"
-            y="${y + 7}"
-            text-anchor="middle"
-            font-size="${isChemTech ? 22 : 19}"
-          >
-            ${d.icon}
-          </text>
-
-          <text
-            x="${x + 34}"
-            y="${y - 4}"
-            font-size="13"
-            font-weight="${isChemTech ? 700 : 500}"
-            fill="#222"
-          >
-            ${d.suspect}
-          </text>
-
-          <text
-            x="${x + 34}"
-            y="${y + 14}"
-            font-size="12"
-            fill="#444"
-          >
-            ${d.distance_m} m from West
-          </text>
-        `;
-      })}
-    </svg>
-
-    <div style="
-      font-size:12px;
-      line-height:1.4;
-      margin-top:8px;
-      color:#444;
-      max-width:860px;
-    ">
-      <b>Key Finding:</b>
-      ChemTech Manufacturing is closest to the West station, the same station where the strongest heavy metal spikes and trout decline appear. This spatial pattern strengthens the case that ChemTech had the clearest geographic opportunity to affect the most damaged part of the lake.
-    </div>
-  </div>
-`)
-}});
-
-define({id: "91a0bb2e", inputs: ["d3","html","display"], body: (d3,html,display) => {
+define({id: "ffb74b82", inputs: ["d3","html","display"], body: (d3,html,display) => {
 {
-  const outcomes = [
-    { label: "Rich adult",                pct_white: 0.25, pct_black: 0.11 },
-    { label: "Upper-middle-class adult",  pct_white: 0.20, pct_black: 0.17 },
-    { label: "Middle-class adult",        pct_white: 0.23, pct_black: 0.25 },
-    { label: "Lower-middle-class adult",  pct_white: 0.08, pct_black: 0.25 },
-    { label: "Poor adult",                pct_white: 0.24, pct_black: 0.22 },
+  const suspects = [
+    { name: "ChemTech Manufacturing",     icon: "🏭", distance_m: 410  },
+    { name: "Riverside Farm",             icon: "🌽", distance_m: 890  },
+    { name: "Lakeview Resort",            icon: "🏨", distance_m: 1340 },
+    { name: "Clearwater Fishing Lodge",   icon: "🎣", distance_m: 1750 },
   ];
 
-  const W = 860, H = 520;
-  const DOT_R = 5, DOT_GAP = 14;
-  const DEST_X_WHITE = 380, DEST_X_BLACK = 560;
-  const ROW_START_Y = 120, ROW_GAP = 80;
+  const W = 900, H = 380;
+  const originX = 90, originY = H / 2;
+  const trackLeft = 180, trackRight = W - 40;
+  const trackLen = trackRight - trackLeft;
+  const maxDist = Math.max(...suspects.map(d => d.distance_m));
 
-  // Assign outcome rows to 50 white + 50 black dots
-  function makeDots(n, pcts, race, destX) {
-    const list = [];
-    let rem = n;
-    pcts.forEach((p, i) => {
-      const count = i === pcts.length - 1 ? rem : Math.round(p * n);
-      for (let j = 0; j < count; j++) list.push({ race, outcomeIdx: i, slot: j });
-      rem -= count;
-    });
-    // assign pixel destinations
-    list.forEach(d => {
-      const col = d.slot % 10;
-      const row = Math.floor(d.slot / 10);
-      d.x1 = destX + col * DOT_GAP;
-      d.y1 = ROW_START_Y + d.outcomeIdx * ROW_GAP + row * DOT_GAP;
-    });
-    return list;
-  }
+  const rowH = 72;
+  const rowStart = originY - ((suspects.length - 1) * rowH) / 2;
 
-  const whiteDots = makeDots(50, outcomes.map(o => o.pct_white), "white", DEST_X_WHITE);
-  const blackDots = makeDots(50, outcomes.map(o => o.pct_black), "black", DEST_X_BLACK);
-
-  // Interleave and shuffle
-  const allDots = [];
-  for (let i = 0; i < Math.max(whiteDots.length, blackDots.length); i++) {
-    if (i < whiteDots.length) allDots.push(whiteDots[i]);
-    if (i < blackDots.length) allDots.push(blackDots[i]);
-  }
-
-  // Start positions: clustered at top left
-  allDots.forEach((d, i) => {
-    d.id = i;
-    d.x0 = 60 + Math.random() * 200;
-    d.y0 = 28 + Math.random() * 30;
-  });
-
-  // ── Build SVG ──────────────────────────────────────────────
   const svg = d3.create("svg")
     .attr("viewBox", `0 0 ${W} ${H}`)
     .attr("width", "100%")
-    .style("background", "#fafaf8")
+    .style("background", "#f4eadf")
     .style("font-family", "system-ui, sans-serif");
 
-  // "Grew up rich" cluster background
-  svg.append("rect")
-    .attr("x", 30).attr("y", 14)
-    .attr("width", 260).attr("height", 52)
-    .attr("fill", "#f0ede8").attr("rx", 6);
+  // Dashed axis baseline
+  svg.append("line")
+    .attr("x1", originX + 30).attr("y1", originY)
+    .attr("x2", trackRight).attr("y2", originY)
+    .attr("stroke", "#c4b8a8")
+    .attr("stroke-width", 1)
+    .attr("stroke-dasharray", "5,4");
 
-  svg.append("text")
-    .attr("x", 46).attr("y", 34)
-    .attr("font-size", 12).attr("fill", "#888")
-    .text("Grew up rich");
+  // West Station circle
+  svg.append("circle")
+    .attr("cx", originX).attr("cy", originY)
+    .attr("r", 28)
+    .attr("fill", "#084081")
+    .attr("stroke", "#08304f")
+    .attr("stroke-width", 3);
 
-  // Column headers
+  // West Station labels
   svg.append("text")
-    .attr("x", DEST_X_WHITE + 60).attr("y", 82)
+    .attr("x", originX).attr("y", originY - 44)
     .attr("text-anchor", "middle")
-    .attr("font-size", 12).attr("font-weight", 700).attr("fill", "#d97706")
-    .text("WHITE MEN");
+    .attr("font-size", 14).attr("font-weight", 700).attr("fill", "#1a1a1a")
+    .text("West Station");
 
   svg.append("text")
-    .attr("x", DEST_X_BLACK + 60).attr("y", 82)
+    .attr("x", originX).attr("y", originY - 28)
     .attr("text-anchor", "middle")
-    .attr("font-size", 12).attr("font-weight", 700).attr("fill", "#2563eb")
-    .text("BLACK MEN");
+    .attr("font-size", 11).attr("fill", "#666")
+    .text("damaged site");
 
-  // Outcome row labels + separator lines
-  outcomes.forEach((o, i) => {
-    const y = ROW_START_Y + i * ROW_GAP;
+  // Each suspect node
+  suspects.forEach((d, i) => {
+    const isChemTech = d.name === "ChemTech Manufacturing";
+    const nx = trackLeft + (d.distance_m / maxDist) * trackLen;
+    const ny = rowStart + i * rowH;
+    const nodeR = isChemTech ? 26 : 22;
 
+    // Connecting line from West Station edge to node
     svg.append("line")
-      .attr("x1", 340).attr("y1", y - 10)
-      .attr("x2", W - 10).attr("y2", y - 10)
-      .attr("stroke", "#e5e7eb").attr("stroke-width", 1);
+      .attr("x1", originX + 28).attr("y1", originY)
+      .attr("x2", nx - nodeR).attr("y2", ny)
+      .attr("stroke", isChemTech ? "#084081" : "#b0a090")
+      .attr("stroke-width", isChemTech ? 3.5 : 2)
+      .attr("stroke-opacity", isChemTech ? 0.9 : 0.55);
 
+    // Distance label along the line midpoint
     svg.append("text")
-      .attr("x", W - 10).attr("y", y + 8)
-      .attr("text-anchor", "end")
-      .attr("font-size", 12).attr("fill", "#374151")
-      .text(o.label);
-  });
-
-  // Live % counters — created now, updated during animation
-  const counters = {};
-  const landed = outcomes.map(() => ({ white: 0, black: 0 }));
-
-  outcomes.forEach((o, i) => {
-    const y = ROW_START_Y + i * ROW_GAP + 8;
-
-    counters[`${i}-white`] = svg.append("text")
-      .attr("x", DEST_X_WHITE + 60).attr("y", y + 36)
+      .attr("x", (originX + 28 + nx) / 2 + 6)
+      .attr("y", (originY + ny) / 2 - 8)
       .attr("text-anchor", "middle")
-      .attr("font-size", 16).attr("font-weight", 700).attr("fill", "#d97706")
-      .text("0%");
+      .attr("font-size", 11).attr("font-weight", 700)
+      .attr("fill", isChemTech ? "#084081" : "#555")
+      .text(`${d.distance_m} m`);
 
-    counters[`${i}-black`] = svg.append("text")
-      .attr("x", DEST_X_BLACK + 60).attr("y", y + 36)
+    // Node circle
+    svg.append("circle")
+      .attr("cx", nx).attr("cy", ny)
+      .attr("r", nodeR)
+      .attr("fill", "#084081")
+      .attr("fill-opacity", isChemTech ? 0.95 : 0.55)
+      .attr("stroke", "#08304f")
+      .attr("stroke-width", isChemTech ? 3 : 2);
+
+    // Emoji icon inside node
+    svg.append("text")
+      .attr("x", nx).attr("y", ny + 8)
       .attr("text-anchor", "middle")
-      .attr("font-size", 16).attr("font-weight", 700).attr("fill", "#2563eb")
-      .text("0%");
+      .attr("font-size", isChemTech ? 20 : 17)
+      .text(d.icon);
+
+    // Suspect name
+    svg.append("text")
+      .attr("x", nx + nodeR + 10).attr("y", ny - 4)
+      .attr("font-size", 13)
+      .attr("font-weight", isChemTech ? 700 : 500)
+      .attr("fill", isChemTech ? "#084081" : "#222")
+      .text(d.name);
+
+    // Distance sub-label
+    svg.append("text")
+      .attr("x", nx + nodeR + 10).attr("y", ny + 13)
+      .attr("font-size", 11)
+      .attr("fill", "#666")
+      .text(`${d.distance_m} m from West`);
+
+    // ChemTech "CLOSEST" badge
+    if (isChemTech) {
+      svg.append("rect")
+        .attr("x", nx + nodeR + 10).attr("y", ny + 18)
+        .attr("width", 58).attr("height", 16)
+        .attr("fill", "#084081").attr("rx", 3);
+      svg.append("text")
+        .attr("x", nx + nodeR + 39).attr("y", ny + 30)
+        .attr("text-anchor", "middle")
+        .attr("font-size", 10).attr("font-weight", 700).attr("fill", "white")
+        .text("CLOSEST");
+    }
   });
 
-  // Narrative text — fades in after animation
-  const narr = svg.append("g").attr("opacity", 0);
-  [
-    { t: "Most white boys ■ raised in wealthy", y: 260 },
-    { t: "families will stay rich or upper-middle", y: 278 },
-    { t: "class as adults, but black boys ■ raised", y: 296 },
-    { t: "in similarly rich households will not.", y: 314 },
-  ].forEach(({ t, y }) => {
-    narr.append("text")
-      .attr("x", 30).attr("y", y)
-      .attr("font-size", 13).attr("fill", "#222")
-      .text(t);
-  });
-
-  // Dots — all start at origin, invisible
-  const circleNodes = svg.selectAll("circle.dot")
-    .data(allDots)
-    .join("circle")
-    .attr("class", "dot")
-    .attr("r", DOT_R)
-    .attr("cx", d => d.x0)
-    .attr("cy", d => d.y0)
-    .attr("fill", d => d.race === "white" ? "#f59e0b" : "#3b82f6")
-    .attr("opacity", 0);
-
-  // ── Play button ────────────────────────────────────────────
-  const btnG = svg.append("g")
-    .attr("transform", `translate(170, 44)`)
-    .style("cursor", "pointer");
-
-  btnG.append("circle").attr("r", 20).attr("fill", "#374151").attr("fill-opacity", 0.8);
-  const playIcon = btnG.append("text")
-    .attr("text-anchor", "middle").attr("dominant-baseline", "central")
-    .attr("font-size", 16).attr("fill", "white").text("▶");
-
-  // ── Animation logic ────────────────────────────────────────
-  let running = false;
-  const timers = [];
-
-  function resetAll() {
-    timers.forEach(clearTimeout);
-    timers.length = 0;
-    running = false;
-    playIcon.text("▶");
-    circleNodes.interrupt().attr("cx", d => d.x0).attr("cy", d => d.y0).attr("opacity", 0);
-    outcomes.forEach((_, i) => {
-      landed[i].white = 0;
-      landed[i].black = 0;
-      counters[`${i}-white`].text("0%");
-      counters[`${i}-black`].text("0%");
-    });
-    narr.attr("opacity", 0);
-  }
-
-  function cascade() {
-    running = true;
-    playIcon.text("⏸");
-
-    allDots.forEach((d, i) => {
-      const tid = setTimeout(() => {
-        const node = d3.select(circleNodes.nodes()[i]);
-
-        // Step 1 — appear at origin
-        node.attr("opacity", 1).attr("cx", d.x0).attr("cy", d.y0);
-
-        // Step 2 — fall straight down toward destination row
-        node.transition()
-          .duration(300).ease(d3.easeQuadIn)
-          .attr("cy", d.y1 - 30)
-          // Step 3 — snap sideways into final slot with slight bounce
-          .transition()
-          .duration(200).ease(d3.easeBounceOut)
-          .attr("cx", d.x1)
-          .attr("cy", d.y1)
-          .on("end", () => {
-            landed[d.outcomeIdx][d.race]++;
-            const total = d.race === "white"
-              ? whiteDots.filter(x => x.outcomeIdx === d.outcomeIdx).length
-              : blackDots.filter(x => x.outcomeIdx === d.outcomeIdx).length;
-            const pct = Math.round((landed[d.outcomeIdx][d.race] / total) * 100);
-            counters[`${d.outcomeIdx}-${d.race}`].text(pct + "%");
-          });
-      }, i * 55);
-      timers.push(tid);
-    });
-
-    // Fade in narrative after all dots land
-    const endTid = setTimeout(() => {
-      narr.transition().duration(700).attr("opacity", 1);
-      playIcon.text("▶");
-      running = false;
-    }, allDots.length * 55 + 500);
-    timers.push(endTid);
-  }
-
-  btnG.on("click", () => {
-    if (running) { resetAll(); }
-    else { resetAll(); setTimeout(cascade, 30); }
-  });
-
-  // ── Wrapper + display ──────────────────────────────────────
   const wrapper = html`<div style="
-    background: #fafaf8;
-    padding: 16px 20px;
-    border-radius: 10px;
-    max-width: 900px;
+    background: #f4eadf;
+    padding: 18px 20px;
+    border-radius: 12px;
+    max-width: 960px;
     font-family: system-ui, sans-serif;
-    border: 1px solid #e5e7eb;
   ">
-    <div style="font-size:12px;color:#888;margin-bottom:8px;">
-      Click ▶ to animate · click ⏸ to reset
-    </div>
+    <h2 style="margin:0 0 6px;font-size:1rem;color:#1a1a1a;">
+      Distance from the Damaged West Station to Each Suspect
+    </h2>
+    <p style="margin:0 0 14px;font-size:0.84rem;color:#555;line-height:1.4;max-width:860px;">
+      The West station is the monitoring location with the strongest heavy metal spikes and trout decline.
+      This diagram connects the damaged West station to each suspect and places them according to distance.
+    </p>
     ${svg.node()}
+    <div style="font-size:12px;color:#444;line-height:1.5;margin-top:10px;max-width:860px;">
+      <b>Key Finding:</b> ChemTech Manufacturing is closest to the West station, the same station where
+      the strongest heavy metal spikes and trout decline appear. This spatial pattern strengthens the
+      case that ChemTech had the clearest geographic opportunity to affect the most damaged part of the lake.
+    </div>
   </div>`;
 
   display(wrapper);
 }
+}});
+
+define({id: "f5f98448", inputs: ["display","html","Plot","width","activities"], body: (display,html,Plot,width,activities) => {
+display(html`
+  <div style="
+    background:#07111f;
+    padding:18px;
+    border-radius:14px;
+    max-width:880px;
+    font-family:system-ui, sans-serif;
+    box-shadow:0 0 18px rgba(0, 255, 255, 0.16);
+  ">
+    <div style="
+      color:#d7f7ff;
+      font-size:13px;
+      line-height:1.45;
+      margin-bottom:14px;
+      border-left:4px solid #38bdf8;
+      padding-left:12px;
+    ">
+      <b>What this shows:</b><br>
+      This timeline compares documented suspect activities during the crisis period. 
+      The bigger and darker the pulse, the more intense the activity. ChemTech matters most because it is closest to the damaged West station.
+    </div>
+
+    <div style="
+      display:flex;
+      gap:14px;
+      align-items:center;
+      color:#d7f7ff;
+      font-size:13px;
+      margin-bottom:12px;
+      flex-wrap:wrap;
+    ">
+      <b>Activity Intensity:</b>
+      <span><span style="display:inline-block;width:12px;height:12px;background:#93c5fd;border-radius:50%;margin-right:5px;"></span>Low</span>
+      <span><span style="display:inline-block;width:16px;height:16px;background:#3b82f6;border-radius:50%;margin-right:5px;"></span>Medium</span>
+      <span><span style="display:inline-block;width:20px;height:20px;background:#1e3a8a;border-radius:50%;margin-right:5px;"></span>High</span>
+    </div>
+
+    ${Plot.plot({
+      width: Math.min(width * 0.74, 850),
+      height: 350,
+      marginLeft: 165,
+      marginRight: 25,
+      marginBottom: 55,
+
+      style: {
+        background: "#07111f",
+        color: "#d7f7ff",
+        fontSize: "13px"
+      },
+
+      x: {
+        label: "Date →",
+        grid: true,
+        tickSize: 6
+      },
+
+      y: {
+        label: null
+      },
+
+      color: {
+        legend: false,
+        domain: ["Low", "Medium", "High"],
+        range: ["#93c5fd", "#3b82f6", "#1e3a8a"]
+      },
+
+      marks: [
+        Plot.gridX({
+          stroke: "rgba(215,247,255,0.12)"
+        }),
+
+        Plot.ruleY(activities, {
+          y: "suspect",
+          stroke: d => d.suspect === "ChemTech Manufacturing" ? "#38bdf8" : "rgba(215,247,255,0.22)",
+          strokeWidth: d => d.suspect === "ChemTech Manufacturing" ? 4 : 2,
+          strokeOpacity: d => d.suspect === "ChemTech Manufacturing" ? 0.65 : 0.35
+        }),
+
+        Plot.dot(activities, {
+          x: "date",
+          y: "suspect",
+          fill: "intensity",
+          stroke: d => d.suspect === "ChemTech Manufacturing" ? "#d7f7ff" : "#07111f",
+          strokeWidth: d => d.suspect === "ChemTech Manufacturing" ? 2.2 : 1.4,
+          r: d =>
+            d.intensity === "High" ? 10 :
+            d.intensity === "Medium" ? 7 : 5,
+          fillOpacity: d => d.suspect === "ChemTech Manufacturing" ? 1 : 0.7,
+          tip: true
+        }),
+
+        Plot.dot(
+          activities.filter(d => d.suspect === "ChemTech Manufacturing" && d.intensity === "High"),
+          {
+            x: "date",
+            y: "suspect",
+            r: 16,
+            stroke: "#38bdf8",
+            strokeWidth: 2,
+            strokeOpacity: 0.75,
+            fill: "none"
+          }
+        ),
+
+        Plot.text(
+          activities.filter(d => d.suspect === "ChemTech Manufacturing" && d.intensity === "High"),
+          {
+            x: "date",
+            y: "suspect",
+            text: "HIGH",
+            dy: -22,
+            fill: "#d7f7ff",
+            fontSize: 10,
+            fontWeight: 700
+          }
+        )
+      ]
+    })}
+
+    <div style="
+      margin-top:12px;
+      padding:10px 14px;
+      background:#0f1b2d;
+      border:1px solid rgba(56,189,248,0.45);
+      border-radius:8px;
+      color:#d7f7ff;
+      font-size:13px;
+      line-height:1.45;
+    ">
+      <b>Key Finding:</b>
+      ChemTech Manufacturing shows repeated high-intensity activity across the study period. Since ChemTech is also closest to the damaged West station, this timeline strengthens the case that ChemTech had both opportunity and suspicious activity during the crisis.
+    </div>
+  </div>
+`)
 }});
 
 define({id: "b19f2d49", inputs: ["FileAttachment","display","html"], outputs: ["lakeImage"], body: async (FileAttachment,display,html) => {
@@ -972,12 +886,11 @@ return {lakeImage};
   Evidence 4: Suspect Distance to Each Monitoring Station
 </h2>
 <p>The worst contamination and trout decline appear at the West station. This graph compares how close each suspect is to each monitoring station.</p>
-<div class="observablehq observablehq--block"><!--:8dc0a413:--></div>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:e7bae4e8:--></div>
+<div class="observablehq observablehq--block"><!--:ffb74b82:--></div>
 <p>ChemTech Manufacturing is closest to the West station, the same station where the strongest heavy metal spikes and trout decline appear. This spatial pattern strengthens the case that ChemTech had the clearest geographic opportunity to affect the most damaged part of the lake.</p>
 <h2 id="evidence-5-suspect-activity-timeline" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-5-suspect-activity-timeline">Evidence 5: Suspect Activity Timeline</a></h2>
 <p>This timeline helps compare documented suspect activities against the pollution story.</p>
-<div class="observablehq observablehq--block"><!--:91a0bb2e:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:f5f98448:--></div>
 <p>ChemTech has repeated high-intensity maintenance shutdowns across the study period. Because ChemTech is also the closest suspect to the West station and is associated with heavy metal discharge, its activity pattern strengthens the case against it.</p>
 <h2 id="alternative-suspects-considered" tabindex="-1"><a class="observablehq-header-anchor" href="#alternative-suspects-considered">Alternative Suspects Considered</a></h2>
 <p><strong>Riverside Farm</strong> is closest to the North station and would more likely explain nitrogen or phosphorus problems. However, the most severe heavy metal spikes and trout collapse occur at the West station, not the North station.</p>
@@ -992,7 +905,7 @@ return {lakeImage};
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T08:30:06">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T08:41:39">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
