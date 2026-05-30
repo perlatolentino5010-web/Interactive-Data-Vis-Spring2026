@@ -61,7 +61,7 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/pollinator_activity_data.csv", {"name":"./data/pollinator_activity_data.csv","mimeType":"text/csv","path":"../_file/lab_1/data/pollinator_activity_data.172590cd.csv","lastModified":1780137323037,"size":29868});
+registerFile("./data/pollinator_activity_data.csv", {"name":"./data/pollinator_activity_data.csv","mimeType":"text/csv","path":"../_file/lab_1/data/pollinator_activity_data.172590cd.csv","lastModified":1780138012254,"size":29868});
 
 define({id: "f75ec02a", inputs: ["FileAttachment"], outputs: ["data"], body: (FileAttachment) => {
 const data = FileAttachment("./data/pollinator_activity_data.csv")
@@ -106,40 +106,46 @@ Plot.plot({
 ))
 }});
 
-define({id: "ffe09735", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
+define({id: "065be716", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
 display(await(
 Plot.plot({
-  title: "Wing Span Distribution by Species",
-  x: { label: "Average Wing Span (mm)" },
-  y: { label: "Count" },
-  color: { legend: true },
+  title: "Wing Span by Pollinator Species",
+
+  x: {
+    label: "Pollinator Species"
+  },
+
+  y: {
+    label: "Wing Span (mm)",
+    grid: true
+  },
+
+  color: {
+    legend: true
+  },
+
   marks: [
-    Plot.rectY(
-      data,
-      Plot.binX(
-        { y: "count" },
-        {
-          x: "wing_span",
-          fill: "species"
-        }
-      )
-    )
+    Plot.boxY(data, {
+      x: "species",
+      y: "wing_span",
+      fill: "species"
+    })
   ]
 })
 ))
 }});
 
-define({id: "6c23fb3a", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
+define({id: "a8282bb4", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
 display(await(
 Plot.plot({
   title: "Pollinator Visits by Weather Condition",
   x: { label: "Weather Condition" },
   y: { label: "Number of Visits" },
   color: {
-    legend: true,
-    label: "Weather Condition",
-    domain: ["Sunny", "Cloudy", "Rainy"],
-    range: ["#f6c85f", "#9ca3af", "#60a5fa"]
+  legend: true,
+  label: "Weather Condition",
+  domain: ["Sunny", "Cloudy", "Rainy"],
+  range: ["#f6c85f", "#9ca3af", "#60a5fa"]
   },
   marks: [
     Plot.barY(
@@ -181,7 +187,7 @@ Plot.plot({
 ))
 }});
 
-define({id: "eff28dc8", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
+define({id: "2d5ee35d", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
 display(await(
 Plot.plot({
   title: "Average Nectar Production by Flower",
@@ -192,7 +198,7 @@ Plot.plot({
     legend: true,
     label: "Flower Species",
     domain: ["Lavender", "Coneflower", "Rose", "Tulip", "Daisy"],
-    range: ["#b57edc", "#f4a261", "#e76f91", "#f7b7c3", "#ffffff"]
+    range: ["#b57edc", "#f4a261", "#e76f91", "#f7b7c3", "#f2f2f2"]
   },
 
   marks: [
@@ -298,19 +304,20 @@ Plot.plot({
 <p><strong>What is the body mass distribution of each pollinator species observed?</strong></p>
 <p>Different pollinator species show different body mass distributions, which means they vary in physical size. This matters because body size can affect how pollinators move between flowers, how much energy they need, and which flowers they are most likely to visit.</p>
 <h2 id="wing-span-distribution-by-species" tabindex="-1"><a class="observablehq-header-anchor" href="#wing-span-distribution-by-species">Wing Span Distribution by Species</a></h2>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:ffe09735:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:065be716:--></div>
 <p><strong>What is the wing span distribution of each pollinator species observed?</strong></p>
 <p>Wing span also varies by pollinator species. Larger wing spans may support different flight patterns than smaller wing spans, which could influence how efficiently pollinators move through the garden. Looking at body mass and wing span together helps describe the physical differences among the pollinators in the dataset.</p>
 <h2 id="weather-conditions-and-pollinator-visits" tabindex="-1"><a class="observablehq-header-anchor" href="#weather-conditions-and-pollinator-visits">Weather Conditions and Pollinator Visits</a></h2>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:6c23fb3a:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:a8282bb4:--></div>
 <p><strong>What weather conditions seem best for pollinator activity?</strong></p>
-<p>This chart helps compare how often pollinators were observed under different weather conditions. Cloudy conditions should not automatically be dismissed as bad for pollination. In this dataset, cloudy weather may still support strong pollinator activity, especially if temperatures remain warm enough for bee movement and flower nectar production.</p>
+<p>What weather conditions seem best for pollinator activity?
+This chart compares pollinator activity across different weather conditions. While sunny weather is often assumed to be ideal, the data suggest that cloudy conditions may also support strong pollinator activity. Combined with the temperature analysis below, this may indicate that moderate temperatures and nectar availability are just as important as direct sunlight in supporting pollination.</p>
 <h2 id="temperature-vs-nectar-production" tabindex="-1"><a class="observablehq-header-anchor" href="#temperature-vs-nectar-production">Temperature vs Nectar Production</a></h2>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:dab37115:--></div>
 <p><strong>What is the ideal weather for pollinating?</strong></p>
 <p>The scatterplot suggests that temperature and nectar production may be connected. Higher temperatures appear to be associated with stronger nectar production in some observations, which may help explain why pollinators visit more often under certain weather conditions. This means the ideal pollination conditions may not simply be “sunny,” but rather a combination of suitable temperature, nectar availability, and weather conditions that still allow pollinators to move safely.</p>
 <h2 id="average-nectar-production-by-flower" tabindex="-1"><a class="observablehq-header-anchor" href="#average-nectar-production-by-flower">Average Nectar Production by Flower</a></h2>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:eff28dc8:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:2d5ee35d:--></div>
 <p><strong>Which flower has the most nectar production?</strong></p>
 <p>This chart compares average nectar production by flower species. Flowers with higher average nectar production may be more attractive to pollinators because they provide a stronger food reward. Matching the bar colors to the flower names also makes the chart easier to read because the visual design connects directly to the subject of the graph.</p>
 <h2 id="conclusion" tabindex="-1"><a class="observablehq-header-anchor" href="#conclusion">Conclusion</a></h2>
@@ -318,7 +325,7 @@ Plot.plot({
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a><a rel="next" href="../lab_2/readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T10:35:32">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T10:46:58">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
