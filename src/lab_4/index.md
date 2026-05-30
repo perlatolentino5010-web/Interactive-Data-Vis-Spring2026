@@ -604,208 +604,247 @@ This timeline helps compare documented suspect activities against the pollution 
 
 ```js
 {
-  const W = 900, H = 420;
-  const N_WHITE = 36, N_BLACK = 36; // 72 total dots
+  const W = 860, H = 500;
 
-  // Outcome bands: label, yCenter, white%, black%
   const outcomes = [
-    { label: "Rich adult",              pct_white: 0.25, pct_black: 0.11, y: 60  },
-    { label: "Upper-middle-class adult",pct_white: 0.20, pct_black: 0.17, y: 160 },
-    { label: "Middle-class adult",      pct_white: 0.23, pct_black: 0.25, y: 260 },
-    { label: "Lower-middle-class adult",pct_white: 0.08, pct_black: 0.25, y: 360 },
-    { label: "Poor adult",              pct_white: 0.24, pct_black: 0.22, y: 440 },
+    { label: "Rich adult",               pct_white: 0.25, pct_black: 0.11, y: 80  },
+    { label: "Upper-middle-class adult", pct_white: 0.20, pct_black: 0.17, y: 170 },
+    { label: "Middle-class adult",       pct_white: 0.23, pct_black: 0.25, y: 260 },
+    { label: "Lower-middle-class adult", pct_white: 0.08, pct_black: 0.25, y: 350 },
+    { label: "Poor adult",               pct_white: 0.24, pct_black: 0.22, y: 440 },
   ];
 
-  // Build dots: assign each to an outcome by probability
-  function assignOutcomes(n, pcts) {
-    const dots = [];
+  const TOTAL = 100; // 100 dots total: 50 white, 50 black
+
+  // Build dot list: assign outcome by probability
+  function makeDots(n, pcts, race) {
+    const list = [];
     let remaining = n;
-    for (let i = 0; i < pcts.length; i++) {
-      const count = i === pcts.length - 1
-        ? remaining
-        : Math.round(pcts[i] * n);
-      for (let j = 0; j < count; j++) dots.push(i);
+    pcts.forEach((p, i) => {
+      const count = i === pcts.length - 1 ? remaining : Math.round(p * n);
+      for (let j = 0; j < count; j++) list.push({ race, outcomeIdx: i });
       remaining -= count;
-    }
-    return dots;
+    });
+    return list;
   }
 
-  const whitePcts = outcomes.map(o => o.pct_white);
-  const blackPcts = outcomes.map(o => o.pct_black);
-  const whiteAssign = assignOutcomes(N_WHITE, whitePcts);
-  const blackAssign = assignOutcomes(N_BLACK, blackPcts);
+  const whiteDots = makeDots(50, outcomes.map(o => o.pct_white), "white");
+  const blackDots = makeDots(50, outcomes.map(o => o.pct_black), "black");
+  const allDots = [...whiteDots, ...blackDots];
 
-  // Initial positions: all clustered in "grew up rich" band at top-left
-  const dots = [];
-  [...whiteAssign.map((o,i) => ({ race: "white", outcome: o, id: i })),
-   ...blackAssign.map((o,i) => ({ race: "black", outcome: o, id: N_WHITE + i }))
-  ].forEach(d => {
-    dots.push({
-      ...d,
-      x0: 80 + Math.random() * 260,
-      y0: 55 + Math.random() * 40,
-    });
+  // Shuffle so white and black dots interleave during cascade
+  for (let i = allDots.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [allDots[i], allDots[j]] = [allDots[j], allDots[i]];
+  }
+
+  // Track landing slot per outcome per race
+  const slots = outcomes.map(() => ({ white: 0, black: 0 }));
+
+  // Pre-compute each dot's start and end positions
+  const START_X_MIN = 30, START_X_MAX = 300, START_Y = 30;
+  const DOT_R = 5, DOT_GAP = 13;
+  const DEST_X_BASE = 420;
+
+  allDots.forEach((d, i) => {
+    d.id = i;
+    d.x0 = START_X_MIN + Math.random() * (START_X_MAX - START_X_MIN);
+    d.y0 = START_Y + Math.random() * 28;
+
+    const slot = slots[d.outcomeIdx][d.race]++;
+    const col = slot % 12;
+    const row = Math.floor(slot / 12);
+    const raceOffset = d.race === "white" ? 0 : 160;
+    d.x1 = DEST_X_BASE + raceOffset + col * DOT_GAP;
+    d.y1 = outcomes[d.outcomeIdx].y + row * DOT_GAP - 10;
   });
 
-  // Final positions: spread into outcome rows
-  const outcomeCounts = outcomes.map(() => ({ white: 0, black: 0 }));
-  dots.forEach(d => {
-    const slot = d.race === "white"
-      ? outcomeCounts[d.outcome].white++
-      : outcomeCounts[d.outcome].black++;
-    const row = outcomes[d.outcome];
-    const offset = d.race === "white" ? 0 : 14;
-    d.x1 = 420 + (slot % 18) * 12 + offset + Math.random() * 4;
-    d.y1 = row.y + Math.floor(slot / 18) * 12 + Math.random() * 4;
-  });
-
-  // SVG
+  // ── SVG ─────────────────────────────────────────────────────
   const svg = d3.create("svg")
-    .attr("viewBox", `0 0 ${W} 480`)
-    .attr("width", W)
-    .style("background", "#fff")
-    .style("font-family", "Georgia, serif");
+    .attr("viewBox", `0 0 ${W} ${H}`)
+    .attr("width", "100%")
+    .style("background", "#fafaf8")
+    .style("font-family", "system-ui, sans-serif");
 
-  // Title
+  // Background stripe for "Grew up rich" area
+  svg.append("rect")
+    .attr("x", 0).attr("y", 10)
+    .attr("width", 340).attr("height", 60)
+    .attr("fill", "#f0ede8").attr("rx", 6);
+
   svg.append("text")
-    .attr("x", 20).attr("y", 28)
-    .attr("font-size", 15).attr("font-weight", 700).attr("fill", "#111")
-    .text("Follow the lives of boys who grew up in rich families…");
+    .attr("x", 16).attr("y", 32)
+    .attr("font-size", 12).attr("fill", "#777")
+    .text("Grew up rich");
 
-  svg.append("text")
-    .attr("x", W - 20).attr("y", 28)
-    .attr("text-anchor", "end")
-    .attr("font-size", 13).attr("fill", "#555")
-    .text("…and see where they end up as adults:");
+  // Horizontal separator lines per outcome row
+  outcomes.forEach(o => {
+    svg.append("line")
+      .attr("x1", 410).attr("y1", o.y - 22)
+      .attr("x2", W - 20).attr("y2", o.y - 22)
+      .attr("stroke", "#ddd").attr("stroke-width", 0.5);
+  });
 
-  // Outcome labels (right side)
+  // Outcome row labels
   outcomes.forEach(o => {
     svg.append("text")
-      .attr("x", W - 20).attr("y", o.y + 5)
+      .attr("x", W - 20).attr("y", o.y + 4)
       .attr("text-anchor", "end")
       .attr("font-size", 12).attr("fill", "#333")
       .text(o.label);
-
-    // white % stat
-    svg.append("text")
-      .attr("x", W - 130).attr("y", o.y - 4)
-      .attr("text-anchor", "middle")
-      .attr("font-size", 14).attr("font-weight", 700).attr("fill", "#e8a820")
-      .text(Math.round(o.pct_white * 100));
-
-    svg.append("text")
-      .attr("x", W - 130).attr("y", o.y + 12)
-      .attr("text-anchor", "middle")
-      .attr("font-size", 11).attr("fill", "#888")
-      .text(Math.round(o.pct_white * 100) + "%");
-
-    // black % stat
-    svg.append("text")
-      .attr("x", W - 100).attr("y", o.y - 4)
-      .attr("text-anchor", "middle")
-      .attr("font-size", 14).attr("font-weight", 700).attr("fill", "#5b9bd5")
-      .text(Math.round(o.pct_black * 100));
-
-    svg.append("text")
-      .attr("x", W - 100).attr("y", o.y + 12)
-      .attr("text-anchor", "middle")
-      .attr("font-size", 11).attr("fill", "#888")
-      .text(Math.round(o.pct_black * 100) + "%");
   });
 
-  // Column headers for stats
-  svg.append("text").attr("x", W - 130).attr("y", 14)
-    .attr("text-anchor", "middle").attr("font-size", 11).attr("fill", "#e8a820").attr("font-weight", 700)
+  // Column headers
+  svg.append("text").attr("x", 430).attr("y", 52)
+    .attr("font-size", 11).attr("fill", "#e8a820").attr("font-weight", 700)
     .text("WHITE MEN");
-  svg.append("text").attr("x", W - 100).attr("y", 14)
-    .attr("text-anchor", "middle").attr("font-size", 11).attr("fill", "#5b9bd5").attr("font-weight", 700)
+  svg.append("text").attr("x", 590).attr("y", 52)
+    .attr("font-size", 11).attr("fill", "#5b9bd5").attr("font-weight", 700)
     .text("BLACK MEN");
 
-  // "Grew up rich" label
-  svg.append("text")
-    .attr("x", 24).attr("y", 75)
-    .attr("font-size", 13).attr("fill", "#555").attr("font-style", "italic")
-    .text("Grew up rich");
+  // Live percentage counters — one per outcome per race
+  const counters = {};
+  const landed = outcomes.map(() => ({ white: 0, black: 0 }));
 
-  // Narrative text (left side, mid chart)
+  outcomes.forEach((o, oi) => {
+    counters[`${oi}-white`] = svg.append("text")
+      .attr("x", 530).attr("y", o.y + 4)
+      .attr("text-anchor", "middle")
+      .attr("font-size", 15).attr("font-weight", 700).attr("fill", "#e8a820")
+      .text("0%");
+
+    counters[`${oi}-black`] = svg.append("text")
+      .attr("x", 690).attr("y", o.y + 4)
+      .attr("text-anchor", "middle")
+      .attr("font-size", 15).attr("font-weight", 700).attr("fill", "#5b9bd5")
+      .text("0%");
+  });
+
+  // Narrative annotation (fades in after animation)
   const narrative = svg.append("text")
-    .attr("x", 24).attr("y", 200)
-    .attr("font-size", 13).attr("fill", "#222");
+    .attr("x", 20).attr("y", 240)
+    .attr("font-size", 13).attr("fill", "#222")
+    .attr("opacity", 0);
+
   [
-    "Most white boys \u25a0",
-    "raised in wealthy",
-    "families will stay rich",
-    "or upper middle class",
-    "as adults, but black",
-    "boys \u25a0 raised in",
-    "similarly rich",
-    "households will not."
+    "Most white boys ■ raised in wealthy",
+    "families will stay rich or upper middle",
+    "class as adults, but black boys ■ raised",
+    "in similarly rich households will not."
   ].forEach((line, i) => {
     narrative.append("tspan")
-      .attr("x", 24).attr("dy", i === 0 ? 0 : 18)
+      .attr("x", 20).attr("dy", i === 0 ? 0 : 20)
       .text(line);
   });
 
-  // Dots
-  const circles = svg.selectAll("circle.dot")
-    .data(dots)
+  // Dots layer
+  const dotGroup = svg.append("g");
+
+  // Draw all dots at start position (invisible)
+  const circles = dotGroup.selectAll("circle")
+    .data(allDots)
     .join("circle")
-    .attr("class", "dot")
-    .attr("r", 5)
+    .attr("r", DOT_R)
     .attr("cx", d => d.x0)
     .attr("cy", d => d.y0)
     .attr("fill", d => d.race === "white" ? "#e8a820" : "#5b9bd5")
-    .attr("fill-opacity", 0.85);
+    .attr("fill-opacity", 0.9)
+    .attr("opacity", 0);
 
-  // Animation: transition to final positions
-  let animated = false;
-  function animate() {
-    animated = true;
-    playBtn.attr("opacity", 0.5);
-    circles.transition()
-      .duration(1800)
-      .delay((d, i) => i * 18)
-      .ease(d3.easeCubicInOut)
-      .attr("cx", d => d.x1)
-      .attr("cy", d => d.y1)
-      .on("end", (d, i) => {
-        if (i === dots.length - 1) playBtn.attr("opacity", 1);
-      });
+  // ── Animation ───────────────────────────────────────────────
+  let running = false;
+  let timeouts = [];
+
+  function clearAll() {
+    timeouts.forEach(clearTimeout);
+    timeouts = [];
   }
 
-  function reset() {
-    animated = false;
-    circles.interrupt()
-      .attr("cx", d => d.x0)
-      .attr("cy", d => d.y0);
-    playBtn.attr("opacity", 1);
+  function resetViz() {
+    clearAll();
+    running = false;
+    circles
+      .attr("cx", d => d.x0).attr("cy", d => d.y0)
+      .attr("opacity", 0).interrupt();
+    outcomes.forEach((o, oi) => {
+      landed[oi].white = 0;
+      landed[oi].black = 0;
+      counters[`${oi}-white`].text("0%");
+      counters[`${oi}-black`].text("0%");
+    });
+    narrative.attr("opacity", 0);
+    playIcon.text("▶");
   }
 
-  // Play/pause button
-  const playBtn = svg.append("g")
-    .attr("transform", `translate(${W / 2 - 30}, 200)`)
+  function runAnimation() {
+    running = true;
+    playIcon.text("⏸");
+
+    allDots.forEach((d, i) => {
+      const t = timeouts[i] = setTimeout(() => {
+
+        // 1. Make dot visible at origin
+        d3.select(circles.nodes()[i])
+          .attr("opacity", 1)
+          .attr("cx", d.x0)
+          .attr("cy", d.y0)
+          // 2. Cascade: fall straight down first, then arc to destination
+          .transition().duration(220).ease(d3.easeQuadIn)
+          .attr("cy", d.y1 - 40)  // drop toward row level
+          .transition().duration(180).ease(d3.easeBounceOut)
+          .attr("cx", d.x1)
+          .attr("cy", d.y1)
+          .on("end", () => {
+            // Update counter
+            landed[d.outcomeIdx][d.race]++;
+            const pct = Math.round((landed[d.outcomeIdx][d.race] / 50) * 100);
+            counters[`${d.outcomeIdx}-${d.race}`].text(pct + "%");
+          });
+
+      }, i * 60);
+    });
+
+    // Fade in narrative after all dots land
+    const t = setTimeout(() => {
+      narrative.transition().duration(800).attr("opacity", 1);
+      playIcon.text("▶");
+      running = false;
+    }, allDots.length * 60 + 600);
+    timeouts.push(t);
+  }
+
+  // ── Play button ─────────────────────────────────────────────
+  const btnGroup = svg.append("g")
+    .attr("transform", `translate(185, 55)`)
     .style("cursor", "pointer")
-    .on("click", () => animated ? reset() : animate());
+    .on("click", () => {
+      if (running) {
+        resetViz();
+      } else {
+        resetViz();
+        setTimeout(runAnimation, 50);
+      }
+    });
 
-  playBtn.append("circle")
-    .attr("r", 26).attr("fill", "#444").attr("fill-opacity", 0.75);
+  btnGroup.append("circle")
+    .attr("r", 22).attr("fill", "#333").attr("fill-opacity", 0.75);
 
-  playBtn.append("text")
-    .attr("text-anchor", "middle").attr("dominant-baseline", "central")
-    .attr("font-size", 22).attr("fill", "white")
+  const playIcon = btnGroup.append("text")
+    .attr("text-anchor", "middle")
+    .attr("dominant-baseline", "central")
+    .attr("font-size", 18).attr("fill", "white")
     .text("▶");
 
-  // Wrapper
+  // ── Wrapper ─────────────────────────────────────────────────
   const container = html`<div style="
-    background:#fff; padding:16px 20px; border-radius:10px;
-    max-width:960px; font-family:Georgia,serif;
-    border: 1px solid #e5e7eb;
+    background:#fafaf8; padding:16px 20px; border-radius:10px;
+    max-width:900px; border:1px solid #e5e7eb;
   ">
-    <h2 style="margin:0 0 4px; font-size:1rem; font-family:system-ui,sans-serif;">
+    <h2 style="margin:0 0 2px;font-size:0.95rem;font-family:system-ui,sans-serif;color:#111;">
       Applications of Interactive Data Visualization
     </h2>
-    <p style="margin:0 0 12px; font-size:0.8rem; color:#666; font-family:system-ui,sans-serif;">
-      Inspired by NYT "Extensive Data Shows Punishing Reach of Racism for Black Boys" — click ▶ to animate
+    <p style="margin:0 0 10px;font-size:0.78rem;color:#888;font-family:system-ui,sans-serif;">
+      Click ▶ to animate · click again to reset
     </p>
     ${svg.node()}
   </div>`;
