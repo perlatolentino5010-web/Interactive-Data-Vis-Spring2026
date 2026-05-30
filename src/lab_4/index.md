@@ -468,9 +468,9 @@ The worst contamination and trout decline appear at the West station. This graph
     { name: "Clearwater Fishing Lodge", icon: "🎣", distance_m: 1750 },
   ];
 
-  const W = 900, H = 300;
+  const W = 700, H = 300;
   const originX = 90, originY = H / 2;
-  const trackLeft = 180, trackRight = 620;
+  const trackLeft = 180, trackRight = 460;
   const trackLen = trackRight - trackLeft;
   const maxDist = Math.max(...suspects.map(d => d.distance_m));
 
@@ -551,7 +551,7 @@ The worst contamination and trout decline appear at the West station. This graph
       .attr("font-size", isChemTech ? 18 : 15)
       .text(d.icon);
 
-    // Suspect name — to the right of node
+    // Suspect name
     svg.append("text")
       .attr("x", nx + nodeR + 8).attr("y", ny - 3)
       .attr("font-size", 12)
@@ -583,18 +583,18 @@ The worst contamination and trout decline appear at the West station. This graph
     background: #f4eadf;
     padding: 16px 20px;
     border-radius: 12px;
-    max-width: 960px;
+    max-width: 740px;
     font-family: system-ui, sans-serif;
   ">
     <h2 style="margin:0 0 5px;font-size:1rem;color:#1a1a1a;">
       Distance from the Damaged West Station to Each Suspect
     </h2>
-    <p style="margin:0 0 10px;font-size:0.83rem;color:#555;line-height:1.4;max-width:860px;">
+    <p style="margin:0 0 10px;font-size:0.83rem;color:#555;line-height:1.4;max-width:700px;">
       The West station is the monitoring location with the strongest heavy metal spikes and trout decline.
       This diagram connects the damaged West station to each suspect and places them according to distance.
     </p>
     ${svg.node()}
-    <div style="font-size:12px;color:#444;line-height:1.5;margin-top:8px;max-width:860px;">
+    <div style="font-size:12px;color:#444;line-height:1.5;margin-top:8px;max-width:700px;">
       <b>Key Finding:</b> ChemTech Manufacturing is closest to the West station, the same station where
       the strongest heavy metal spikes and trout decline appear. This spatial pattern strengthens the
       case that ChemTech had the clearest geographic opportunity to affect the most damaged part of the lake.
@@ -696,12 +696,15 @@ display(html`
           x: "date",
           y: "suspect",
           fill: "intensity",
-          stroke: d => d.suspect === "ChemTech Manufacturing" ? "#9c2f36" : "#ffffff",
-          strokeWidth: d => d.suspect === "ChemTech Manufacturing" ? 2.2 : 1.4,
+          stroke: d =>
+            d.intensity === "High" ? "#9c2f36" :
+            d.intensity === "Medium" ? "#e67e22" :
+            "#f6d28b",
+          strokeWidth: 1.8,
           r: d =>
             d.intensity === "High" ? 10 :
             d.intensity === "Medium" ? 7 : 5,
-          fillOpacity: d => d.suspect === "ChemTech Manufacturing" ? 1 : 0.78,
+          fillOpacity: d => d.suspect === "ChemTech Manufacturing" ? 1 : 0.82,
           tip: true
         }),
 
