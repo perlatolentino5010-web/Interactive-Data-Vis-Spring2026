@@ -373,6 +373,14 @@ display(html`
           Trout: "#9c2f36"
         };
 
+        const speciesData = fish
+          .filter(d => d.station_id === "West" && d.species === species)
+          .map(d => ({
+            ...d,
+            x1: new Date(+d.date - 10 * 24 * 60 * 60 * 1000),
+            x2: new Date(+d.date + 10 * 24 * 60 * 60 * 1000)
+          }));
+
         return html`
           <div>
             <div style="text-align:center; font-weight:600; color:#555; margin-bottom:4px;">
@@ -402,16 +410,15 @@ display(html`
               },
 
               marks: [
-                Plot.barY(
-                  fish.filter(d => d.station_id === "West" && d.species === species),
-                  {
-                    x: "date",
-                    y: "count",
-                    fill: colors[species],
-                    inset: 2,
-                    tip: true
-                  }
-                )
+                Plot.rectY(speciesData, {
+                  x1: "x1",
+                  x2: "x2",
+                  y1: 0,
+                  y2: "count",
+                  fill: colors[species],
+                  fillOpacity: 0.9,
+                  tip: true
+                })
               ]
             })}
           </div>
