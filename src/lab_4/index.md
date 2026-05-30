@@ -465,30 +465,30 @@ display(html`
     background: #f4eadf;
     padding: 12px 16px;
     border-radius: 12px;
-    max-width: 860px;
+    max-width: 760px;
     font-family: system-ui, sans-serif;
   ">
     <h2 style="
       margin: 0 0 4px 0;
-      font-size: 1.15rem;
+      font-size: 1rem;
       white-space: nowrap;
     ">
       Suspect Distance to Lake Clearwater Monitoring Stations
     </h2>
 
     <div style="
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       margin-bottom: 8px;
     ">
       Shorter distances may indicate stronger geographic opportunity for contamination.
     </div>
 
     ${Plot.plot({
-      width: Math.min(width * 0.72, 820),
-      height: 260,
+      width: Math.min(width * 0.62, 720),
+      height: 250,
 
-      marginLeft: 155,
-      marginRight: 25,
+      marginLeft: 150,
+      marginRight: 20,
       marginBottom: 40,
 
       style: {
@@ -530,16 +530,11 @@ display(html`
         Plot.dot(stationDistances, {
           x: "distance_m",
           y: "suspect",
-
           fill: "station_id",
-
           stroke: "#08304f",
           strokeWidth: 1.2,
-
           r: 8,
-
           fillOpacity: 0.85,
-
           tip: true
         })
       ]
@@ -553,102 +548,6 @@ display(html`
     ">
       Blue tones represent Lake Clearwater monitoring stations.
     </div>
-  </div>
-`)
-```
-
-ChemTech Manufacturing is only 800 meters from the West station. Other suspects are much farther from the West station. This makes ChemTech the strongest spatial match for the area with the worst contamination and the steepest trout decline.
-
-## Evidence 5: Suspect Activity Timeline
-
-This timeline helps compare documented suspect activities against the pollution story.
-
-```js
-display(html`
-  <div style="
-    background: #f7fbff;
-    padding: 14px;
-    border-radius: 10px;
-    max-width: 820px;
-  ">
-    <div style="
-      font-family: system-ui, sans-serif;
-      font-size: 13px;
-      color: #374151;
-      margin-bottom: 8px;
-      font-weight: 600;
-    ">
-      Activity Intensity: Low, Medium, High
-    </div>
-
-    ${Plot.plot({
-      width: Math.min(width * 0.68, 820),
-      height: 330,
-      marginLeft: 165,
-      marginBottom: 55,
-
-      style: {
-        background: "#f7fbff",
-        color: "#374151",
-        fontSize: "13px"
-      },
-
-      x: {
-        label: "Date",
-        grid: true,
-        tickSize: 6
-      },
-
-      y: {
-        label: "Suspect"
-      },
-
-      color: {
-        legend: true,
-        label: "Activity Intensity",
-        domain: ["Low", "Medium", "High"],
-        range: ["#93c5fd", "#3b82f6", "#1e3a8a"]
-      },
-
-      marks: [
-        Plot.gridX({
-          stroke: "#cbd5e1",
-          strokeOpacity: 0.55
-        }),
-
-        Plot.line(activities, {
-          x: "date",
-          y: "suspect",
-          z: "suspect",
-          stroke: "#111827",
-          strokeWidth: 3,
-          strokeOpacity: 0.5
-        }),
-
-        Plot.barX(activities, {
-          x1: "date",
-          x2: d => new Date(+d.date + 35 * 24 * 60 * 60 * 1000),
-          y: "suspect",
-          fill: "intensity",
-          rx: 10,
-          insetTop: 8,
-          insetBottom: 8,
-          tip: true
-        }),
-
-        Plot.dot(activities, {
-          x: "date",
-          y: "suspect",
-          fill: "intensity",
-          stroke: "white",
-          strokeWidth: 1.8,
-          r: d =>
-            d.intensity === "High" ? 5 :
-            d.intensity === "Medium" ? 4.5 : 4,
-          tip: true
-        })
-      ]
-    })}
   </div>
 `)
 ```
