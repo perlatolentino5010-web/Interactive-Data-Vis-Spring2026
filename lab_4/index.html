@@ -61,11 +61,11 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780123232643,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780123232643,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780123232643,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780123232643,"size":26191});
-registerFile("./docs/Lake-Clearwater-Image.png", {"name":"./docs/Lake-Clearwater-Image.png","mimeType":"image/png","path":"../_file/lab_4/docs/Lake-Clearwater-Image.0473b1c3.png","lastModified":1780123232644,"size":1697706});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780123319222,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780123319222,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780123319222,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780123319222,"size":26191});
+registerFile("./docs/Lake-Clearwater-Image.png", {"name":"./docs/Lake-Clearwater-Image.png","mimeType":"image/png","path":"../_file/lab_4/docs/Lake-Clearwater-Image.0473b1c3.png","lastModified":1780123319223,"size":1697706});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -477,35 +477,37 @@ const westDistances = stationDistances
 return {stationDistances,westDistances};
 }});
 
-define({id: "746d6a06", inputs: ["display","html","Plot","stationDistances"], body: (display,html,Plot,stationDistances) => {
+define({id: "6882d539", inputs: ["display","html","Plot","westDistances"], body: (display,html,Plot,westDistances) => {
 display(html`
   <div style="
     background: #f4eadf;
-    padding: 12px 16px;
+    padding: 16px 18px;
     border-radius: 12px;
     max-width: 760px;
     font-family: system-ui, sans-serif;
   ">
     <h2 style="
       margin: 0 0 4px 0;
-      font-size: 0.95rem;
+      font-size: 1rem;
       white-space: nowrap;
     ">
-      Suspect Distance to Lake Clearwater Monitoring Stations
+      Who Is Closest to the Damaged West Station?
     </h2>
 
     <div style="
-      font-size: 0.8rem;
-      margin-bottom: 8px;
+      font-size: 0.82rem;
+      margin-bottom: 10px;
+      line-height: 1.35;
     ">
-      Shorter distances may indicate stronger geographic opportunity for contamination.
+      Since the strongest heavy metal spikes and trout decline appear at the West station,
+      this chart narrows the distance evidence to the most important location.
     </div>
 
     ${Plot.plot({
       width: 700,
       height: 250,
-      marginLeft: 150,
-      marginRight: 20,
+      marginLeft: 165,
+      marginRight: 25,
       marginBottom: 40,
 
       style: {
@@ -515,21 +517,20 @@ display(html`
       },
 
       x: {
-        label: "Distance to Monitoring Station (meters)",
+        label: "Distance to West Station (meters) →",
         grid: true,
         tickSize: 6
       },
 
       y: {
         label: null,
-        grid: true
+        domain: westDistances.map(d => d.suspect)
       },
 
       color: {
-        legend: true,
-        label: "Monitoring Station",
-        domain: ["East", "North", "South", "West"],
-        range: ["#b9c9e6", "#74a9cf", "#2b8cbe", "#084081"]
+        legend: false,
+        domain: ["West"],
+        range: ["#084081"]
       },
 
       marks: [
@@ -539,20 +540,38 @@ display(html`
           strokeDasharray: "3,4"
         }),
 
-        Plot.gridY({
-          stroke: "#ffffff",
+        Plot.ruleX([0], {
+          stroke: "#333",
           strokeOpacity: 0.35
         }),
 
-        Plot.dot(stationDistances, {
+        Plot.barX(westDistances, {
           x: "distance_m",
           y: "suspect",
-          fill: "station_id",
+          fill: "#084081",
+          fillOpacity: 0.75,
+          rx: 6,
+          tip: true
+        }),
+
+        Plot.dot(westDistances, {
+          x: "distance_m",
+          y: "suspect",
+          fill: "#084081",
           stroke: "#08304f",
           strokeWidth: 1.2,
-          r: 8,
-          fillOpacity: 0.85,
+          r: 6,
           tip: true
+        }),
+
+        Plot.text(westDistances, {
+          x: "distance_m",
+          y: "suspect",
+          text: d => `${d.distance_m} m`,
+          dx: 10,
+          fill: "#333",
+          fontSize: 12,
+          fontWeight: 600
         })
       ]
     })}
@@ -560,10 +579,10 @@ display(html`
     <div style="
       font-size: 11px;
       text-align: center;
-      margin-top: 4px;
+      margin-top: 6px;
       color: #555;
     ">
-      Blue tones represent Lake Clearwater monitoring stations.
+      Dark blue represents the West station, the location with the strongest evidence of contamination and trout decline.
     </div>
   </div>
 `)
@@ -798,7 +817,7 @@ return {lakeImage};
 </h2>
 <p>The worst contamination and trout decline appear at the West station. This graph compares how close each suspect is to each monitoring station.</p>
 <div class="observablehq observablehq--block"><!--:3f77643f:--></div>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:746d6a06:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:6882d539:--></div>
 <p>ChemTech Manufacturing is closest to the West station, the same station where the strongest heavy metal spikes and trout decline appear. This spatial pattern strengthens the case that ChemTech had the clearest geographic opportunity to affect the most damaged part of the lake.</p>
 <h2 id="evidence-5-suspect-activity-timeline" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-5-suspect-activity-timeline">Evidence 5: Suspect Activity Timeline</a></h2>
 <p>This timeline helps compare documented suspect activities against the pollution story.</p>
@@ -817,7 +836,7 @@ return {lakeImage};
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T06:40:37">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T06:42:08">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
