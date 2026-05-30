@@ -627,24 +627,43 @@ This timeline helps compare documented suspect activities against the pollution 
 ```js
 display(html`
   <div style="
-    background: #f7fbff;
-    padding: 14px;
-    border-radius: 10px;
-    max-width: 820px;
+    background:#f7fbff;
+    padding:16px;
+    border-radius:10px;
+    max-width:850px;
+    font-family:system-ui, sans-serif;
   ">
     <div style="
-      font-family: system-ui, sans-serif;
-      font-size: 13px;
-      color: #374151;
-      margin-bottom: 8px;
-      font-weight: 600;
+      background:#eef6ff;
+      border-left:4px solid #1e3a8a;
+      padding:10px 12px;
+      margin-bottom:12px;
+      color:#374151;
+      font-size:13px;
+      line-height:1.4;
     ">
-      Activity Intensity: Low, Medium, High
+      <b>What this shows:</b><br>
+      This timeline compares documented suspect activities during the crisis period. 
+      High-intensity activity does not automatically mean heavy metal waste, but ChemTech matters most because it is the suspect closest to the damaged West station and is connected to heavy metal discharge.
+    </div>
+
+    <div style="
+      display:flex;
+      gap:14px;
+      align-items:center;
+      margin-bottom:10px;
+      font-size:13px;
+      color:#374151;
+    ">
+      <b>Activity Intensity:</b>
+      <span><span style="display:inline-block;width:14px;height:14px;background:#93c5fd;margin-right:5px;"></span>Low</span>
+      <span><span style="display:inline-block;width:14px;height:14px;background:#3b82f6;margin-right:5px;"></span>Medium</span>
+      <span><span style="display:inline-block;width:14px;height:14px;background:#1e3a8a;margin-right:5px;"></span>High</span>
     </div>
 
     ${Plot.plot({
-      width: Math.min(width * 0.68, 820),
-      height: 330,
+      width: Math.min(width * 0.72, 840),
+      height: 350,
       marginLeft: 165,
       marginBottom: 55,
 
@@ -655,18 +674,17 @@ display(html`
       },
 
       x: {
-        label: "Date",
+        label: "Date →",
         grid: true,
         tickSize: 6
       },
 
       y: {
-        label: "Suspect"
+        label: null
       },
 
       color: {
-        legend: true,
-        label: "Activity Intensity",
+        legend: false,
         domain: ["Low", "Medium", "High"],
         range: ["#93c5fd", "#3b82f6", "#1e3a8a"]
       },
@@ -682,8 +700,8 @@ display(html`
           y: "suspect",
           z: "suspect",
           stroke: "#111827",
-          strokeWidth: 3,
-          strokeOpacity: 0.5
+          strokeWidth: d => d.suspect === "ChemTech Manufacturing" ? 4 : 2.5,
+          strokeOpacity: d => d.suspect === "ChemTech Manufacturing" ? 0.65 : 0.35
         }),
 
         Plot.barX(activities, {
@@ -694,6 +712,7 @@ display(html`
           rx: 10,
           insetTop: 8,
           insetBottom: 8,
+          fillOpacity: d => d.suspect === "ChemTech Manufacturing" ? 1 : 0.72,
           tip: true
         }),
 
@@ -704,12 +723,40 @@ display(html`
           stroke: "white",
           strokeWidth: 1.8,
           r: d =>
-            d.intensity === "High" ? 5 :
-            d.intensity === "Medium" ? 4.5 : 4,
+            d.intensity === "High" ? 5.5 :
+            d.intensity === "Medium" ? 4.8 : 4,
           tip: true
-        })
+        }),
+
+        Plot.text(
+          activities.filter(d => d.suspect === "ChemTech Manufacturing"),
+          {
+            x: "date",
+            y: "suspect",
+            text: d => d.intensity === "High" ? "High" : "",
+            dy: -18,
+            fill: "#1e3a8a",
+            fontSize: 10,
+            fontWeight: 700
+          }
+        )
       ]
     })}
+
+    <div style="
+      margin-top:10px;
+      padding:10px 12px;
+      background:white;
+      border:1px solid #dbeafe;
+      border-radius:8px;
+      color:#374151;
+      font-size:13px;
+      line-height:1.4;
+    ">
+      <b>Key Finding:</b>
+      ChemTech Manufacturing shows repeated high-intensity activity across the study period. 
+      Because ChemTech is also closest to the damaged West station, this timing strengthens the case that it had both geographic opportunity and repeated activity during the crisis.
+    </div>
   </div>
 `)
 ```
