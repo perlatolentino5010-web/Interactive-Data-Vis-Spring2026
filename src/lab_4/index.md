@@ -641,10 +641,12 @@ Taken together, the temporal, biological, and spatial evidence support ChemTech 
 # The End
 
 ```js
+const lakeImage = await FileAttachment("Lake-Clearwater-Image.png").url();
+
 display(html`
   <div style="margin-top:40px; text-align:center;">
     <img
-      src="./Lake-Clearwater-Image.png"
+      src="${lakeImage}"
       alt="Lake Clearwater"
       style="
         width:100%;
