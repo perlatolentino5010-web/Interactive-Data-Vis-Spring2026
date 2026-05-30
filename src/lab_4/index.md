@@ -470,6 +470,15 @@ const stationDistances = stations.flatMap(d => [
 const westDistances = stationDistances
   .filter(d => d.station_id === "West")
   .sort((a, b) => a.distance_m - b.distance_m);
+
+const maxWestDistance = Math.max(...westDistances.map(d => d.distance_m));
+
+const suspectIcons = {
+  "ChemTech Manufacturing": "🏭",
+  "Riverside Farm": "🌽",
+  "Lakeview Resort": "🏨",
+  "Clearwater Fishing Lodge": "🎣"
+};
 ```
 
 ```js
@@ -478,7 +487,7 @@ display(html`
     background:#f4eadf;
     padding:18px 20px;
     border-radius:12px;
-    max-width:900px;
+    max-width:940px;
     font-family:system-ui, sans-serif;
   ">
     <h2 style="
@@ -493,112 +502,94 @@ display(html`
       font-size:0.84rem;
       margin-bottom:14px;
       line-height:1.4;
-      max-width:820px;
+      max-width:860px;
     ">
       The West station is the monitoring location with the strongest heavy metal spikes and trout decline.
-      Suspects are positioned according to their actual distance from the West station.
-      Shorter distances may indicate greater geographic opportunity for contamination.
+      This diagram connects the damaged West station to each suspect and places them according to distance.
     </div>
 
-    <svg width="850" height="260" style="background:#f4eadf; overflow:visible;">
-
-      <!-- Baseline -->
-      <line
-        x1="90"
-        y1="140"
-        x2="760"
-        y2="140"
-        stroke="#888"
-        stroke-width="4"
-        stroke-opacity="0.4"
-      />
+    <svg width="900" height="370" style="background:#f4eadf; overflow:visible;">
 
       <!-- West Station -->
-      <circle
-        cx="90"
-        cy="140"
-        r="24"
-        fill="#084081"
-        stroke="#08304f"
-        stroke-width="3"
-      />
+      <circle cx="95" cy="185" r="28" fill="#084081" stroke="#08304f" stroke-width="3"></circle>
 
-      <text
-        x="90"
-        y="95"
-        text-anchor="middle"
-        font-size="15"
-        font-weight="700"
-        fill="#222"
-      >
+      <text x="95" y="135" text-anchor="middle" font-size="15" font-weight="700" fill="#222">
         West Station
       </text>
 
-      <text
-        x="90"
-        y="113"
-        text-anchor="middle"
-        font-size="11"
-        fill="#555"
-      >
+      <text x="95" y="154" text-anchor="middle" font-size="11" fill="#555">
         damaged site
       </text>
 
       ${westDistances.map((d, i) => {
-
-        const x =
-          90 + (d.distance_m / 5600) * 650;
-
-        const labelAbove = i % 2 === 0;
+        const x = 95 + (d.distance_m / maxWestDistance) * 690;
+        const y = 70 + i * 78;
+        const isChemTech = d.suspect === "ChemTech Manufacturing";
 
         return html`
-
-          <!-- connection -->
+          <!-- connecting line -->
           <line
-            x1="114"
-            y1="140"
-            x2="${x}"
-            y2="140"
-            stroke="#999"
-            stroke-width="2"
-            stroke-opacity="0.5"
-          />
+            x1="123"
+            y1="185"
+            x2="${x - 18}"
+            y2="${y}"
+            stroke="${isChemTech ? "#084081" : "#888"}"
+            stroke-width="${isChemTech ? 4 : 2.5}"
+            stroke-opacity="${isChemTech ? 0.85 : 0.45}"
+          ></line>
 
-          <!-- suspect node -->
+          <!-- suspect circle -->
           <circle
             cx="${x}"
-            cy="140"
-            r="${d.suspect === "ChemTech Manufacturing" ? 18 : 15}"
+            cy="${y}"
+            r="${isChemTech ? 24 : 21}"
             fill="#084081"
-            fill-opacity="${d.suspect === "ChemTech Manufacturing" ? 0.95 : 0.65}"
+            fill-opacity="${isChemTech ? 0.95 : 0.62}"
             stroke="#08304f"
-            stroke-width="2"
-          />
+            stroke-width="2.5"
+          ></circle>
 
-          <!-- distance -->
+          <!-- icon -->
           <text
             x="${x}"
-            y="118"
+            y="${y + 7}"
             text-anchor="middle"
-            font-size="11"
+            font-size="${isChemTech ? 22 : 19}"
+          >
+            ${suspectIcons[d.suspect]}
+          </text>
+
+          <!-- distance label close to line -->
+          <text
+            x="${(123 + x) / 2}"
+            y="${(185 + y) / 2 - 8}"
+            text-anchor="middle"
+            font-size="12"
             font-weight="700"
             fill="#333"
           >
             ${d.distance_m} m
           </text>
 
-          <!-- suspect label -->
+          <!-- suspect name -->
           <text
-            x="${x}"
-            y="${labelAbove ? 85 : 190}"
-            text-anchor="middle"
-            font-size="12"
-            font-weight="${d.suspect === "ChemTech Manufacturing" ? 700 : 500}"
+            x="${x + 34}"
+            y="${y - 4}"
+            font-size="13"
+            font-weight="${isChemTech ? 700 : 500}"
             fill="#222"
           >
             ${d.suspect}
           </text>
 
+          <text
+            x="${x + 34}"
+            y="${y + 14}"
+            font-size="12"
+            fill="#444"
+          >
+            ${d.distance_m} m from West
+          </text>
         `;
       })}
 
@@ -607,12 +598,12 @@ display(html`
     <div style="
       font-size:12px;
       line-height:1.4;
-      margin-top:10px;
+      margin-top:8px;
       color:#444;
-      max-width:820px;
+      max-width:860px;
     ">
       <b>Key Finding:</b>
-      ChemTech Manufacturing appears closest to the West station, while Riverside Farm is farthest away. Because the strongest contamination and trout decline occur at the West station, ChemTech has the greatest geographic opportunity to contribute to the environmental damage observed there.
+      ChemTech Manufacturing is the closest suspect to the damaged West station. Since the strongest contamination and trout decline appear at West, this gives ChemTech the strongest geographic opportunity in the case.
     </div>
   </div>
 `)
