@@ -250,23 +250,41 @@ Trout are highly sensitive to pollution and serve as an early warning indicator 
 
 ```js
 display(html`
-  <div style="
+  <style>
+    .neon-trout-chart .plot-swatches {
+      color: #d7f7ff;
+      font-size: 13px;
+    }
+
+    .neon-trout-chart svg g[aria-label="tip"] path {
+      fill: #243447;
+      stroke: #8ecae6;
+      stroke-width: 1;
+    }
+
+    .neon-trout-chart svg g[aria-label="tip"] text {
+      fill: #d7f7ff;
+      font-weight: 600;
+    }
+  </style>
+
+  <div class="neon-trout-chart" style="
     background: #07111f;
-    padding: 18px;
+    padding: 16px;
     border-radius: 14px;
     box-shadow: 0 0 18px rgba(0, 255, 255, 0.18);
-    max-width: 1050px;
+    max-width: 920px;
   ">
     ${Plot.plot({
-      width: Math.min(width * 0.88, 1050),
-      height: 410,
-      marginLeft: 70,
-      marginBottom: 55,
+      width: Math.min(width * 0.78, 920),
+      height: 360,
+      marginLeft: 65,
+      marginBottom: 50,
 
       style: {
         background: "#07111f",
         color: "#d7f7ff",
-        fontSize: "14px"
+        fontSize: "13px"
       },
 
       x: {
@@ -276,7 +294,7 @@ display(html`
       },
 
       y: {
-        label: "↑ Trout Population Decline",
+        label: "↑ Trout Species Decline",
         grid: true,
         tickSize: 6
       },
@@ -289,8 +307,8 @@ display(html`
       },
 
       marks: [
-        Plot.gridX({stroke: "rgba(215, 247, 255, 0.12)"}),
-        Plot.gridY({stroke: "rgba(215, 247, 255, 0.12)"}),
+        Plot.gridX({stroke: "rgba(215, 247, 255, 0.08)"}),
+        Plot.gridY({stroke: "rgba(215, 247, 255, 0.08)"}),
 
         Plot.lineY(
           fish.filter(d => d.species === "Trout"),
@@ -298,7 +316,7 @@ display(html`
             x: "date",
             y: "count",
             stroke: "station_id",
-            strokeWidth: 3,
+            strokeWidth: 2.7,
             tip: true
           }
         ),
@@ -311,7 +329,7 @@ display(html`
             fill: "station_id",
             stroke: "#07111f",
             strokeWidth: 1,
-            r: 4,
+            r: 3.5,
             tip: true
           }
         )
