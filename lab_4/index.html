@@ -61,10 +61,10 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780114326335,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780114326335,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780114326335,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780114326335,"size":26191});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780114535018,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780114535018,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780114535018,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780114535018,"size":26191});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -566,28 +566,25 @@ display(html`
 `)
 }});
 
-define({id: "19fa37d3", inputs: ["display","html"], body: (display,html) => {
+define({id: "40e896f1", inputs: ["display","html"], body: (display,html) => {
 display(html`
-  <div style="
-    margin-top: 40px;
-    text-align: center;
-  ">
+  <div style="margin-top:40px; text-align:center;">
     <img
-      src="./Lake Clearwater Image.png"
+      src="./_file/Lake Clearwater Image.png"
       alt="Lake Clearwater"
       style="
-        width: 100%;
-        max-width: 1000px;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        width:100%;
+        max-width:1000px;
+        border-radius:12px;
+        box-shadow:0 4px 12px rgba(0,0,0,0.15);
       "
     >
 
     <div style="
-      margin-top: 8px;
-      font-size: 12px;
-      color: #666;
-      font-style: italic;
+      margin-top:8px;
+      font-size:12px;
+      color:#666;
+      font-style:italic;
     ">
       Lake Clearwater, Canterbury, New Zealand.
     </div>
@@ -711,11 +708,11 @@ display(html`
 <p>Taken together, the temporal, biological, and spatial evidence support ChemTech Manufacturing as the most likely contributor to the ecological collapse of Lake Clearwater. Case closed... unless ChemTech has a very good lawyer.</p>
 <p><strong>"When you have eliminated the impossible, whatever remains, however improbable, must be the truth." ~ Sherlock Holmes</strong></p>
 <h1 id="the-end" tabindex="-1"><a class="observablehq-header-anchor" href="#the-end">The End</a></h1>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:19fa37d3:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:40e896f1:--></div>
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T04:12:11">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T04:15:41">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
