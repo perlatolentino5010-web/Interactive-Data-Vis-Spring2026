@@ -61,11 +61,11 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780131010761,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780131010761,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780131010761,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780131010761,"size":26191});
-registerFile("./docs/Lake-Clearwater-Image.png", {"name":"./docs/Lake-Clearwater-Image.png","mimeType":"image/png","path":"../_file/lab_4/docs/Lake-Clearwater-Image.0473b1c3.png","lastModified":1780131010762,"size":1697706});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780131747839,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780131747839,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780131747839,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780131747839,"size":26191});
+registerFile("./docs/Lake-Clearwater-Image.png", {"name":"./docs/Lake-Clearwater-Image.png","mimeType":"image/png","path":"../_file/lab_4/docs/Lake-Clearwater-Image.0473b1c3.png","lastModified":1780131747840,"size":1697706});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -463,7 +463,7 @@ display(html`
 `)
 }});
 
-define({id: "d23b570b", inputs: ["d3","html","display"], body: (d3,html,display) => {
+define({id: "b14a2b94", inputs: ["d3","html","display"], body: (d3,html,display) => {
 {
   const suspects = [
     { name: "ChemTech Manufacturing",   icon: "🏭", distance_m: 410  },
@@ -472,9 +472,9 @@ define({id: "d23b570b", inputs: ["d3","html","display"], body: (d3,html,display)
     { name: "Clearwater Fishing Lodge", icon: "🎣", distance_m: 1750 },
   ];
 
-  const W = 900, H = 300;
+  const W = 700, H = 300;
   const originX = 90, originY = H / 2;
-  const trackLeft = 180, trackRight = 620;
+  const trackLeft = 180, trackRight = 460;
   const trackLen = trackRight - trackLeft;
   const maxDist = Math.max(...suspects.map(d => d.distance_m));
 
@@ -555,7 +555,7 @@ define({id: "d23b570b", inputs: ["d3","html","display"], body: (d3,html,display)
       .attr("font-size", isChemTech ? 18 : 15)
       .text(d.icon);
 
-    // Suspect name — to the right of node
+    // Suspect name
     svg.append("text")
       .attr("x", nx + nodeR + 8).attr("y", ny - 3)
       .attr("font-size", 12)
@@ -587,18 +587,18 @@ define({id: "d23b570b", inputs: ["d3","html","display"], body: (d3,html,display)
     background: #f4eadf;
     padding: 16px 20px;
     border-radius: 12px;
-    max-width: 960px;
+    max-width: 740px;
     font-family: system-ui, sans-serif;
   ">
     <h2 style="margin:0 0 5px;font-size:1rem;color:#1a1a1a;">
       Distance from the Damaged West Station to Each Suspect
     </h2>
-    <p style="margin:0 0 10px;font-size:0.83rem;color:#555;line-height:1.4;max-width:860px;">
+    <p style="margin:0 0 10px;font-size:0.83rem;color:#555;line-height:1.4;max-width:700px;">
       The West station is the monitoring location with the strongest heavy metal spikes and trout decline.
       This diagram connects the damaged West station to each suspect and places them according to distance.
     </p>
     ${svg.node()}
-    <div style="font-size:12px;color:#444;line-height:1.5;margin-top:8px;max-width:860px;">
+    <div style="font-size:12px;color:#444;line-height:1.5;margin-top:8px;max-width:700px;">
       <b>Key Finding:</b> ChemTech Manufacturing is closest to the West station, the same station where
       the strongest heavy metal spikes and trout decline appear. This spatial pattern strengthens the
       case that ChemTech had the clearest geographic opportunity to affect the most damaged part of the lake.
@@ -609,7 +609,7 @@ define({id: "d23b570b", inputs: ["d3","html","display"], body: (d3,html,display)
 }
 }});
 
-define({id: "cac62f21", inputs: ["display","html","Plot","width","activities"], body: (display,html,Plot,width,activities) => {
+define({id: "19ae2970", inputs: ["display","html","Plot","width","activities"], body: (display,html,Plot,width,activities) => {
 display(html`
   <div style="
     background:#fafaf7;
@@ -694,12 +694,15 @@ display(html`
           x: "date",
           y: "suspect",
           fill: "intensity",
-          stroke: d => d.suspect === "ChemTech Manufacturing" ? "#9c2f36" : "#ffffff",
-          strokeWidth: d => d.suspect === "ChemTech Manufacturing" ? 2.2 : 1.4,
+          stroke: d =>
+            d.intensity === "High" ? "#9c2f36" :
+            d.intensity === "Medium" ? "#e67e22" :
+            "#f6d28b",
+          strokeWidth: 1.8,
           r: d =>
             d.intensity === "High" ? 10 :
             d.intensity === "Medium" ? 7 : 5,
-          fillOpacity: d => d.suspect === "ChemTech Manufacturing" ? 1 : 0.78,
+          fillOpacity: d => d.suspect === "ChemTech Manufacturing" ? 1 : 0.82,
           tip: true
         }),
 
@@ -886,11 +889,11 @@ return {lakeImage};
   Evidence 4: Suspect Distance to Each Monitoring Station
 </h2>
 <p>The worst contamination and trout decline appear at the West station. This graph compares how close each suspect is to each monitoring station.</p>
-<div class="observablehq observablehq--block"><!--:d23b570b:--></div>
+<div class="observablehq observablehq--block"><!--:b14a2b94:--></div>
 <p>ChemTech Manufacturing is closest to the West station, the same station where the strongest heavy metal spikes and trout decline appear. This spatial pattern strengthens the case that ChemTech had the clearest geographic opportunity to affect the most damaged part of the lake.</p>
 <h2 id="evidence-5-suspect-activity-timeline" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-5-suspect-activity-timeline">Evidence 5: Suspect Activity Timeline</a></h2>
 <p>This timeline helps compare documented suspect activities against the pollution story.</p>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:cac62f21:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:19ae2970:--></div>
 <p>ChemTech has repeated high-intensity maintenance shutdowns across the study period. Because ChemTech is also the closest suspect to the West station and is associated with heavy metal discharge, its activity pattern strengthens the case against it.</p>
 <h2 id="alternative-suspects-considered" tabindex="-1"><a class="observablehq-header-anchor" href="#alternative-suspects-considered">Alternative Suspects Considered</a></h2>
 <p><strong>Riverside Farm</strong> is closest to the North station and would more likely explain nitrogen or phosphorus problems. However, the most severe heavy metal spikes and trout collapse occur at the West station, not the North station.</p>
@@ -905,7 +908,7 @@ return {lakeImage};
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T08:50:19">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T09:02:34">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
