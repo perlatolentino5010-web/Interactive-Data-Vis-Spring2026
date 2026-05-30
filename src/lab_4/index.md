@@ -299,7 +299,6 @@ If heavy metals are driving the collapse, the most sensitive species should be a
 
 ```js
 display(Plot.plot({
-  display(Plot.plot({
   width,
   height: 450,
   marginLeft: 60,
