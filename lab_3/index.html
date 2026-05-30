@@ -58,10 +58,10 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1780135106626,"size":8105});
-registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1780135106626,"size":2892});
-registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1780135106626,"size":131971});
-registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1780135106626,"size":6301});
+registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1780135333679,"size":8105});
+registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1780135333679,"size":2892});
+registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1780135333679,"size":131971});
+registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1780135333679,"size":6301});
 
 define({id: "a87f56f3", inputs: ["FileAttachment","topojson","d3","display"], outputs: ["nyc","results","survey","events","districts","totalCandidateVotes","totalOpponentVotes","totalVotes","overallShare"], body: async (FileAttachment,topojson,d3,display) => {
 const nyc = await FileAttachment("./data/nyc.json").json();
@@ -262,43 +262,40 @@ Income category: ${d.income_category}`
 ))
 }});
 
-define({id: "7bad2938", inputs: ["d3","display","Plot"], body: (d3,display,Plot) => {
+define({id: "cf57724b", inputs: ["d3","display"], body: async (d3,display) => {
 {
+  const Plot = await import("https://esm.sh/@observablehq/plot@0.6.16");
+
   const resultsWithShare = [
-    // High income districts
-    { boro_cd: "101", income_category: "High", candidate_vote_share: 0.58, vote_margin: 120 },
-    { boro_cd: "102", income_category: "High", candidate_vote_share: 0.55, vote_margin: 98 },
-    { boro_cd: "103", income_category: "High", candidate_vote_share: 0.61, vote_margin: 145 },
-    { boro_cd: "104", income_category: "High", candidate_vote_share: 0.53, vote_margin: 87 },
-    { boro_cd: "105", income_category: "High", candidate_vote_share: 0.57, vote_margin: 110 },
-    { boro_cd: "106", income_category: "High", candidate_vote_share: 0.60, vote_margin: 132 },
-    { boro_cd: "107", income_category: "High", candidate_vote_share: 0.54, vote_margin: 92 },
-    { boro_cd: "108", income_category: "High", candidate_vote_share: 0.59, vote_margin: 125 },
-
-    // Middle income districts
-    { boro_cd: "201", income_category: "Middle", candidate_vote_share: 0.47, vote_margin: 42 },
-    { boro_cd: "202", income_category: "Middle", candidate_vote_share: 0.44, vote_margin: 28 },
-    { boro_cd: "203", income_category: "Middle", candidate_vote_share: 0.50, vote_margin: 55 },
-    { boro_cd: "204", income_category: "Middle", candidate_vote_share: 0.46, vote_margin: 35 },
-    { boro_cd: "205", income_category: "Middle", candidate_vote_share: 0.49, vote_margin: 50 },
-    { boro_cd: "206", income_category: "Middle", candidate_vote_share: 0.43, vote_margin: 22 },
-    { boro_cd: "207", income_category: "Middle", candidate_vote_share: 0.51, vote_margin: 60 },
-    { boro_cd: "208", income_category: "Middle", candidate_vote_share: 0.45, vote_margin: 30 },
-
-    // Low income districts
-    { boro_cd: "301", income_category: "Low", candidate_vote_share: 0.34, vote_margin: -45 },
-    { boro_cd: "302", income_category: "Low", candidate_vote_share: 0.31, vote_margin: -68 },
-    { boro_cd: "303", income_category: "Low", candidate_vote_share: 0.37, vote_margin: -28 },
-    { boro_cd: "304", income_category: "Low", candidate_vote_share: 0.29, vote_margin: -82 },
-    { boro_cd: "305", income_category: "Low", candidate_vote_share: 0.35, vote_margin: -40 },
-    { boro_cd: "306", income_category: "Low", candidate_vote_share: 0.32, vote_margin: -60 },
-    { boro_cd: "307", income_category: "Low", candidate_vote_share: 0.38, vote_margin: -22 },
-    { boro_cd: "308", income_category: "Low", candidate_vote_share: 0.30, vote_margin: -75 },
+    { boro_cd: "101", income_category: "High",   candidate_vote_share: 0.58, vote_margin: 120  },
+    { boro_cd: "102", income_category: "High",   candidate_vote_share: 0.55, vote_margin: 98   },
+    { boro_cd: "103", income_category: "High",   candidate_vote_share: 0.61, vote_margin: 145  },
+    { boro_cd: "104", income_category: "High",   candidate_vote_share: 0.53, vote_margin: 87   },
+    { boro_cd: "105", income_category: "High",   candidate_vote_share: 0.57, vote_margin: 110  },
+    { boro_cd: "106", income_category: "High",   candidate_vote_share: 0.60, vote_margin: 132  },
+    { boro_cd: "107", income_category: "High",   candidate_vote_share: 0.54, vote_margin: 92   },
+    { boro_cd: "108", income_category: "High",   candidate_vote_share: 0.59, vote_margin: 125  },
+    { boro_cd: "201", income_category: "Middle", candidate_vote_share: 0.47, vote_margin: 42   },
+    { boro_cd: "202", income_category: "Middle", candidate_vote_share: 0.44, vote_margin: 28   },
+    { boro_cd: "203", income_category: "Middle", candidate_vote_share: 0.50, vote_margin: 55   },
+    { boro_cd: "204", income_category: "Middle", candidate_vote_share: 0.46, vote_margin: 35   },
+    { boro_cd: "205", income_category: "Middle", candidate_vote_share: 0.49, vote_margin: 50   },
+    { boro_cd: "206", income_category: "Middle", candidate_vote_share: 0.43, vote_margin: 22   },
+    { boro_cd: "207", income_category: "Middle", candidate_vote_share: 0.51, vote_margin: 60   },
+    { boro_cd: "208", income_category: "Middle", candidate_vote_share: 0.45, vote_margin: 30   },
+    { boro_cd: "301", income_category: "Low",    candidate_vote_share: 0.34, vote_margin: -45  },
+    { boro_cd: "302", income_category: "Low",    candidate_vote_share: 0.31, vote_margin: -68  },
+    { boro_cd: "303", income_category: "Low",    candidate_vote_share: 0.37, vote_margin: -28  },
+    { boro_cd: "304", income_category: "Low",    candidate_vote_share: 0.29, vote_margin: -82  },
+    { boro_cd: "305", income_category: "Low",    candidate_vote_share: 0.35, vote_margin: -40  },
+    { boro_cd: "306", income_category: "Low",    candidate_vote_share: 0.32, vote_margin: -60  },
+    { boro_cd: "307", income_category: "Low",    candidate_vote_share: 0.38, vote_margin: -22  },
+    { boro_cd: "308", income_category: "Low",    candidate_vote_share: 0.30, vote_margin: -75  },
   ];
 
   const overallShare = d3.mean(resultsWithShare, d => d.candidate_vote_share);
 
-  display(Plot.plot({
+  const chart = Plot.plot({
     width: 900,
     height: 420,
     marginLeft: 60,
@@ -343,7 +340,9 @@ define({id: "7bad2938", inputs: ["d3","display","Plot"], body: (d3,display,Plot)
         tip: true
       })
     ]
-  }));
+  });
+
+  display(chart);
 }
 }});
 
@@ -457,14 +456,14 @@ Plot.plot({
 <p>This choropleth map shows the candidate's vote share across NYC districts. Darker districts indicate stronger electoral performance, while lighter districts indicate weaker support. Viewing vote share geographically helps identify clusters of support and reveals whether the campaign performed consistently across boroughs or relied heavily on a few strong districts.</p>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:c4bcfa19:--></div>
 <p>This chart shows vote margin by district. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better. While the candidate dominated the district count (36), the oponent had an overwhelming majority of voter suport int he fewer districts that supported him (23), showing the importance of voter's power.</p>
-<div class="observablehq observablehq--block"><!--:7bad2938:--></div>
+<div class="observablehq observablehq--block"><!--:cf57724b:--></div>
 <p>This chart compares candidate vote share across low-, middle-, and high-income districts. The candidate performed strongest in low-income districts, where vote share was consistently above the citywide average. Middle-income districts showed more mixed results, with some districts strongly supporting the candidate and others providing weaker support. High-income districts had the lowest levels of support overall, with most districts falling below the citywide average. These patterns suggest that income may have influenced voting behavior and that the campaign was more successful in lower-income communities than in wealthier areas.</p>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:be489001:--></div>
 <p>Finally, this chart compares whether survey respondents had heard of the candidate and whether they voted. This helps connect campaign awareness with voter participation. Overall, this chart is a reflection of conscious voting having greater impact in this NYC majoral election.</p>
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a><a rel="next" href="../lab_4/readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T09:58:33">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T10:02:19">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
