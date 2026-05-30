@@ -95,24 +95,25 @@ District: ${d.boro_cd}`
 
 This map shows where campaign events were held across NYC. Larger dots represent higher estimated attendance, and colors show different event types. Some areas appear to have higher comunity engagement such as Manhattan, Bronx and part of Brooklyn (Faro Rockaway being a major exception), where as Queens seems somewhat active. Staten Island on the other hand shows the lowest engagement, hinting to a disconnect in this city's role in the broader NYC community.
 
-
 ```js
-const resultsByDistrict = new Map(
+const voteResultsByDistrict = new Map(
   results.map(d => [String(d.boro_cd), d])
 );
 
-const districtResults = {
+const voteShareDistricts = {
   type: "FeatureCollection",
   features: districts.features.map(d => {
-    const boro_cd = String(d.properties.boro_cd ?? d.properties.BoroCD ?? d.id);
-    const result = resultsByDistrict.get(boro_cd);
+    const districtID = String(d.properties.boro_cd ?? d.properties.BoroCD ?? d.id);
+    const result = voteResultsByDistrict.get(districtID);
 
     return {
       ...d,
       properties: {
         ...d.properties,
-        ...result,
-        boro_cd,
+        boro_cd: districtID,
+        votes_candidate: result?.votes_candidate,
+        votes_opponent: result?.votes_opponent,
+        income_category: result?.income_category,
         candidate_vote_share: result
           ? result.votes_candidate / (result.votes_candidate + result.votes_opponent)
           : null,
@@ -124,15 +125,16 @@ const districtResults = {
   })
 };
 ```
+
 ```js
 // Candidate vote share choropleth map
 Plot.plot({
-  width: 800,
+  width: 850,
   height: 700,
 
   projection: {
     type: "mercator",
-    domain: districtResults
+    domain: voteShareDistricts
   },
 
   color: {
@@ -143,7 +145,7 @@ Plot.plot({
   },
 
   marks: [
-    Plot.geo(districtResults, {
+    Plot.geo(voteShareDistricts, {
       fill: d => d.properties.candidate_vote_share,
       stroke: "#404040",
       strokeWidth: 0.7,
