@@ -447,7 +447,9 @@ display(html`
 
 At the West station, trout show the most dramatic decline compared with bass and carp. This matters because the scientific reference identifies trout as the most sensitive species, bass as moderately sensitive, and carp as the most tolerant. The biological pattern therefore matches heavy metal contamination more than general overfishing or ordinary seasonal change.
 
-## Evidence 4: Suspect Distance to Each Monitoring Station
+<h2 style="white-space: nowrap; font-size: 1.9rem;">
+  Evidence 4: Suspect Distance to Each Monitoring Station
+</h2>
 
 The worst contamination and trout decline appear at the West station. This graph compares how close each suspect is to each monitoring station.
 
