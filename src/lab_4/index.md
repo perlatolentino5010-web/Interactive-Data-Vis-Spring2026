@@ -12,7 +12,6 @@ author: "Perla Holmes 🕵🏻‍♀️"
 
 **Main Question:** Who is responsible for the ecological collapse of Lake Clearwater?
 
-
 ```js
 const water = await FileAttachment("data/water_quality.csv").csv({ typed: true });
 const fish = await FileAttachment("data/fish_surveys.csv").csv({ typed: true });
@@ -68,16 +67,12 @@ Inputs.table(activities)
 
 ## Evidence 1: Heavy Metals by Station Over Time
 
-Heavy metals are a leading suspect because they directly affect sensitive fish species such as trout. The orange line marks the EPA concern threshold of 20 ppb, and the red line marks the regulatory limit of 30 ppb.
+Heavy metals are a leading suspect because they directly affect sensitive fish species such as trout. The blue line marks the warning threshold of 20 ppb, and the red line marks the danger zone of 30 ppb.
 
 ```js
 display(html`
   <div style="max-width: 100%; font-family: system-ui, sans-serif;">
-    <h2 style="
-      font-size: 1.6rem;
-      margin-bottom: 8px;
-      white-space: nowrap;
-    ">
+    <h2 style="font-size: 1.6rem; margin-bottom: 8px; white-space: nowrap;">
       Heavy Metals (ppb) Over Time by Monitoring Site
     </h2>
 
@@ -99,39 +94,20 @@ display(html`
         ${Plot.plot({
           width: Math.min(width * 1.2, 1700),
           height: 520,
-          style: {
-            fontSize: "15px"
-          },
+          style: { fontSize: "15px" },
           marginLeft: 75,
           marginRight: 150,
           marginBottom: 50,
-          x: {
-            label: "Date",
-            grid: true,
-            tickSize: 6
-          },
-          y: {
-            label: "↑ Heavy Metals (ppb)",
-            grid: true,
-            tickSize: 6
-          },
+          x: { label: "Date", grid: true, tickSize: 6 },
+          y: { label: "↑ Heavy Metals (ppb)", grid: true, tickSize: 6 },
           color: {
             legend: false,
             domain: ["East", "North", "South", "West"],
             range: ["#3366cc", "#f39c12", "#e74c3c", "#16a085"]
           },
           marks: [
-            Plot.ruleY([20], {
-              stroke: "#3366cc",
-              strokeDasharray: "5,5",
-              strokeWidth: 1
-            }),
-
-            Plot.ruleY([30], {
-              stroke: "red",
-              strokeDasharray: "5,5",
-              strokeWidth: 1
-            }),
+            Plot.ruleY([20], { stroke: "#3366cc", strokeDasharray: "5,5", strokeWidth: 1 }),
+            Plot.ruleY([30], { stroke: "red", strokeDasharray: "5,5", strokeWidth: 1 }),
 
             Plot.text([{date: d3.max(water, d => d.date), y: 20, label: "Warning Level\n(20 ppb)"}], {
               x: "date",
@@ -196,20 +172,16 @@ display(html`
         background: white;
         margin-top: 55px;
       ">
-        <h3 style="
-          margin-top: 0;
-          font-size: 0.95rem;
-          line-height: 1.2;
-        ">
+        <h3 style="margin-top: 0; font-size: 0.95rem; line-height: 1.2;">
           Lake Clearwater<br>Monitoring Sites
         </h3>
 
         ${[
-  ["#3366cc", "East Shore"],
-  ["#f39c12", "North Shore"],
-  ["#e74c3c", "South Shore"],
-  ["#16a085", "West Shore"]
-].map(([color, title]) => html`
+          ["#3366cc", "East Shore"],
+          ["#f39c12", "North Shore"],
+          ["#e74c3c", "South Shore"],
+          ["#16a085", "West Shore"]
+        ].map(([color, title]) => html`
           <div style="display: flex; gap: 8px; margin-bottom: 14px; align-items: center;">
             <div style="
               width: 50px;
@@ -229,11 +201,7 @@ display(html`
               "></span>
             </div>
 
-            <div style="
-              font-weight: 600;
-              font-size: 0.85rem;
-              white-space: nowrap;
-            ">
+            <div style="font-weight: 600; font-size: 0.85rem; white-space: nowrap;">
               ${title}
             </div>
           </div>
@@ -449,116 +417,6 @@ display(html`
 
 At the West station, trout show the most dramatic decline compared with bass and carp. This matters because the scientific reference identifies trout as the most sensitive species, bass as moderately sensitive, and carp as the most tolerant. The biological pattern therefore matches heavy metal contamination more than general overfishing or ordinary seasonal change.
 
-<h2 style="white-space: nowrap; font-size: 1.9rem;">
-  Evidence 4: Suspect Distance to Each Monitoring Station
-</h2>
-
-The worst contamination and trout decline appear at the West station. This graph compares how close each suspect is to each monitoring station.
-
-```js
-const stationDistances = stations.flatMap(d => [
-  { station_id: d.station_id, suspect: "ChemTech Manufacturing", distance_m: d.distance_to_chemtech_m },
-  { station_id: d.station_id, suspect: "Riverside Farm", distance_m: d.distance_to_farm_m },
-  { station_id: d.station_id, suspect: "Lakeview Resort", distance_m: d.distance_to_resort_m },
-  { station_id: d.station_id, suspect: "Clearwater Fishing Lodge", distance_m: d.distance_to_lodge_m }
-]);
-```
-
-```js
-display(html`
-  <div style="
-    background: #f4eadf;
-    padding: 12px 16px;
-    border-radius: 12px;
-    max-width: 760px;
-    font-family: system-ui, sans-serif;
-  ">
-    <h2 style="
-      margin: 0 0 4px 0;
-      font-size: 0.95rem;
-      white-space: nowrap;"
-    ">
-      Suspect Distance to Lake Clearwater Monitoring Stations
-    </h2>
-
-    <div style="
-      font-size: 0.8rem;
-      margin-bottom: 8px;
-    ">
-      Shorter distances may indicate stronger geographic opportunity for contamination.
-    </div>
-
-    ${Plot.plot({
-      width: 700,
-      height: 250,
-
-      marginLeft: 150,
-      marginRight: 20,
-      marginBottom: 40,
-
-      style: {
-        background: "#f4eadf",
-        color: "#333",
-        fontSize: "12px"
-      },
-
-      x: {
-        label: "Distance to Monitoring Station (meters)",
-        grid: true,
-        tickSize: 6
-      },
-
-      y: {
-        label: null,
-        grid: true
-      },
-
-      color: {
-        legend: true,
-        label: "Monitoring Station",
-        domain: ["East", "North", "South", "West"],
-        range: ["#b9c9e6", "#74a9cf", "#2b8cbe", "#084081"]
-      },
-
-      marks: [
-        Plot.gridX({
-          stroke: "#888",
-          strokeOpacity: 0.35,
-          strokeDasharray: "3,4"
-        }),
-
-        Plot.gridY({
-          stroke: "#ffffff",
-          strokeOpacity: 0.35
-        }),
-
-        Plot.dot(stationDistances, {
-          x: "distance_m",
-          y: "suspect",
-          fill: "station_id",
-          stroke: "#08304f",
-          strokeWidth: 1.2,
-          r: 8,
-          fillOpacity: 0.85,
-          tip: true
-        })
-      ]
-    })}
-
-    <div style="
-      font-size: 11px;
-      text-align: center;
-      margin-top: 4px;
-      color: #555;
-    ">
-      Blue tones represent Lake Clearwater monitoring stations.
-    </div>
-  </div>
-`)
-```
-
-ChemTech has repeated high-intensity maintenance shutdowns across the study period. Because ChemTech is also the closest suspect to the West station and is associated with heavy metal discharge, its activity pattern strengthens the case against it.
-
 <h2 style="white-space: nowrap; font-size: 1.6rem;">
   Evidence 4: Suspect Distance to Each Monitoring Station
 </h2>
@@ -573,6 +431,7 @@ const stationDistances = stations.flatMap(d => [
   { station_id: d.station_id, suspect: "Clearwater Fishing Lodge", distance_m: d.distance_to_lodge_m }
 ]);
 ```
+
 ```js
 display(html`
   <div style="
