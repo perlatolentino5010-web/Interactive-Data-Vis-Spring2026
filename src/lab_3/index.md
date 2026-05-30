@@ -94,6 +94,39 @@ District: ${d.boro_cd}`
 This map shows where campaign events were held across NYC. Larger dots represent higher estimated attendance, and colors show different event types. Some areas appear to have higher comunity engagement such as Manhattan, Bronx and part of Brooklyn (Faro Rockaway being a major exception), where as Queens seems somewhat active. Staten Island on the other hand shows the lowest engagement, hinting to a disconnect in this city's role in the broader NYC community.
 
 ```js
+// Choropleth map of candidate vote share
+
+Plot.plot({
+  projection: {
+    domain: districts,
+    type: "mercator"
+  },
+
+  color: {
+    type: "quantile",
+    scheme: "blues",
+    label: "Candidate Vote Share",
+    legend: true
+  },
+
+  marks: [
+    Plot.geo(districtResults, {
+      fill: d => d.properties.candidate_vote_share,
+      stroke: "white",
+
+      title: d => `
+District: ${d.properties.boro_cd}
+Vote Share: ${d3.format(".1%")(d.properties.candidate_vote_share)}
+Income Category: ${d.properties.income_category}
+`
+    })
+  ]
+})
+```
+
+This choropleth map shows the candidate's vote share across NYC districts. Darker districts indicate stronger electoral performance, while lighter districts indicate weaker support. Viewing vote share geographically helps identify clusters of support and reveals whether the campaign performed consistently across boroughs or relied heavily on a few strong districts.
+
+```js
 // Vote margin by district, sorted vertically
 Plot.plot({
   width: 1100,
