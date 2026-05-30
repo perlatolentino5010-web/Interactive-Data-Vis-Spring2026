@@ -252,8 +252,13 @@ Trout are highly sensitive to pollution and serve as an early warning indicator 
 display(html`
   <style>
     .neon-trout-chart .plot-swatches {
-      color: #d7f7ff;
+      color: #d7f7ff !important;
       font-size: 13px;
+    }
+
+    .neon-trout-chart .plot-swatches text,
+    .neon-trout-chart svg text {
+      fill: #d7f7ff !important;
     }
 
     .neon-trout-chart svg g[aria-label="tip"] path {
@@ -270,16 +275,16 @@ display(html`
 
   <div class="neon-trout-chart" style="
     background: #07111f;
-    padding: 16px;
+    padding: 14px;
     border-radius: 14px;
     box-shadow: 0 0 18px rgba(0, 255, 255, 0.18);
-    max-width: 920px;
+    max-width: 820px;
   ">
     ${Plot.plot({
-      width: Math.min(width * 0.78, 920),
-      height: 360,
-      marginLeft: 65,
-      marginBottom: 50,
+      width: Math.min(width * 0.68, 820),
+      height: 315,
+      marginLeft: 60,
+      marginBottom: 45,
 
       style: {
         background: "#07111f",
@@ -289,13 +294,13 @@ display(html`
 
       x: {
         label: "Date",
-        grid: true,
+        grid: false,
         tickSize: 6
       },
 
       y: {
         label: "↑ Trout Species Decline",
-        grid: true,
+        grid: false,
         tickSize: 6
       },
 
@@ -307,8 +312,8 @@ display(html`
       },
 
       marks: [
-        Plot.gridX({stroke: "rgba(215, 247, 255, 0.08)"}),
-        Plot.gridY({stroke: "rgba(215, 247, 255, 0.08)"}),
+        Plot.gridX({stroke: "rgba(215, 247, 255, 0.05)"}),
+        Plot.gridY({stroke: "rgba(215, 247, 255, 0.05)"}),
 
         Plot.lineY(
           fish.filter(d => d.species === "Trout"),
@@ -316,7 +321,7 @@ display(html`
             x: "date",
             y: "count",
             stroke: "station_id",
-            strokeWidth: 2.7,
+            strokeWidth: 2.6,
             tip: true
           }
         ),
@@ -329,7 +334,7 @@ display(html`
             fill: "station_id",
             stroke: "#07111f",
             strokeWidth: 1,
-            r: 3.5,
+            r: 3.3,
             tip: true
           }
         )
