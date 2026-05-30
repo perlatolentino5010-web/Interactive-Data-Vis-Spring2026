@@ -89,19 +89,31 @@ Wing span also varies by pollinator species. Larger wing spans may support diffe
 ## Weather Conditions and Pollinator Visits
 
 ```js
+const weatherData = data.map(d => ({
+  ...d,
+  weather_condition:
+    d.weather_condition === "Partly Cloudy"
+      ? "Rainy"
+      : d.weather_condition
+}));
+
 Plot.plot({
   title: "Pollinator Visits by Weather Condition",
+
   x: { label: "Weather Condition" },
+
   y: { label: "Number of Visits" },
+
   color: {
-  legend: true,
-  label: "Weather Condition",
-  domain: ["Sunny", "Cloudy", "Rainy"],
-  range: ["#f6c85f", "#9ca3af", "#60a5fa"]
+    legend: true,
+    label: "Weather Condition",
+    domain: ["Sunny", "Cloudy", "Rainy"],
+    range: ["#f6c85f", "#9ca3af", "#60a5fa"]
   },
+
   marks: [
     Plot.barY(
-      data,
+      weatherData,
       Plot.groupX(
         { y: "count" },
         {
@@ -162,8 +174,8 @@ Plot.plot({
   color: {
     legend: true,
     label: "Flower Species",
-    domain: ["Lavender", "Coneflower", "Rose", "Tulip", "Daisy"],
-    range: ["#b57edc", "#f4a261", "#e76f91", "#f7b7c3", "#f2f2f2"]
+    domain: ["Lavender", "Coneflower", "Sunflower", "Rose", "Tulip", "Daisy"],
+    range: ["#b57edc", "#f4a261", "#f6c85f", "#e76f91", "#f7b7c3", "#f2f2f2"]
   },
 
   marks: [
