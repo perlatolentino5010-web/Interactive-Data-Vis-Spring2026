@@ -61,10 +61,10 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780111732012,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780111732012,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780111732012,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780111732012,"size":26191});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780112022716,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780112022716,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780112022716,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780112022716,"size":26191});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -378,19 +378,20 @@ const stationDistances = stations.flatMap(d => [
 return {stationDistances};
 }});
 
-define({id: "a7d1f2b4", inputs: ["display","html","Plot","width","stationDistances"], body: (display,html,Plot,width,stationDistances) => {
+define({id: "158639f4", inputs: ["display","html","Plot","width","stationDistances"], body: (display,html,Plot,width,stationDistances) => {
 display(html`
   <div style="
     background: #f4eadf;
     padding: 12px 16px;
     border-radius: 12px;
-    max-width: 760px;
+    max-width: 900px;
     font-family: system-ui, sans-serif;
   ">
     <h2 style="
       margin: 0 0 4px 0;
-      font-size: 1rem;
+      font-size: 1.1rem;
       white-space: nowrap;
+      overflow: visible;
     ">
       Suspect Distance to Lake Clearwater Monitoring Stations
     </h2>
@@ -576,7 +577,7 @@ display(html`
 <h2 id="evidence-4-suspect-distance-to-each-monitoring-station" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-4-suspect-distance-to-each-monitoring-station">Evidence 4: Suspect Distance to Each Monitoring Station</a></h2>
 <p>The worst contamination and trout decline appear at the West station. This graph compares how close each suspect is to each monitoring station.</p>
 <div class="observablehq observablehq--block"><!--:c44b1b2a:--></div>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:a7d1f2b4:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:158639f4:--></div>
 <p>ChemTech has repeated high-intensity maintenance shutdowns across the study period. Because ChemTech is also the closest suspect to the West station and is associated with heavy metal discharge, its activity pattern strengthens the case against it.</p>
 <h2 id="alternative-suspects-considered" tabindex="-1"><a class="observablehq-header-anchor" href="#alternative-suspects-considered">Alternative Suspects Considered</a></h2>
 <p><strong>Riverside Farm</strong> is closest to the North station and would more likely explain nitrogen or phosphorus problems. However, the most severe heavy metal spikes and trout collapse occur at the West station, not the North station.</p>
@@ -593,7 +594,7 @@ display(html`
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T03:29:01">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T03:33:48">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
