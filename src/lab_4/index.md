@@ -225,127 +225,140 @@ The West station shows the most severe heavy metal spikes. Several readings exce
 If heavy metals are driving the collapse, the most sensitive species should be affected first and most severely.
 
 ```js
-display(html`
-  <div style="
-    background: white;
-    padding: 18px;
-    border-radius: 10px;
-    max-width: 920px;
-    font-family: system-ui, sans-serif;
+{
+  const stationDistances = [
+    { suspect: "ChemTech Manufacturing", distance_m: 410 },
+    { suspect: "Riverside Farm",         distance_m: 890 },
+    { suspect: "Lakeview Resort",        distance_m: 1340 },
+    { suspect: "Clearwater Fishing Lodge", distance_m: 1750 }
+  ];
+
+  const suspectIcons = {
+    "ChemTech Manufacturing":     "🏭",
+    "Riverside Farm":             "🌽",
+    "Lakeview Resort":            "🏨",
+    "Clearwater Fishing Lodge":   "🎣"
+  };
+
+  const westDistances = [...stationDistances].sort((a, b) => a.distance_m - b.distance_m);
+  const maxDist = Math.max(...westDistances.map(d => d.distance_m));
+
+  const W = 960, H = 400;
+  const originX = 95, originY = H / 2;
+  const trackLeft = 160, trackRight = W - 60;
+  const trackLen = trackRight - trackLeft;
+
+  const svg = d3.create("svg")
+    .attr("width", W)
+    .attr("height", H)
+    .style("background", "#f4eadf")
+    .style("border-radius", "10px")
+    .style("overflow", "visible")
+    .style("font-family", "system-ui, sans-serif");
+
+  // ── axis line ──────────────────────────────────────────────
+  svg.append("line")
+    .attr("x1", originX + 30).attr("y1", originY)
+    .attr("x2", trackRight).attr("y2", originY)
+    .attr("stroke", "#bbb").attr("stroke-width", 1.5)
+    .attr("stroke-dasharray", "6,4");
+
+  // ── West Station ───────────────────────────────────────────
+  svg.append("circle")
+    .attr("cx", originX).attr("cy", originY)
+    .attr("r", 28)
+    .attr("fill", "#084081").attr("stroke", "#08304f").attr("stroke-width", 3);
+
+  svg.append("text")
+    .attr("x", originX).attr("y", originY - 40)
+    .attr("text-anchor", "middle")
+    .attr("font-size", 14).attr("font-weight", 700).attr("fill", "#222")
+    .text("West Station");
+
+  svg.append("text")
+    .attr("x", originX).attr("y", originY - 24)
+    .attr("text-anchor", "middle")
+    .attr("font-size", 11).attr("fill", "#666")
+    .text("damaged site");
+
+  // ── rows: line + node + labels ─────────────────────────────
+  const rowH = 72;
+  const rowStart = originY - ((westDistances.length - 1) * rowH) / 2;
+
+  westDistances.forEach((d, i) => {
+    const isChemTech = d.suspect === "ChemTech Manufacturing";
+    const nx = trackLeft + (d.distance_m / maxDist) * trackLen;
+    const ny = rowStart + i * rowH;
+
+    // connecting line from West station edge to node
+    svg.append("line")
+      .attr("x1", originX + 28).attr("y1", originY)
+      .attr("x2", nx - (isChemTech ? 24 : 21)).attr("y2", ny)
+      .attr("stroke", isChemTech ? "#084081" : "#aaa")
+      .attr("stroke-width", isChemTech ? 3.5 : 2)
+      .attr("stroke-opacity", isChemTech ? 0.85 : 0.5);
+
+    // distance label along the line
+    svg.append("text")
+      .attr("x", (originX + 28 + nx) / 2)
+      .attr("y", (originY + ny) / 2 - 9)
+      .attr("text-anchor", "middle")
+      .attr("font-size", 11).attr("font-weight", 700).attr("fill", "#444")
+      .text(`${d.distance_m} m`);
+
+    // suspect circle
+    svg.append("circle")
+      .attr("cx", nx).attr("cy", ny)
+      .attr("r", isChemTech ? 24 : 21)
+      .attr("fill", "#084081")
+      .attr("fill-opacity", isChemTech ? 0.95 : 0.62)
+      .attr("stroke", "#08304f").attr("stroke-width", 2.5);
+
+    // emoji icon
+    svg.append("text")
+      .attr("x", nx).attr("y", ny + 8)
+      .attr("text-anchor", "middle")
+      .attr("font-size", isChemTech ? 20 : 17)
+      .text(suspectIcons[d.suspect]);
+
+    // suspect name
+    svg.append("text")
+      .attr("x", nx + 32).attr("y", ny - 4)
+      .attr("font-size", 13)
+      .attr("font-weight", isChemTech ? 700 : 500)
+      .attr("fill", "#222")
+      .text(d.suspect);
+
+    // distance sub-label
+    svg.append("text")
+      .attr("x", nx + 32).attr("y", ny + 13)
+      .attr("font-size", 11).attr("fill", "#555")
+      .text(`${d.distance_m} m from West`);
+  });
+
+  // ── wrapper div ────────────────────────────────────────────
+  const wrap = html`<div style="
+    background:#f4eadf; padding:18px 20px; border-radius:12px;
+    max-width:980px; font-family:system-ui,sans-serif;
   ">
-
-    <div style="
-      background:#faf6ef;
-      border-left:4px solid #9c2f36;
-      padding:10px 14px;
-      margin-bottom:14px;
-      max-width:880px;
-      font-size:14px;
-      line-height:1.4;
-    ">
-      <b>Location:</b> West Monitoring Station<br>
-      This chart focuses only on the West station, where the strongest heavy metal spikes were observed. It compares how Bass, Carp, and Trout populations changed at that same location.
-    </div>
-
-    <div style="display: flex; gap: 18px; margin-bottom: 12px;">
-      <span><span style="display:inline-block;width:14px;height:14px;background:#f6b26b;margin-right:6px;"></span>Bass: moderate decline</span>
-      <span><span style="display:inline-block;width:14px;height:14px;background:#e76f51;margin-right:6px;"></span>Carp: stable/increasing</span>
-      <span><span style="display:inline-block;width:14px;height:14px;background:#9c2f36;margin-right:6px;"></span>Trout: sharp decline</span>
-    </div>
-
-    <div style="display: flex; gap: 18px;">
-      ${["Bass", "Carp", "Trout"].map(species => {
-        const colors = {
-          Bass: "#f6b26b",
-          Carp: "#e76f51",
-          Trout: "#9c2f36"
-        };
-
-        const speciesData = fish
-          .filter(d => d.station_id === "West" && d.species === species)
-          .map(d => ({
-            ...d,
-            x1: new Date(+d.date - 10 * 24 * 60 * 60 * 1000),
-            x2: new Date(+d.date + 10 * 24 * 60 * 60 * 1000)
-          }));
-
-        return html`
-          <div>
-            <div style="
-              text-align:center;
-              font-weight:600;
-              color:#555;
-              margin-bottom:4px;
-            ">
-              ${species} at West Station
-            </div>
-
-            ${Plot.plot({
-              width: 270,
-              height: 320,
-              marginLeft: species === "Bass" ? 55 : 35,
-              marginBottom: 95,
-
-              style: {
-                background: "white",
-                color: "#555",
-                fontSize: "12px"
-              },
-
-              x: {
-                label: null,
-                axis: null
-              },
-
-              y: {
-                label: species === "Bass" ? "↑ Fish Count" : null,
-                grid: true
-              },
-
-              marks: [
-                Plot.rectY(speciesData, {
-                  x1: "x1",
-                  x2: "x2",
-                  y1: 0,
-                  y2: "count",
-                  fill: colors[species],
-                  fillOpacity: 0.9,
-                  tip: true
-                }),
-
-                Plot.text(speciesData, {
-                  x: "date",
-                  y: 0,
-                  text: d => d3.timeFormat("%b %Y")(d.date),
-                  dy: 22,
-                  rotate: -45,
-                  fontSize: 10,
-                  fill: "#555",
-                  textAnchor: "end"
-                })
-              ]
-            })}
-          </div>
-        `;
-      })}
-    </div>
-
-    <div style="
-      margin-top:14px;
-      padding:10px 14px;
-      background:#f8fbff;
-      border:1px solid #cfe2ff;
-      border-radius:8px;
-      max-width:880px;
-      font-size:14px;
-      line-height:1.4;
-    ">
+    <h2 style="margin:0 0 6px;font-size:1rem;">
+      Distance from the Damaged West Station to Each Suspect
+    </h2>
+    <p style="font-size:0.84rem;margin:0 0 14px;line-height:1.4;max-width:860px;">
+      The West station is the monitoring location with the strongest heavy metal spikes and trout decline.
+      This diagram connects the damaged West station to each suspect and places them according to distance.
+    </p>
+    ${svg.node()}
+    <div style="font-size:12px;line-height:1.4;margin-top:10px;color:#444;max-width:860px;">
       <b>Key Finding:</b>
-      At the West station, Trout show the steepest population decline, Bass decline moderately, and Carp remain comparatively stable. This pattern supports the broader case that the most damaged station also shows the strongest biological stress.
+      ChemTech Manufacturing is the closest suspect to the damaged West station. Since the strongest
+      contamination and trout decline appear at West, this gives ChemTech the strongest geographic
+      opportunity in the case.
     </div>
+  </div>`;
 
-  </div>
-`)
+  return wrap;
+}
 ```
 
 At the West station, trout show the most dramatic decline compared with bass and carp. This matters because the scientific reference identifies trout as the most sensitive species, bass as moderately sensitive, and carp as the most tolerant. The biological pattern therefore matches heavy metal contamination more than general overfishing or ordinary seasonal change.
