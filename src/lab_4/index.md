@@ -387,18 +387,20 @@ display(html`
         legend: true,
         label: "Species",
         domain: ["Bass", "Carp", "Trout"],
-        range: ["#6f55c8", "#7aa6df", "#9c2f36"]
+        range: ["#f6b26b", "#e76f51", "#9c2f36"]
       },
 
       marks: [
-        Plot.areaY(
+        Plot.dot(
           fish.filter(d => d.station_id === "West"),
           {
             x: "date",
             y: "count",
             fill: "species",
-            fillOpacity: 0.28,
-            curve: "linear",
+            stroke: "species",
+            r: 4,
+            fillOpacity: 0.65,
+            strokeOpacity: 0.85,
             tip: true
           }
         ),
@@ -409,8 +411,8 @@ display(html`
             x: "date",
             y: "count",
             stroke: "species",
-            strokeWidth: 2,
-            curve: "linear",
+            strokeWidth: 1.4,
+            strokeOpacity: 0.55,
             tip: true
           }
         )
