@@ -225,6 +225,241 @@ The West station shows the most severe heavy metal spikes. Several readings exce
 If heavy metals are driving the collapse, the most sensitive species should be affected first and most severely.
 
 ```js
+display(html`
+  <div style="
+    background: white;
+    padding: 18px;
+    border-radius: 10px;
+    max-width: 920px;
+    font-family: system-ui, sans-serif;
+  ">
+
+    <div style="
+      background:#faf6ef;
+      border-left:4px solid #9c2f36;
+      padding:10px 14px;
+      margin-bottom:14px;
+      max-width:880px;
+      font-size:14px;
+      line-height:1.4;
+    ">
+      <b>Location:</b> West Monitoring Station<br>
+      This chart focuses only on the West station, where the strongest heavy metal spikes were observed. It compares how Bass, Carp, and Trout populations changed at that same location.
+    </div>
+
+    <div style="display: flex; gap: 18px; margin-bottom: 12px;">
+      <span><span style="display:inline-block;width:14px;height:14px;background:#f6b26b;margin-right:6px;"></span>Bass: moderate decline</span>
+      <span><span style="display:inline-block;width:14px;height:14px;background:#e76f51;margin-right:6px;"></span>Carp: stable/increasing</span>
+      <span><span style="display:inline-block;width:14px;height:14px;background:#9c2f36;margin-right:6px;"></span>Trout: sharp decline</span>
+    </div>
+
+    <div style="display: flex; gap: 18px;">
+      ${["Bass", "Carp", "Trout"].map(species => {
+        const colors = {
+          Bass: "#f6b26b",
+          Carp: "#e76f51",
+          Trout: "#9c2f36"
+        };
+
+        const speciesData = fish
+          .filter(d => d.station_id === "West" && d.species === species)
+          .map(d => ({
+            ...d,
+            x1: new Date(+d.date - 10 * 24 * 60 * 60 * 1000),
+            x2: new Date(+d.date + 10 * 24 * 60 * 60 * 1000)
+          }));
+
+        return html`
+          <div>
+            <div style="
+              text-align:center;
+              font-weight:600;
+              color:#555;
+              margin-bottom:4px;
+            ">
+              ${species} at West Station
+            </div>
+
+            ${Plot.plot({
+              width: 270,
+              height: 320,
+              marginLeft: species === "Bass" ? 55 : 35,
+              marginBottom: 95,
+
+              style: {
+                background: "white",
+                color: "#555",
+                fontSize: "12px"
+              },
+
+              x: {
+                label: null,
+                axis: null
+              },
+
+              y: {
+                label: species === "Bass" ? "↑ Fish Count" : null,
+                grid: true
+              },
+
+              marks: [
+                Plot.rectY(speciesData, {
+                  x1: "x1",
+                  x2: "x2",
+                  y1: 0,
+                  y2: "count",
+                  fill: colors[species],
+                  fillOpacity: 0.9,
+                  tip: true
+                }),
+
+                Plot.text(speciesData, {
+                  x: "date",
+                  y: 0,
+                  text: d => d3.timeFormat("%b %Y")(d.date),
+                  dy: 22,
+                  rotate: -45,
+                  fontSize: 10,
+                  fill: "#555",
+                  textAnchor: "end"
+                })
+              ]
+            })}
+          </div>
+        `;
+      })}
+    </div>
+
+    <div style="
+      margin-top:14px;
+      padding:10px 14px;
+      background:#f8fbff;
+      border:1px solid #cfe2ff;
+      border-radius:8px;
+      max-width:880px;
+      font-size:14px;
+      line-height:1.4;
+    ">
+      <b>Key Finding:</b>
+      At the West station, Trout show the steepest population decline, Bass decline moderately, and Carp remain comparatively stable. This pattern supports the broader case that the most damaged station also shows the strongest biological stress.
+    </div>
+
+  </div>
+`)
+```
+
+At the West station, trout show the most dramatic decline compared with bass and carp. This matters because the scientific reference identifies trout as the most sensitive species, bass as moderately sensitive, and carp as the most tolerant. The biological pattern therefore matches heavy metal contamination more than general overfishing or ordinary seasonal change.
+
+## Evidence 3: Trends in Trout Population Across Stations
+
+Trout are highly sensitive to pollution and serve as an early warning indicator of ecosystem stress.
+
+```js
+display(html`
+  <style>
+    .neon-trout-chart,
+    .neon-trout-chart * {
+      color: #d7f7ff !important;
+    }
+
+    .neon-trout-chart svg text {
+      fill: #d7f7ff !important;
+    }
+
+    .neon-trout-chart svg g[aria-label="tip"] path {
+      fill: #243447;
+      stroke: #8ecae6;
+      stroke-width: 1;
+    }
+
+    .neon-trout-chart svg g[aria-label="tip"] text {
+      fill: #d7f7ff !important;
+      font-weight: 600;
+    }
+  </style>
+
+  <div class="neon-trout-chart" style="
+    background: #07111f;
+    padding: 14px;
+    border-radius: 14px;
+    box-shadow: 0 0 18px rgba(0, 255, 255, 0.18);
+    max-width: 820px;
+  ">
+    ${Plot.plot({
+      width: 790,
+      height: 315,
+      marginLeft: 60,
+      marginRight: 20,
+      marginBottom: 45,
+
+      style: {
+        background: "#07111f",
+        color: "#d7f7ff",
+        fontSize: "13px"
+      },
+
+      x: {
+        label: "Date",
+        grid: true,
+        tickSize: 6,
+        domain: [new Date("2023-01-01"), new Date("2024-10-31")]
+      },
+
+      y: {
+        label: "↑ Trout Species Decline",
+        grid: true,
+        tickSize: 6
+      },
+
+      color: {
+        legend: true,
+        label: "Trout Monitoring Sites",
+        domain: ["East", "North", "South", "West"],
+        range: ["#38bdf8", "#a7f3d0", "#ff4fd8", "#b7ff4a"]
+      },
+
+      marks: [
+        Plot.gridX({stroke: "rgba(215, 247, 255, 0.10)"}),
+        Plot.gridY({stroke: "rgba(215, 247, 255, 0.10)"}),
+
+        Plot.lineY(
+          fish.filter(d => d.species === "Trout"),
+          {
+            x: "date",
+            y: "count",
+            stroke: "station_id",
+            strokeWidth: 2.6,
+            tip: true
+          }
+        ),
+
+        Plot.dot(
+          fish.filter(d => d.species === "Trout"),
+          {
+            x: "date",
+            y: "count",
+            fill: "station_id",
+            stroke: "#07111f",
+            strokeWidth: 1,
+            r: 3.3,
+            tip: true
+          }
+        )
+      ]
+    })}
+  </div>
+`)
+```
+
+Trout populations decline most sharply at the West station, dropping from more than 40 fish per survey to approximately 13 by the end of the study period. This matches the scientific reference, which shows that trout are especially vulnerable to heavy metal contamination and further exposes the West as the most uninhabitable location in the lake.
+
+<h2 style="white-space: nowrap; font-size: 1.6rem;">
+  Evidence 4: Suspect Distance to Each Monitoring Station
+</h2>
+
+The worst contamination and trout decline appear at the West station. This graph compares how close each suspect is to each monitoring station.
+
+```js
 {
   const stationDistances = [
     { suspect: "ChemTech Manufacturing", distance_m: 410 },
@@ -359,250 +594,6 @@ If heavy metals are driving the collapse, the most sensitive species should be a
 
   return wrap;
 }
-```
-
-At the West station, trout show the most dramatic decline compared with bass and carp. This matters because the scientific reference identifies trout as the most sensitive species, bass as moderately sensitive, and carp as the most tolerant. The biological pattern therefore matches heavy metal contamination more than general overfishing or ordinary seasonal change.
-
-## Evidence 3: Trends in Trout Population Across Stations
-
-Trout are highly sensitive to pollution and serve as an early warning indicator of ecosystem stress.
-
-```js
-display(html`
-  <style>
-    .neon-trout-chart,
-    .neon-trout-chart * {
-      color: #d7f7ff !important;
-    }
-
-    .neon-trout-chart svg text {
-      fill: #d7f7ff !important;
-    }
-
-    .neon-trout-chart svg g[aria-label="tip"] path {
-      fill: #243447;
-      stroke: #8ecae6;
-      stroke-width: 1;
-    }
-
-    .neon-trout-chart svg g[aria-label="tip"] text {
-      fill: #d7f7ff !important;
-      font-weight: 600;
-    }
-  </style>
-
-  <div class="neon-trout-chart" style="
-    background: #07111f;
-    padding: 14px;
-    border-radius: 14px;
-    box-shadow: 0 0 18px rgba(0, 255, 255, 0.18);
-    max-width: 820px;
-  ">
-    ${Plot.plot({
-      width: 790,
-      height: 315,
-      marginLeft: 60,
-      marginRight: 20,
-      marginBottom: 45,
-
-      style: {
-        background: "#07111f",
-        color: "#d7f7ff",
-        fontSize: "13px"
-      },
-
-      x: {
-        label: "Date",
-        grid: true,
-        tickSize: 6,
-        domain: [new Date("2023-01-01"), new Date("2024-10-31")]
-      },
-
-      y: {
-        label: "↑ Trout Species Decline",
-        grid: true,
-        tickSize: 6
-      },
-
-      color: {
-        legend: true,
-        label: "Trout Monitoring Sites",
-        domain: ["East", "North", "South", "West"],
-        range: ["#38bdf8", "#a7f3d0", "#ff4fd8", "#b7ff4a"]
-      },
-
-      marks: [
-        Plot.gridX({stroke: "rgba(215, 247, 255, 0.10)"}),
-        Plot.gridY({stroke: "rgba(215, 247, 255, 0.10)"}),
-
-        Plot.lineY(
-          fish.filter(d => d.species === "Trout"),
-          {
-            x: "date",
-            y: "count",
-            stroke: "station_id",
-            strokeWidth: 2.6,
-            tip: true
-          }
-        ),
-
-        Plot.dot(
-          fish.filter(d => d.species === "Trout"),
-          {
-            x: "date",
-            y: "count",
-            fill: "station_id",
-            stroke: "#07111f",
-            strokeWidth: 1,
-            r: 3.3,
-            tip: true
-          }
-        )
-      ]
-    })}
-  </div>
-`)
-```
-
-Trout populations decline most sharply at the West station, dropping from more than 40 fish per survey to approximately 13 by the end of the study period. This matches the scientific reference, which shows that trout are especially vulnerable to heavy metal contamination and further exposes the West as the most uninhabitable location in the lake.
-
-<h2 style="white-space: nowrap; font-size: 1.6rem;">
-  Evidence 4: Suspect Distance to Each Monitoring Station
-</h2>
-
-The worst contamination and trout decline appear at the West station. This graph compares how close each suspect is to each monitoring station.
-
-```js
-const stationDistances = stations.flatMap(d => [
-  { station_id: d.station_id, suspect: "ChemTech Manufacturing", distance_m: d.distance_to_chemtech_m, icon: "🏭" },
-  { station_id: d.station_id, suspect: "Riverside Farm", distance_m: d.distance_to_farm_m, icon: "🌽" },
-  { station_id: d.station_id, suspect: "Lakeview Resort", distance_m: d.distance_to_resort_m, icon: "🏨" },
-  { station_id: d.station_id, suspect: "Clearwater Fishing Lodge", distance_m: d.distance_to_lodge_m, icon: "🎣" }
-]);
-
-const westDistances = stationDistances
-  .filter(d => d.station_id === "West")
-  .sort((a, b) => a.distance_m - b.distance_m);
-
-const maxWestDistance = Math.max(...westDistances.map(d => d.distance_m));
-```
-
-```js
-display(html`
-  <div style="
-    background:#f4eadf;
-    padding:18px 20px;
-    border-radius:12px;
-    max-width:940px;
-    font-family:system-ui, sans-serif;
-  ">
-    <h2 style="margin:0 0 6px 0; font-size:1rem;">
-      Distance from the Damaged West Station to Each Suspect
-    </h2>
-
-    <div style="
-      font-size:0.84rem;
-      margin-bottom:14px;
-      line-height:1.4;
-      max-width:860px;
-      color:#444;
-    ">
-      The West station is the monitoring location with the strongest heavy metal spikes and trout decline.
-      This diagram connects the damaged West station to each suspect and places them according to distance.
-    </div>
-
-    <svg width="900" height="370" style="background:#f4eadf; overflow:visible; display:block;">
-
-      <circle cx="95" cy="185" r="28" fill="#084081" stroke="#08304f" stroke-width="3"></circle>
-
-      <text x="95" y="135" text-anchor="middle" font-size="15" font-weight="700" fill="#222">
-        West Station
-      </text>
-
-      <text x="95" y="154" text-anchor="middle" font-size="11" fill="#555">
-        damaged site
-      </text>
-
-      ${westDistances.map((d, i) => {
-        const x = 95 + (d.distance_m / maxWestDistance) * 690;
-        const y = 55 + i * 82;
-        const isChemTech = d.suspect === "ChemTech Manufacturing";
-
-        return html`
-          <line
-            x1="123"
-            y1="185"
-            x2="${x - (isChemTech ? 24 : 21)}"
-            y2="${y}"
-            stroke="${isChemTech ? "#084081" : "#888"}"
-            stroke-width="${isChemTech ? 4 : 2.5}"
-            stroke-opacity="${isChemTech ? 0.85 : 0.45}"
-          ></line>
-
-          <text
-            x="${(123 + x) / 2}"
-            y="${(185 + y) / 2 - 8}"
-            text-anchor="middle"
-            font-size="12"
-            font-weight="700"
-            fill="#333"
-          >
-            ${d.distance_m} m
-          </text>
-
-          <circle
-            cx="${x}"
-            cy="${y}"
-            r="${isChemTech ? 24 : 21}"
-            fill="#084081"
-            fill-opacity="${isChemTech ? 0.95 : 0.62}"
-            stroke="#08304f"
-            stroke-width="2.5"
-          ></circle>
-
-          <text
-            x="${x}"
-            y="${y + 7}"
-            text-anchor="middle"
-            font-size="${isChemTech ? 22 : 19}"
-          >
-            ${d.icon}
-          </text>
-
-          <text
-            x="${x + 34}"
-            y="${y - 4}"
-            font-size="13"
-            font-weight="${isChemTech ? 700 : 500}"
-            fill="#222"
-          >
-            ${d.suspect}
-          </text>
-
-          <text
-            x="${x + 34}"
-            y="${y + 14}"
-            font-size="12"
-            fill="#444"
-          >
-            ${d.distance_m} m from West
-          </text>
-        `;
-      })}
-    </svg>
-
-    <div style="
-      font-size:12px;
-      line-height:1.4;
-      margin-top:8px;
-      color:#444;
-      max-width:860px;
-    ">
-      <b>Key Finding:</b>
-      ChemTech Manufacturing is closest to the West station, the same station where the strongest heavy metal spikes and trout decline appear. This spatial pattern strengthens the case that ChemTech had the clearest geographic opportunity to affect the most damaged part of the lake.
-    </div>
-  </div>
-`)
 ```
 
 ChemTech Manufacturing is closest to the West station, the same station where the strongest heavy metal spikes and trout decline appear. This spatial pattern strengthens the case that ChemTech had the clearest geographic opportunity to affect the most damaged part of the lake.
