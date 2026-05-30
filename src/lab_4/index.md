@@ -568,70 +568,57 @@ display(html`
 This timeline helps compare documented suspect activities against the pollution story.
 
 ```js
-display(html`
-  <div style="
-    background: #f7fbff;
-    padding: 16px;
-    border-radius: 10px;
-    max-width: 920px;
-  ">
-    ${Plot.plot({
-      width: Math.min(width * 0.78, 920),
-      height: 360,
-      marginLeft: 170,
-      marginBottom: 55,
+marks: [
+  Plot.gridX({
+    stroke: "#cbd5e1",
+    strokeOpacity: 0.55
+  }),
 
-      style: {
-        background: "#f7fbff",
-        color: "#374151",
-        fontSize: "13px"
-      },
+  Plot.line(
+    activities,
+    {
+      x: "date",
+      y: "suspect",
+      stroke: "#111827",
+      strokeWidth: 3,
+      strokeOpacity: 0.65,
+      curve: "linear"
+    }
+  ),
 
-      x: {
-        label: "Date",
-        grid: true,
-        tickSize: 6
-      },
+  Plot.barX(activities, {
+    x1: "date",
+    x2: d => new Date(+d.date + 22 * 24 * 60 * 60 * 1000),
 
-      y: {
-        label: "Suspect"
-      },
+    y: "suspect",
 
-      color: {
-        legend: true,
-        label: "Activity Intensity",
-        domain: ["Low", "Medium", "High"],
-        range: ["#93c5fd", "#3b82f6", "#1e3a8a"]
-      },
+    fill: "intensity",
 
-      marks: [
-        Plot.gridX({
-          stroke: "#cbd5e1",
-          strokeOpacity: 0.55
-        }),
+    rx: 8,
+    ry: 8,
 
-        Plot.barX(activities, {
-          x1: "date",
-          x2: d => new Date(+d.date + 20 * 24 * 60 * 60 * 1000),
-          y: "suspect",
-          fill: "intensity",
-          rx: 5,
-          tip: true
-        }),
+    insetTop: 3,
+    insetBottom: 3,
 
-        Plot.dot(activities, {
-          x: "date",
-          y: "suspect",
-          fill: "intensity",
-          stroke: "white",
-          strokeWidth: 1.5,
-          r: d => d.intensity === "High" ? 6 : d.intensity === "Medium" ? 5 : 4,
-          tip: true
-        })
-      ]
-    })}
-  </div>
-`)
+    tip: true
+  }),
+
+  Plot.dot(activities, {
+    x: "date",
+    y: "suspect",
+
+    fill: "intensity",
+
+    stroke: "white",
+    strokeWidth: 1.8,
+
+    r: d =>
+      d.intensity === "High" ? 5 :
+      d.intensity === "Medium" ? 4.5 : 4,
+
+    tip: true
+  })
+]
 ```
 
 **Interpretation:** ChemTech has repeated high-intensity maintenance shutdowns across the study period. Because ChemTech is also the closest suspect to the West station and is associated with heavy metal discharge, its activity pattern strengthens the case against it.
