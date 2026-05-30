@@ -96,7 +96,8 @@ const weatherData = data.map(d => ({
       ? "Rainy"
       : d.weather_condition
 }));
-
+```
+```js
 Plot.plot({
   title: "Pollinator Visits by Weather Condition",
 
