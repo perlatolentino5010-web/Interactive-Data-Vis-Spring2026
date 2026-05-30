@@ -232,7 +232,7 @@ Plot.plot({
 
   x: {
     label: "Income Category",
-    domain: ["Low", "Middle", "High"]
+    domain: ["High", "Middle", "Low"]
   },
 
   y: {
@@ -244,8 +244,8 @@ Plot.plot({
   color: {
     legend: true,
     label: "Income Category",
-    domain: ["Low", "Middle", "High"],
-    range: ["#fdc086", "#7fc97f", "#386cb0"]
+    domain: ["High", "Middle", "Low"],
+    range: ["#386cb0", "#7fc97f", "#fdc086"]
   },
 
   marks: [
