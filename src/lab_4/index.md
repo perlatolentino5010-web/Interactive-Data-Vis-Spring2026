@@ -350,7 +350,7 @@ display(html`
 
 At the West station, trout show the most dramatic decline compared with bass and carp. This matters because the scientific reference identifies trout as the most sensitive species, bass as moderately sensitive, and carp as the most tolerant. The biological pattern therefore matches heavy metal contamination more than general overfishing or ordinary seasonal change.
 
-## Evidence 3: Trends in Trout Population Over Time
+## Evidence 3: Trends in Trout Population Across Stations
 
 Trout are highly sensitive to pollution and serve as an early warning indicator of ecosystem stress.
 
@@ -401,7 +401,8 @@ display(html`
       x: {
         label: "Date",
         grid: true,
-        tickSize: 6
+        tickSize: 6,
+        domain: [new Date("2023-01-01"), new Date("2024-10-31")]
       },
 
       y: {
