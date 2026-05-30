@@ -267,7 +267,7 @@ display(Plot.plot({
   color: {
     legend: true,
     label: "Species",
-    range: ["#0e3cbc", "#fa701a", "#04def7"]
+    range: ["#0e3cbc", "#fa701a", "#109947"]
   },
 
   marks: [
