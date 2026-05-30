@@ -214,53 +214,60 @@ This chart shows vote margin by district. Positive margins indicate districts wh
 
 ```js
 Plot.plot({
-  width: 1100,
-  height: 850,
-  marginLeft: 70,
-  marginRight: 40,
-  marginBottom: 50,
+  width: 900,
+  height: 500,
+  marginLeft: 60,
+  marginBottom: 60,
 
   x: {
-    label: "Vote Margin →",
-    grid: true
+    label: "Income Category"
   },
 
   y: {
-    label: "District",
-    domain: resultsWithShare
-      .slice()
-      .sort((a, b) => a.vote_margin - b.vote_margin)
-      .map(d => d.boro_cd)
+    label: "Candidate Vote Share (%)",
+    percent: true,
+    grid: true
   },
 
   color: {
-    legend: true,
-    label: "Income Category",
     domain: ["Low", "Middle", "High"],
-    range: ["#e8b23a", "#7fbf7b", "#4f6fd5"]
+    range: ["#fdc086", "#7fc97f", "#386cb0"]
   },
 
   marks: [
-    Plot.barX(resultsWithShare, {
-      y: "boro_cd",
-      x: "vote_margin",
-      fill: "income_category",
-      title: d => `District: ${d.boro_cd}
-Vote Margin: ${d.vote_margin}
-Income Category: ${d.income_category}
-Candidate Vote Share: ${d3.format(".1%")(d.candidate_vote_share)}`
+
+    Plot.ruleY([overallShare], {
+      stroke: "black",
+      strokeDasharray: "4,4",
+      strokeWidth: 1.5
     }),
 
-    Plot.ruleX([0], {
-      stroke: "black",
-      strokeWidth: 1.2
+    Plot.boxY(resultsWithShare, {
+      x: "income_category",
+      y: "candidate_vote_share",
+      fill: "income_category",
+      fillOpacity: 0.35
+    }),
+
+    Plot.dot(resultsWithShare, {
+      x: "income_category",
+      y: "candidate_vote_share",
+      fill: "income_category",
+      stroke: "white",
+      strokeWidth: 1,
+      r: 5,
+      fillOpacity: 0.8,
+
+      title: d => `District: ${d.boro_cd}
+Vote share: ${d3.format(".1%")(d.candidate_vote_share)}
+Vote margin: ${d.vote_margin}
+Income category: ${d.income_category}`
     })
   ]
 })
 ```
 
-
-This chart shows vote margin by district, sorted from the candidate's weakest districts to strongest districts. Colors represent income categories. The chart reveals that support was not distributed evenly across income groups. Some income categories appear more frequently among the candidate's strongest districts, while others appear more often among districts where the opponent performed better. This helps identify demographic patterns that may explain campaign strengths and weaknesses.
+This chart compares candidate vote share across low-, middle-, and high-income districts. The candidate performed strongest in low-income districts, where vote share was consistently above the citywide average. Middle-income districts showed more mixed results, with some districts strongly supporting the candidate and others providing weaker support. High-income districts had the lowest levels of support overall, with most districts falling below the citywide average. These patterns suggest that income may have influenced voting behavior and that the campaign was more successful in lower-income communities than in wealthier areas.
 
 
 ```js
