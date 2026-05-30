@@ -61,10 +61,10 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780112022716,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780112022716,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780112022716,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780112022716,"size":26191});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780112423128,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780112423128,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780112423128,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780112423128,"size":26191});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -368,6 +368,101 @@ display(html`
 `)
 }});
 
+define({id: "23e122ba", inputs: ["display","html","fish","Plot","d3"], body: (display,html,fish,Plot,d3) => {
+display(html`
+  <div style="
+    background: white;
+    padding: 18px;
+    border-radius: 10px;
+    max-width: 920px;
+    font-family: system-ui, sans-serif;
+  ">
+    <div style="display: flex; gap: 18px; margin-bottom: 12px;">
+      <span><span style="display:inline-block;width:14px;height:14px;background:#f6b26b;margin-right:6px;"></span>Bass</span>
+      <span><span style="display:inline-block;width:14px;height:14px;background:#e76f51;margin-right:6px;"></span>Carp</span>
+      <span><span style="display:inline-block;width:14px;height:14px;background:#9c2f36;margin-right:6px;"></span>Trout</span>
+    </div>
+
+    <div style="display: flex; gap: 18px;">
+      ${["Bass", "Carp", "Trout"].map(species => {
+        const colors = {
+          Bass: "#f6b26b",
+          Carp: "#e76f51",
+          Trout: "#9c2f36"
+        };
+
+        const speciesData = fish
+          .filter(d => d.station_id === "West" && d.species === species)
+          .map(d => ({
+            ...d,
+            x1: new Date(+d.date - 10 * 24 * 60 * 60 * 1000),
+            x2: new Date(+d.date + 10 * 24 * 60 * 60 * 1000)
+          }));
+
+        return html`
+          <div>
+            <div style="
+              text-align:center;
+              font-weight:600;
+              color:#555;
+              margin-bottom:4px;
+            ">
+              ${species}
+            </div>
+
+            ${Plot.plot({
+              width: 270,
+              height: 320,
+              marginLeft: species === "Bass" ? 55 : 35,
+              marginBottom: 95,
+
+              style: {
+                background: "white",
+                color: "#555",
+                fontSize: "12px"
+              },
+
+              x: {
+                label: null,
+                axis: null
+              },
+
+              y: {
+                label: species === "Bass" ? "↑ Fish Count" : null,
+                grid: true
+              },
+
+              marks: [
+                Plot.rectY(speciesData, {
+                  x1: "x1",
+                  x2: "x2",
+                  y1: 0,
+                  y2: "count",
+                  fill: colors[species],
+                  fillOpacity: 0.9,
+                  tip: true
+                }),
+
+                Plot.text(speciesData, {
+                  x: "date",
+                  y: 0,
+                  text: d => d3.timeFormat("%b %Y")(d.date),
+                  dy: 22,
+                  rotate: -45,
+                  fontSize: 10,
+                  fill: "#555",
+                  textAnchor: "end"
+                })
+              ]
+            })}
+          </div>
+        `;
+      })}
+    </div>
+  </div>
+`)
+}});
+
 define({id: "c44b1b2a", inputs: ["stations"], outputs: ["stationDistances"], body: (stations) => {
 const stationDistances = stations.flatMap(d => [
   { station_id: d.station_id, suspect: "ChemTech Manufacturing", distance_m: d.distance_to_chemtech_m },
@@ -570,9 +665,7 @@ display(html`
 <p>Trout populations decline most sharply at the West station, dropping from more than 40 fish per survey to approximately 13 by the end of the study period. This matches the scientific reference, which shows that trout are especially vulnerable to heavy metal contamination.</p>
 <h2 id="evidence-3-species-sensitivity-check" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-3-species-sensitivity-check">Evidence 3: Species Sensitivity Check</a></h2>
 <p>If heavy metals are driving the collapse, the most sensitive species should be affected first and most severely.</p>
-<div class="observablehq observablehq--block">
-  <div class="observablehq--inspect observablehq--error">SyntaxError: Unexpected token (1:1)</div>
-</div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:23e122ba:--></div>
 <p>At the West station, trout show the most dramatic decline compared with bass and carp. This matters because the scientific reference identifies trout as the most sensitive species, bass as moderately sensitive, and carp as the most tolerant. The biological pattern therefore matches heavy metal contamination more than general overfishing or ordinary seasonal change.</p>
 <h2 id="evidence-4-suspect-distance-to-each-monitoring-station" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-4-suspect-distance-to-each-monitoring-station">Evidence 4: Suspect Distance to Each Monitoring Station</a></h2>
 <p>The worst contamination and trout decline appear at the West station. This graph compares how close each suspect is to each monitoring station.</p>
@@ -594,7 +687,7 @@ display(html`
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T03:33:48">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T03:40:33">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
