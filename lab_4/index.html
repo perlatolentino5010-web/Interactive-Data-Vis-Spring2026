@@ -61,10 +61,10 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780114280157,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780114280157,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780114280157,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780114280157,"size":26191});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780114326335,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780114326335,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780114326335,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780114326335,"size":26191});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -657,9 +657,9 @@ display(html`
 <div id="observablehq-center">
 <main id="observablehq-main" class="observablehq">
 <h1 id="lab-4-clearwater-crisis" tabindex="-1"><a class="observablehq-header-anchor" href="#lab-4-clearwater-crisis">Lab 4: Clearwater Crisis</a></h1>
-<p><strong>Investigator:</strong> Perla Holmes 🕵🏻‍♀️<br>
-<strong>Case File:</strong> The Crisis on Lake Clearwater
-<strong>Main Question:</strong> Who is responsible for the ecological collapse of Lake Clearwater?</p>
+<p><strong>Investigator:</strong> Perla Holmes 🕵🏻‍♀️</p>
+<p><strong>Case File:</strong> The Crisis on Lake Clearwater</p>
+<p><strong>Main Question:</strong> Who is responsible for the ecological collapse of Lake Clearwater?</p>
 <div class="observablehq observablehq--block"><!--:4550bdcc:--></div>
 <h2 id="background" tabindex="-1"><a class="observablehq-header-anchor" href="#background">Background</a></h2>
 <p>Lake Clearwater was once a healthy recreational lake known for clear water and thriving fish populations. Over the last two years, however, the ecosystem has experienced a dramatic decline. Sensitive fish species, particularly trout, have suffered major population losses, while water quality measurements suggest that pollution may be affecting parts of the lake.</p>
@@ -715,7 +715,7 @@ display(html`
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T04:11:26">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T04:12:11">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
