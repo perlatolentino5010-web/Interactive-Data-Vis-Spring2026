@@ -577,26 +577,29 @@ Taken together, the temporal, biological, and spatial evidence support ChemTech 
 
 ```js
 display(html`
-<div style="margin-top:40px; text-align:center;">
-  <img
-    src="./images/Lake Clearwater Image.png"
-    alt="Lake Clearwater"
-    style="
-      width:100%;
-      max-width:1000px;
-      border-radius:12px;
-      box-shadow:0 4px 12px rgba(0,0,0,0.15);
-    "
-  >
-
   <div style="
-    margin-top:8px;
-    font-size:12px;
-    color:#666;
-    font-style:italic;
+    margin-top: 40px;
+    text-align: center;
   ">
-    Lake Clearwater, Canterbury, New Zealand.
+    <img
+      src="./Lake Clearwater Image.png"
+      alt="Lake Clearwater"
+      style="
+        width: 100%;
+        max-width: 1000px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      "
+    >
+
+    <div style="
+      margin-top: 8px;
+      font-size: 12px;
+      color: #666;
+      font-style: italic;
+    ">
+      Lake Clearwater, Canterbury, New Zealand.
+    </div>
   </div>
-</div>
 `)
 ```
