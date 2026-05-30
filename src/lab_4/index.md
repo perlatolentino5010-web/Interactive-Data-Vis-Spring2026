@@ -602,241 +602,217 @@ ChemTech Manufacturing is closest to the West station, the same station where th
 
 This timeline helps compare documented suspect activities against the pollution story.
 
-<h2 class="sr-only">Suspect activity timeline comparing documented activity intensity across five organizations during the crisis period, with ChemTech Manufacturing highlighted as the key suspect.</h2>
+```js
+{
+  const W = 900, H = 420;
+  const N_WHITE = 36, N_BLACK = 36; // 72 total dots
 
-<style>
-.info-box {
-  border-left: 3px solid var(--color-border-info);
-  background: var(--color-background-info);
-  color: var(--color-text-primary);
-  padding: 10px 14px;
-  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
-  font-size: 13px;
-  line-height: 1.5;
-  margin-bottom: 14px;
-}
-.legend-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-size: 13px;
-  color: var(--color-text-secondary);
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-}
-.legend-swatch {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.swatch {
-  width: 12px;
-  height: 12px;
-  border-radius: 2px;
-  display: inline-block;
-}
-.key-finding {
-  background: var(--color-background-primary);
-  border: 0.5px solid var(--color-border-secondary);
-  border-radius: var(--border-radius-md);
-  padding: 10px 14px;
-  font-size: 13px;
-  color: var(--color-text-primary);
-  line-height: 1.5;
-  margin-top: 14px;
-}
-.filter-row {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-  align-items: center;
-  font-size: 13px;
-  color: var(--color-text-secondary);
-}
-.filter-btn {
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 8px;
-  border: 0.5px solid #cbd5e1;
-  background: #ffffff;
-  color: #6b7280;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-}
-.filter-btn.active {
-  background: #eff6ff;
-  color: #1e40af;
-  border-color: #bfdbfe;
-  font-weight: 500;
-}
-</style>
+  // Outcome bands: label, yCenter, white%, black%
+  const outcomes = [
+    { label: "Rich adult",              pct_white: 0.25, pct_black: 0.11, y: 60  },
+    { label: "Upper-middle-class adult",pct_white: 0.20, pct_black: 0.17, y: 160 },
+    { label: "Middle-class adult",      pct_white: 0.23, pct_black: 0.25, y: 260 },
+    { label: "Lower-middle-class adult",pct_white: 0.08, pct_black: 0.25, y: 360 },
+    { label: "Poor adult",              pct_white: 0.24, pct_black: 0.22, y: 440 },
+  ];
 
-<div class="info-box">
-  <strong>What this shows:</strong> This timeline compares documented suspect activities during the crisis period.
-  High-intensity activity does not automatically mean heavy metal waste, but ChemTech matters most because it is the suspect closest to the damaged West station and is connected to heavy metal discharge.
-</div>
-
-<div class="legend-row">
-  <strong>Activity intensity:</strong>
-  <span class="legend-swatch"><span class="swatch" style="background:#93c5fd;"></span>Low</span>
-  <span class="legend-swatch"><span class="swatch" style="background:#3b82f6;"></span>Medium</span>
-  <span class="legend-swatch"><span class="swatch" style="background:#1e3a8a;"></span>High</span>
-  <span class="legend-swatch" style="margin-left:8px;">
-    <span style="display:inline-block;width:24px;height:3px;background:#1e3a8a;border-radius:2px;"></span>
-    <span style="color:#1e40af; font-weight:500;">ChemTech (key suspect)</span>
-  </span>
-</div>
-
-<div class="filter-row">
-  <span>Filter:</span>
-  <button class="filter-btn active" onclick="setFilter('All', this)">All suspects</button>
-  <button class="filter-btn" onclick="setFilter('ChemTech Manufacturing', this)">ChemTech only</button>
-  <button class="filter-btn" onclick="setFilter('High', this)">High intensity only</button>
-</div>
-
-<div style="position: relative; width: 100%; height: 340px;">
-  <canvas id="activityChart" role="img" aria-label="Timeline showing activity intensity for five suspects. ChemTech Manufacturing shows repeated high-intensity events across the study period.">Suspect activity timeline: ChemTech Manufacturing shows high-intensity events on Jan 12, Feb 28, Apr 15, Jun 3, Jul 20.</canvas>
-</div>
-
-<div class="key-finding">
-  <strong>Key finding:</strong> ChemTech Manufacturing shows repeated high-intensity activity across the study period.
-  Because ChemTech is also closest to the damaged West station, this timing strengthens the case that it had both geographic opportunity and repeated activity during the crisis.
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-<script>
-const suspects = [
-  "ChemTech Manufacturing",
-  "Riverside Plastics",
-  "NorthWest Chemicals",
-  "Delta Processing",
-  "Apex Industrial"
-];
-
-const intensityColor = { Low: '#93c5fd', Medium: '#3b82f6', High: '#1e3a8a' };
-
-const rawData = [
-  { suspect: "ChemTech Manufacturing", date: new Date("2024-01-12"), intensity: "High" },
-  { suspect: "ChemTech Manufacturing", date: new Date("2024-02-28"), intensity: "High" },
-  { suspect: "ChemTech Manufacturing", date: new Date("2024-03-15"), intensity: "Medium" },
-  { suspect: "ChemTech Manufacturing", date: new Date("2024-04-15"), intensity: "High" },
-  { suspect: "ChemTech Manufacturing", date: new Date("2024-05-10"), intensity: "Medium" },
-  { suspect: "ChemTech Manufacturing", date: new Date("2024-06-03"), intensity: "High" },
-  { suspect: "ChemTech Manufacturing", date: new Date("2024-07-20"), intensity: "High" },
-  { suspect: "Riverside Plastics", date: new Date("2024-01-20"), intensity: "Low" },
-  { suspect: "Riverside Plastics", date: new Date("2024-03-05"), intensity: "Medium" },
-  { suspect: "Riverside Plastics", date: new Date("2024-05-18"), intensity: "Low" },
-  { suspect: "Riverside Plastics", date: new Date("2024-06-22"), intensity: "Medium" },
-  { suspect: "NorthWest Chemicals", date: new Date("2024-02-10"), intensity: "Medium" },
-  { suspect: "NorthWest Chemicals", date: new Date("2024-04-02"), intensity: "Low" },
-  { suspect: "NorthWest Chemicals", date: new Date("2024-06-14"), intensity: "Medium" },
-  { suspect: "NorthWest Chemicals", date: new Date("2024-07-08"), intensity: "Low" },
-  { suspect: "Delta Processing", date: new Date("2024-01-28"), intensity: "Low" },
-  { suspect: "Delta Processing", date: new Date("2024-03-22"), intensity: "Medium" },
-  { suspect: "Delta Processing", date: new Date("2024-05-30"), intensity: "Low" },
-  { suspect: "Apex Industrial", date: new Date("2024-02-14"), intensity: "Low" },
-  { suspect: "Apex Industrial", date: new Date("2024-04-28"), intensity: "Medium" },
-  { suspect: "Apex Industrial", date: new Date("2024-07-01"), intensity: "Low" },
-];
-
-let currentFilter = 'All';
-let chart;
-
-function getFilteredData() {
-  return rawData.filter(d => {
-    if (currentFilter === 'ChemTech Manufacturing') return d.suspect === 'ChemTech Manufacturing';
-    if (currentFilter === 'High') return d.intensity === 'High';
-    return true;
-  });
-}
-
-function buildDatasets(data) {
-  return suspects.map(s => {
-    const pts = data.filter(d => d.suspect === s);
-    const isChemTech = s === 'ChemTech Manufacturing';
-    return {
-      label: s,
-      data: pts.map(d => ({ x: d.date, y: s, intensity: d.intensity })),
-      backgroundColor: pts.map(d => intensityColor[d.intensity]),
-      borderColor: isChemTech ? '#1e3a8a' : 'rgba(100,120,160,0.25)',
-      borderWidth: isChemTech ? 2 : 1,
-      pointRadius: pts.map(d => d.intensity === 'High' ? 8 : d.intensity === 'Medium' ? 6 : 5),
-      pointHoverRadius: pts.map(d => d.intensity === 'High' ? 11 : 9),
-      showLine: isChemTech,
-      tension: 0,
-      order: isChemTech ? 0 : 1
-    };
-  });
-}
-
-function renderChart() {
-  const filtered = getFilteredData();
-  const datasets = buildDatasets(filtered);
-
-  if (chart) {
-    chart.data.datasets = datasets;
-    chart.update('active');
-    return;
+  // Build dots: assign each to an outcome by probability
+  function assignOutcomes(n, pcts) {
+    const dots = [];
+    let remaining = n;
+    for (let i = 0; i < pcts.length; i++) {
+      const count = i === pcts.length - 1
+        ? remaining
+        : Math.round(pcts[i] * n);
+      for (let j = 0; j < count; j++) dots.push(i);
+      remaining -= count;
+    }
+    return dots;
   }
 
-  chart = new Chart(document.getElementById('activityChart'), {
-    type: 'scatter',
-    data: { datasets },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: { duration: 400 },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            title: (items) => items[0].raw.x.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-            label: (item) => ` ${item.dataset.label} — ${item.raw.intensity} intensity`
-          },
-          backgroundColor: '#ffffff',
-          borderColor: 'rgba(0,0,0,0.1)',
-          borderWidth: 1,
-          titleColor: '#111827',
-          bodyColor: '#374151',
-          padding: 10,
-          cornerRadius: 8
-        }
-      },
-      scales: {
-        x: {
-          type: 'time',
-          time: { unit: 'month', displayFormats: { month: 'MMM yyyy' } },
-          min: new Date("2024-01-01"),
-          max: new Date("2024-08-15"),
-          grid: { color: 'rgba(100,116,139,0.18)' },
-          ticks: { color: '#6b7280', font: { size: 12 }, maxRotation: 30 },
-          title: { display: true, text: 'Date →', color: '#374151', font: { size: 12 } }
-        },
-        y: {
-          type: 'category',
-          labels: [...suspects].reverse(),
-          grid: { color: 'rgba(100,116,139,0.18)' },
-          ticks: {
-            color: (ctx) => ctx.tick.label === 'ChemTech Manufacturing' ? '#1e3a8a' : '#6b7280',
-            font: (ctx) => ({ size: 13, weight: ctx.tick.label === 'ChemTech Manufacturing' ? '500' : '400' })
-          }
-        }
-      }
-    }
+  const whitePcts = outcomes.map(o => o.pct_white);
+  const blackPcts = outcomes.map(o => o.pct_black);
+  const whiteAssign = assignOutcomes(N_WHITE, whitePcts);
+  const blackAssign = assignOutcomes(N_BLACK, blackPcts);
+
+  // Initial positions: all clustered in "grew up rich" band at top-left
+  const dots = [];
+  [...whiteAssign.map((o,i) => ({ race: "white", outcome: o, id: i })),
+   ...blackAssign.map((o,i) => ({ race: "black", outcome: o, id: N_WHITE + i }))
+  ].forEach(d => {
+    dots.push({
+      ...d,
+      x0: 80 + Math.random() * 260,
+      y0: 55 + Math.random() * 40,
+    });
   });
-}
 
-function setFilter(val, btn) {
-  currentFilter = val;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderChart();
-}
+  // Final positions: spread into outcome rows
+  const outcomeCounts = outcomes.map(() => ({ white: 0, black: 0 }));
+  dots.forEach(d => {
+    const slot = d.race === "white"
+      ? outcomeCounts[d.outcome].white++
+      : outcomeCounts[d.outcome].black++;
+    const row = outcomes[d.outcome];
+    const offset = d.race === "white" ? 0 : 14;
+    d.x1 = 420 + (slot % 18) * 12 + offset + Math.random() * 4;
+    d.y1 = row.y + Math.floor(slot / 18) * 12 + Math.random() * 4;
+  });
 
-renderChart();
-</script>
+  // SVG
+  const svg = d3.create("svg")
+    .attr("viewBox", `0 0 ${W} 480`)
+    .attr("width", W)
+    .style("background", "#fff")
+    .style("font-family", "Georgia, serif");
+
+  // Title
+  svg.append("text")
+    .attr("x", 20).attr("y", 28)
+    .attr("font-size", 15).attr("font-weight", 700).attr("fill", "#111")
+    .text("Follow the lives of boys who grew up in rich families…");
+
+  svg.append("text")
+    .attr("x", W - 20).attr("y", 28)
+    .attr("text-anchor", "end")
+    .attr("font-size", 13).attr("fill", "#555")
+    .text("…and see where they end up as adults:");
+
+  // Outcome labels (right side)
+  outcomes.forEach(o => {
+    svg.append("text")
+      .attr("x", W - 20).attr("y", o.y + 5)
+      .attr("text-anchor", "end")
+      .attr("font-size", 12).attr("fill", "#333")
+      .text(o.label);
+
+    // white % stat
+    svg.append("text")
+      .attr("x", W - 130).attr("y", o.y - 4)
+      .attr("text-anchor", "middle")
+      .attr("font-size", 14).attr("font-weight", 700).attr("fill", "#e8a820")
+      .text(Math.round(o.pct_white * 100));
+
+    svg.append("text")
+      .attr("x", W - 130).attr("y", o.y + 12)
+      .attr("text-anchor", "middle")
+      .attr("font-size", 11).attr("fill", "#888")
+      .text(Math.round(o.pct_white * 100) + "%");
+
+    // black % stat
+    svg.append("text")
+      .attr("x", W - 100).attr("y", o.y - 4)
+      .attr("text-anchor", "middle")
+      .attr("font-size", 14).attr("font-weight", 700).attr("fill", "#5b9bd5")
+      .text(Math.round(o.pct_black * 100));
+
+    svg.append("text")
+      .attr("x", W - 100).attr("y", o.y + 12)
+      .attr("text-anchor", "middle")
+      .attr("font-size", 11).attr("fill", "#888")
+      .text(Math.round(o.pct_black * 100) + "%");
+  });
+
+  // Column headers for stats
+  svg.append("text").attr("x", W - 130).attr("y", 14)
+    .attr("text-anchor", "middle").attr("font-size", 11).attr("fill", "#e8a820").attr("font-weight", 700)
+    .text("WHITE MEN");
+  svg.append("text").attr("x", W - 100).attr("y", 14)
+    .attr("text-anchor", "middle").attr("font-size", 11).attr("fill", "#5b9bd5").attr("font-weight", 700)
+    .text("BLACK MEN");
+
+  // "Grew up rich" label
+  svg.append("text")
+    .attr("x", 24).attr("y", 75)
+    .attr("font-size", 13).attr("fill", "#555").attr("font-style", "italic")
+    .text("Grew up rich");
+
+  // Narrative text (left side, mid chart)
+  const narrative = svg.append("text")
+    .attr("x", 24).attr("y", 200)
+    .attr("font-size", 13).attr("fill", "#222");
+  [
+    "Most white boys \u25a0",
+    "raised in wealthy",
+    "families will stay rich",
+    "or upper middle class",
+    "as adults, but black",
+    "boys \u25a0 raised in",
+    "similarly rich",
+    "households will not."
+  ].forEach((line, i) => {
+    narrative.append("tspan")
+      .attr("x", 24).attr("dy", i === 0 ? 0 : 18)
+      .text(line);
+  });
+
+  // Dots
+  const circles = svg.selectAll("circle.dot")
+    .data(dots)
+    .join("circle")
+    .attr("class", "dot")
+    .attr("r", 5)
+    .attr("cx", d => d.x0)
+    .attr("cy", d => d.y0)
+    .attr("fill", d => d.race === "white" ? "#e8a820" : "#5b9bd5")
+    .attr("fill-opacity", 0.85);
+
+  // Animation: transition to final positions
+  let animated = false;
+  function animate() {
+    animated = true;
+    playBtn.attr("opacity", 0.5);
+    circles.transition()
+      .duration(1800)
+      .delay((d, i) => i * 18)
+      .ease(d3.easeCubicInOut)
+      .attr("cx", d => d.x1)
+      .attr("cy", d => d.y1)
+      .on("end", (d, i) => {
+        if (i === dots.length - 1) playBtn.attr("opacity", 1);
+      });
+  }
+
+  function reset() {
+    animated = false;
+    circles.interrupt()
+      .attr("cx", d => d.x0)
+      .attr("cy", d => d.y0);
+    playBtn.attr("opacity", 1);
+  }
+
+  // Play/pause button
+  const playBtn = svg.append("g")
+    .attr("transform", `translate(${W / 2 - 30}, 200)`)
+    .style("cursor", "pointer")
+    .on("click", () => animated ? reset() : animate());
+
+  playBtn.append("circle")
+    .attr("r", 26).attr("fill", "#444").attr("fill-opacity", 0.75);
+
+  playBtn.append("text")
+    .attr("text-anchor", "middle").attr("dominant-baseline", "central")
+    .attr("font-size", 22).attr("fill", "white")
+    .text("▶");
+
+  // Wrapper
+  const container = html`<div style="
+    background:#fff; padding:16px 20px; border-radius:10px;
+    max-width:960px; font-family:Georgia,serif;
+    border: 1px solid #e5e7eb;
+  ">
+    <h2 style="margin:0 0 4px; font-size:1rem; font-family:system-ui,sans-serif;">
+      Applications of Interactive Data Visualization
+    </h2>
+    <p style="margin:0 0 12px; font-size:0.8rem; color:#666; font-family:system-ui,sans-serif;">
+      Inspired by NYT "Extensive Data Shows Punishing Reach of Racism for Black Boys" — click ▶ to animate
+    </p>
+    ${svg.node()}
+  </div>`;
+
+  return container;
+}
+```
 
 ChemTech has repeated high-intensity maintenance shutdowns across the study period. Because ChemTech is also the closest suspect to the West station and is associated with heavy metal discharge, its activity pattern strengthens the case against it.
 
