@@ -41,8 +41,6 @@ To identify the most likely culprit, I looked for a suspect that matched three t
 2. **Biological evidence** — which fish species declined most severely.
 3. **Spatial evidence** — which suspect was closest to the worst station.
 
-In other words: means, motive, opportunity... but make it data visualization.
-
 ## Key Data Findings
 
 Before identifying a suspect, the data collected from Lake Clearwater must be examined. The following indicators reveal changes in water quality, fish populations, and contaminant levels that may help explain the ecological collapse.
