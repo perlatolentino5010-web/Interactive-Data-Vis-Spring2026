@@ -203,11 +203,11 @@ display(html`
         </h3>
 
         ${[
-          ["#7648f6", "East Shore"],
-          ["#f39c12", "North Shore"],
-          ["#e74c3c", "South Shore"],
-          ["#16a085", "West Shore"]
-        ].map(([color, title]) => html`
+  ["#3366cc", "East Shore"],
+  ["#f39c12", "North Shore"],
+  ["#e74c3c", "South Shore"],
+  ["#16a085", "West Shore"]
+].map(([color, title]) => html`
           <div style="display: flex; gap: 8px; margin-bottom: 14px; align-items: center;">
             <div style="
               width: 50px;
@@ -348,50 +348,44 @@ If heavy metals are driving the collapse, the most sensitive species should be a
 ```js
 display(html`
   <div style="
-    background: #07111f;
-    padding: 16px;
-    border-radius: 14px;
-    box-shadow: 0 0 18px rgba(0, 255, 255, 0.18);
+    background: white;
+    padding: 18px;
+    border-radius: 8px;
     max-width: 920px;
   ">
     ${Plot.plot({
       width: Math.min(width * 0.78, 920),
       height: 380,
       marginLeft: 70,
-      marginBottom: 55,
+      marginBottom: 70,
 
       style: {
-        background: "#07111f",
-        color: "#d7f7ff",
+        background: "white",
+        color: "#6b6b6b",
         fontSize: "13px"
       },
 
       x: {
         label: "Date",
-        grid: true
+        grid: true,
+        tickRotate: -45,
+        tickSize: 6
       },
 
       y: {
-        label: "↑ Fish Count by Species",
-        grid: true
+        label: "Fish Count",
+        grid: true,
+        tickSize: 6
       },
 
       color: {
         legend: true,
         label: "Species",
         domain: ["Bass", "Carp", "Trout"],
-        range: ["#9c2f36", "#f6d98b", "#2f358f"]
+        range: ["#6f55c8", "#7aa6df", "#9c2f36"]
       },
 
       marks: [
-        Plot.gridX({
-          stroke: "rgba(215,247,255,0.08)"
-        }),
-
-        Plot.gridY({
-          stroke: "rgba(215,247,255,0.08)"
-        }),
-
         Plot.areaY(
           fish.filter(d => d.station_id === "West"),
           {
@@ -399,7 +393,8 @@ display(html`
             y: "count",
             fill: "species",
             fillOpacity: 0.28,
-            curve: "linear"
+            curve: "linear",
+            tip: true
           }
         ),
 
@@ -409,19 +404,8 @@ display(html`
             x: "date",
             y: "count",
             stroke: "species",
-            strokeWidth: 3,
+            strokeWidth: 2,
             curve: "linear",
-            tip: true
-          }
-        ),
-
-        Plot.dot(
-          fish.filter(d => d.station_id === "West"),
-          {
-            x: "date",
-            y: "count",
-            fill: "species",
-            r: 4,
             tip: true
           }
         )
