@@ -574,9 +574,10 @@ Taken together, the temporal, biological, and spatial evidence support ChemTech 
 # The End
 
 ```js
+display(html`
 <div style="margin-top:40px; text-align:center;">
   <img
-    src="https://midcanterbury.co.nz/location/lake-clearwater"
+    src="./images/1744260072-lake-clearwater.avif"
     alt="Lake Clearwater"
     style="
       width:100%;
@@ -592,10 +593,8 @@ Taken together, the temporal, biological, and spatial evidence support ChemTech 
     color:#666;
     font-style:italic;
   ">
-    Lake Clearwater, Canterbury, New Zealand. Image source:
-    <a href="https://midcanterbury.co.nz/location/lake-clearwater" target="_blank">
-      Mid Canterbury NZ
-    </a>
+    Lake Clearwater, Canterbury, New Zealand.
   </div>
 </div>
+`)
 ```
