@@ -6,11 +6,23 @@ author: "Perla Holmes 🕵🏻‍♀️"
 
 # Lab 4: Clearwater Crisis
 
-**Investigator:** Perla Holmes 🕵🏻‍♀️
+<p style="font-size:1.4rem;">
+  <strong>Investigator:</strong> Perla Holmes 🕵🏻‍♀️
+</p>
 
-**Case File:** The Crisis on Lake Clearwater
+<p style="font-size:1.4rem;">
+  <strong>Case File:</strong> The Crisis on Lake Clearwater
+</p>
 
-**Main Question:** Who is responsible for the ecological collapse of Lake Clearwater?
+<p style="
+  font-size:1.8rem;
+  line-height:1.2;
+  max-width:1200px;
+  margin-bottom:1.5rem;
+">
+  <strong>Main Question:</strong>
+  Who is responsible for the ecological collapse of Lake Clearwater?
+</p>
 
 ```js
 const water = await FileAttachment("data/water_quality.csv").csv({ typed: true });
