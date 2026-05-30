@@ -61,7 +61,7 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/pollinator_activity_data.csv", {"name":"./data/pollinator_activity_data.csv","mimeType":"text/csv","path":"../_file/lab_1/data/pollinator_activity_data.172590cd.csv","lastModified":1780139252916,"size":29868});
+registerFile("./data/pollinator_activity_data.csv", {"name":"./data/pollinator_activity_data.csv","mimeType":"text/csv","path":"../_file/lab_1/data/pollinator_activity_data.172590cd.csv","lastModified":1780139393194,"size":29868});
 
 define({id: "f75ec02a", inputs: ["FileAttachment"], outputs: ["data"], body: (FileAttachment) => {
 const data = FileAttachment("./data/pollinator_activity_data.csv")
@@ -202,22 +202,25 @@ Plot.plot({
 ))
 }});
 
-define({id: "06b8ee76", inputs: ["Plot","data"], outputs: ["flowerOrder"], body: (Plot,data) => {
-const flowerOrder = ["Lavender", "Coneflower", "Sunflower", "Rose", "Tulip", "Daisy"];
-
+define({id: "7da7cba1", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
+display(await(
 Plot.plot({
   title: "Average Nectar Production by Flower",
+
   x: {
     label: "Flower Species",
-    domain: flowerOrder
+    domain: ["Coneflower", "Lavender", "Sunflower"]
   },
-  y: { label: "Average Nectar Production" },
+
+  y: {
+    label: "Average Nectar Production"
+  },
 
   color: {
     legend: true,
     label: "Flower Species",
-    domain: flowerOrder,
-    range: ["#b57edc", "#f4a261", "#f6c85f", "#e76f91", "#f7b7c3", "#f2f2f2"]
+    domain: ["Coneflower", "Lavender", "Sunflower"],
+    range: ["#f4a261", "#b57edc", "#f6c85f"]
   },
 
   marks: [
@@ -233,10 +236,12 @@ Plot.plot({
       )
     ),
 
-    Plot.ruleY([0], { stroke: "#333" })
+    Plot.ruleY([0], {
+      stroke: "#333"
+    })
   ]
 })
-return {flowerOrder};
+))
 }});
 
 </script>
@@ -335,7 +340,7 @@ This chart compares pollinator activity across different weather conditions. Whi
 <p><strong>What is the ideal weather for pollinating?</strong></p>
 <p>The scatterplot suggests that temperature and nectar production may be connected. Higher temperatures appear to be associated with stronger nectar production in some observations, which may help explain why pollinators visit more often under certain weather conditions. This means the ideal pollination conditions may not simply be “sunny,” but rather a combination of suitable temperature, nectar availability, and weather conditions that still allow pollinators to move safely.</p>
 <h2 id="average-nectar-production-by-flower" tabindex="-1"><a class="observablehq-header-anchor" href="#average-nectar-production-by-flower">Average Nectar Production by Flower</a></h2>
-<div class="observablehq observablehq--block"><!--:06b8ee76:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:7da7cba1:--></div>
 <p><strong>Which flower has the most nectar production?</strong></p>
 <p>This chart compares average nectar production by flower species. Flowers with higher average nectar production may be more attractive to pollinators because they provide a stronger food reward. Matching the bar colors to the flower names also makes the chart easier to read because the visual design connects directly to the subject of the graph.</p>
 <h2 id="conclusion" tabindex="-1"><a class="observablehq-header-anchor" href="#conclusion">Conclusion</a></h2>
@@ -343,7 +348,7 @@ This chart compares pollinator activity across different weather conditions. Whi
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a><a rel="next" href="../lab_2/readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T11:07:40">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T11:09:57">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
