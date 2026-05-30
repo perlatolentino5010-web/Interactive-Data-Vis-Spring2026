@@ -61,7 +61,7 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/pollinator_activity_data.csv", {"name":"./data/pollinator_activity_data.csv","mimeType":"text/csv","path":"../_file/lab_1/data/pollinator_activity_data.172590cd.csv","lastModified":1780138334666,"size":29868});
+registerFile("./data/pollinator_activity_data.csv", {"name":"./data/pollinator_activity_data.csv","mimeType":"text/csv","path":"../_file/lab_1/data/pollinator_activity_data.172590cd.csv","lastModified":1780138428297,"size":29868});
 
 define({id: "f75ec02a", inputs: ["FileAttachment"], outputs: ["data"], body: (FileAttachment) => {
 const data = FileAttachment("./data/pollinator_activity_data.csv")
@@ -135,7 +135,7 @@ Plot.plot({
 ))
 }});
 
-define({id: "afcd3903", inputs: ["data","Plot"], outputs: ["weatherData"], body: (data,Plot) => {
+define({id: "1602ae51", inputs: ["data"], outputs: ["weatherData"], body: (data) => {
 const weatherData = data.map(d => ({
   ...d,
   weather_condition:
@@ -143,7 +143,11 @@ const weatherData = data.map(d => ({
       ? "Rainy"
       : d.weather_condition
 }));
+return {weatherData};
+}});
 
+define({id: "17095714", inputs: ["Plot","weatherData","display"], body: async (Plot,weatherData,display) => {
+display(await(
 Plot.plot({
   title: "Pollinator Visits by Weather Condition",
 
@@ -171,7 +175,7 @@ Plot.plot({
     )
   ]
 })
-return {weatherData};
+))
 }});
 
 define({id: "dab37115", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
@@ -319,7 +323,8 @@ Plot.plot({
 <p><strong>What is the wing span distribution of each pollinator species observed?</strong></p>
 <p>Wing span also varies by pollinator species. Larger wing spans may support different flight patterns than smaller wing spans, which could influence how efficiently pollinators move through the garden. Looking at body mass and wing span together helps describe the physical differences among the pollinators in the dataset.</p>
 <h2 id="weather-conditions-and-pollinator-visits" tabindex="-1"><a class="observablehq-header-anchor" href="#weather-conditions-and-pollinator-visits">Weather Conditions and Pollinator Visits</a></h2>
-<div class="observablehq observablehq--block"><!--:afcd3903:--></div>
+<div class="observablehq observablehq--block"><!--:1602ae51:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:17095714:--></div>
 <p><strong>What weather conditions seem best for pollinator activity?</strong></p>
 <p>What weather conditions seem best for pollinator activity?
 This chart compares pollinator activity across different weather conditions. While sunny weather is often assumed to be ideal, the data suggest that cloudy conditions may also support strong pollinator activity. Combined with the temperature analysis below, this may indicate that moderate temperatures and nectar availability are just as important as direct sunlight in supporting pollination.</p>
@@ -336,7 +341,7 @@ This chart compares pollinator activity across different weather conditions. Whi
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a><a rel="next" href="../lab_2/readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T10:52:23">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T10:53:55">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
