@@ -58,10 +58,10 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1780133655734,"size":8105});
-registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1780133655734,"size":2892});
-registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1780133655734,"size":131971});
-registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1780133655734,"size":6301});
+registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1780133837189,"size":8105});
+registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1780133837189,"size":2892});
+registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1780133837189,"size":131971});
+registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1780133837189,"size":6301});
 
 define({id: "a87f56f3", inputs: ["FileAttachment","topojson","d3","display"], outputs: ["nyc","results","survey","events","districts","totalCandidateVotes","totalOpponentVotes","totalVotes","overallShare"], body: async (FileAttachment,topojson,d3,display) => {
 const nyc = await FileAttachment("./data/nyc.json").json();
@@ -262,27 +262,23 @@ Income category: ${d.income_category}`
 ))
 }});
 
-define({id: "98259284", inputs: ["Plot","resultsWithShare","d3","display"], body: async (Plot,resultsWithShare,d3,display) => {
+define({id: "d844c21b", inputs: ["Plot","overallShare","resultsWithShare","d3","display"], body: async (Plot,overallShare,resultsWithShare,d3,display) => {
 display(await(
-// Vote margin by district, colored by income category
+// Candidate vote share by income category
 Plot.plot({
-  width: 1100,
-  height: 850,
+  width: 800,
+  height: 450,
   marginLeft: 70,
-  marginRight: 40,
-  marginBottom: 50,
+  marginBottom: 60,
 
   x: {
-    label: "Vote Margin →",
-    grid: true
+    label: "Income Category"
   },
 
   y: {
-    label: "District",
-    domain: resultsWithShare
-      .slice()
-      .sort((a, b) => a.vote_margin - b.vote_margin)
-      .map(d => d.boro_cd)
+    label: "Candidate Vote Share",
+    grid: true,
+    percent: true
   },
 
   color: {
@@ -293,20 +289,34 @@ Plot.plot({
   },
 
   marks: [
-    Plot.barX(resultsWithShare, {
-      y: "boro_cd",
-      x: "vote_margin",
+    Plot.ruleY([overallShare], {
+      stroke: "black",
+      strokeDasharray: "4,4",
+      strokeWidth: 1.5
+    }),
+
+    Plot.dot(resultsWithShare, {
+      x: "income_category",
+      y: "candidate_vote_share",
       fill: "income_category",
+      stroke: "white",
+      strokeWidth: 1.2,
+      r: 5,
+      fillOpacity: 0.85,
       title: d => `District: ${d.boro_cd}
-Vote margin: ${d.vote_margin}
 Candidate vote share: ${d3.format(".1%")(d.candidate_vote_share)}
+Vote margin: ${d.vote_margin}
 Income category: ${d.income_category}`,
       tip: true
     }),
 
-    Plot.ruleX([0], {
-      stroke: "black",
-      strokeWidth: 1
+    Plot.text([{income_category: "High", candidate_vote_share: overallShare}], {
+      x: "income_category",
+      y: "candidate_vote_share",
+      text: "Overall citywide share",
+      dy: -8,
+      fill: "black",
+      fontSize: 11
     })
   ]
 })
@@ -423,14 +433,14 @@ Plot.plot({
 <p>This choropleth map shows the candidate's vote share across NYC districts. Darker districts indicate stronger electoral performance, while lighter districts indicate weaker support. Viewing vote share geographically helps identify clusters of support and reveals whether the campaign performed consistently across boroughs or relied heavily on a few strong districts.</p>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:c4bcfa19:--></div>
 <p>This chart shows vote margin by district. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better. While the candidate dominated the district count (36), the oponent had an overwhelming majority of voter suport int he fewer districts that supported him (23), showing the importance of voter's power.</p>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:98259284:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:d844c21b:--></div>
 <p>This chart keeps districts sorted by vote margin but colors them by income category. This helps show whether the candidate's strongest and weakest districts were concentrated among low-, middle-, or high-income areas.</p>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:be489001:--></div>
 <p>Finally, this chart compares whether survey respondents had heard of the candidate and whether they voted. This helps connect campaign awareness with voter participation. Overall, this chart is a reflection of conscious voting having greater impact in this NYC majoral election.</p>
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a><a rel="next" href="../lab_4/readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T09:34:21">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T09:37:22">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
