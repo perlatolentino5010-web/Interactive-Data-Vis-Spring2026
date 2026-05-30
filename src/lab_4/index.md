@@ -251,12 +251,11 @@ Trout are highly sensitive to pollution and serve as an early warning indicator 
 ```js
 display(html`
   <style>
-    .neon-trout-chart .plot-swatches {
+    .neon-trout-chart,
+    .neon-trout-chart * {
       color: #d7f7ff !important;
-      font-size: 13px;
     }
 
-    .neon-trout-chart .plot-swatches text,
     .neon-trout-chart svg text {
       fill: #d7f7ff !important;
     }
@@ -268,7 +267,7 @@ display(html`
     }
 
     .neon-trout-chart svg g[aria-label="tip"] text {
-      fill: #d7f7ff;
+      fill: #d7f7ff !important;
       font-weight: 600;
     }
   </style>
@@ -281,9 +280,10 @@ display(html`
     max-width: 820px;
   ">
     ${Plot.plot({
-      width: Math.min(width * 0.68, 820),
+      width: 790,
       height: 315,
       marginLeft: 60,
+      marginRight: 20,
       marginBottom: 45,
 
       style: {
@@ -294,13 +294,13 @@ display(html`
 
       x: {
         label: "Date",
-        grid: false,
+        grid: true,
         tickSize: 6
       },
 
       y: {
         label: "↑ Trout Species Decline",
-        grid: false,
+        grid: true,
         tickSize: 6
       },
 
@@ -312,8 +312,8 @@ display(html`
       },
 
       marks: [
-        Plot.gridX({stroke: "rgba(215, 247, 255, 0.05)"}),
-        Plot.gridY({stroke: "rgba(215, 247, 255, 0.05)"}),
+        Plot.gridX({stroke: "rgba(215, 247, 255, 0.10)"}),
+        Plot.gridY({stroke: "rgba(215, 247, 255, 0.10)"}),
 
         Plot.lineY(
           fish.filter(d => d.species === "Trout"),
