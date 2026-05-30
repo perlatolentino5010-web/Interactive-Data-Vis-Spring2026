@@ -545,14 +545,24 @@ This timeline helps compare documented suspect activities against the pollution 
 display(html`
   <div style="
     background: #f7fbff;
-    padding: 16px;
+    padding: 14px;
     border-radius: 10px;
-    max-width: 920px;
+    max-width: 820px;
   ">
+    <div style="
+      font-family: system-ui, sans-serif;
+      font-size: 13px;
+      color: #374151;
+      margin-bottom: 8px;
+      font-weight: 600;
+    ">
+      Activity Intensity: Low, Medium, High
+    </div>
+
     ${Plot.plot({
-      width: Math.min(width * 0.78, 920),
-      height: 360,
-      marginLeft: 170,
+      width: Math.min(width * 0.68, 820),
+      height: 330,
+      marginLeft: 165,
       marginBottom: 55,
 
       style: {
@@ -590,17 +600,17 @@ display(html`
           z: "suspect",
           stroke: "#111827",
           strokeWidth: 3,
-          strokeOpacity: 0.55
+          strokeOpacity: 0.5
         }),
 
         Plot.barX(activities, {
           x1: "date",
-          x2: d => new Date(+d.date + 22 * 24 * 60 * 60 * 1000),
+          x2: d => new Date(+d.date + 35 * 24 * 60 * 60 * 1000),
           y: "suspect",
           fill: "intensity",
-          rx: 8,
-          insetTop: 3,
-          insetBottom: 3,
+          rx: 10,
+          insetTop: 8,
+          insetBottom: 8,
           tip: true
         }),
 
