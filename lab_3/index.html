@@ -58,10 +58,10 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1780132663975,"size":8105});
-registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1780132663975,"size":2892});
-registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1780132663975,"size":131971});
-registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1780132663975,"size":6301});
+registerFile("./data/campaign_events.csv", {"name":"./data/campaign_events.csv","mimeType":"text/csv","path":"../_file/lab_3/data/campaign_events.abc9ffd9.csv","lastModified":1780133013344,"size":8105});
+registerFile("./data/election_results.csv", {"name":"./data/election_results.csv","mimeType":"text/csv","path":"../_file/lab_3/data/election_results.e841635f.csv","lastModified":1780133013344,"size":2892});
+registerFile("./data/nyc.json", {"name":"./data/nyc.json","mimeType":"application/json","path":"../_file/lab_3/data/nyc.7b17f62d.json","lastModified":1780133013344,"size":131971});
+registerFile("./data/survey_responses.csv", {"name":"./data/survey_responses.csv","mimeType":"text/csv","path":"../_file/lab_3/data/survey_responses.0a1905c7.csv","lastModified":1780133013344,"size":6301});
 
 define({id: "a87f56f3", inputs: ["FileAttachment","topojson","d3","display"], outputs: ["nyc","results","survey","events","districts","totalCandidateVotes","totalOpponentVotes","totalVotes","overallShare"], body: async (FileAttachment,topojson,d3,display) => {
 const nyc = await FileAttachment("./data/nyc.json").json();
@@ -147,14 +147,46 @@ District: ${d.boro_cd}`
 ))
 }});
 
-define({id: "13405618", inputs: ["Plot","districts","districtResults","d3","display"], body: async (Plot,districts,districtResults,d3,display) => {
-display(await(
-// Choropleth map of candidate vote share
+define({id: "1c21ba66", inputs: ["results","districts"], outputs: ["resultsByDistrict","districtResults"], body: (results,districts) => {
+const resultsByDistrict = new Map(
+  results.map(d => [String(d.boro_cd), d])
+);
 
+const districtResults = {
+  type: "FeatureCollection",
+  features: districts.features.map(d => {
+    const boro_cd = String(d.properties.boro_cd ?? d.properties.BoroCD ?? d.id);
+    const result = resultsByDistrict.get(boro_cd);
+
+    return {
+      ...d,
+      properties: {
+        ...d.properties,
+        ...result,
+        boro_cd,
+        candidate_vote_share: result
+          ? result.votes_candidate / (result.votes_candidate + result.votes_opponent)
+          : null,
+        vote_margin: result
+          ? result.votes_candidate - result.votes_opponent
+          : null
+      }
+    };
+  })
+};
+return {resultsByDistrict,districtResults};
+}});
+
+define({id: "edc7aa15", inputs: ["Plot","districtResults","d3","display"], body: async (Plot,districtResults,d3,display) => {
+display(await(
+// Candidate vote share choropleth map
 Plot.plot({
+  width: 800,
+  height: 700,
+
   projection: {
-    domain: districts,
-    type: "mercator"
+    type: "mercator",
+    domain: districtResults
   },
 
   color: {
@@ -167,13 +199,13 @@ Plot.plot({
   marks: [
     Plot.geo(districtResults, {
       fill: d => d.properties.candidate_vote_share,
-      stroke: "white",
-
-      title: d => `
-District: ${d.properties.boro_cd}
-Vote Share: ${d3.format(".1%")(d.properties.candidate_vote_share)}
-Income Category: ${d.properties.income_category}
-`
+      stroke: "#404040",
+      strokeWidth: 0.7,
+      title: d => `District: ${d.properties.boro_cd}
+Vote share: ${d3.format(".1%")(d.properties.candidate_vote_share)}
+Vote margin: ${d.properties.vote_margin}
+Income category: ${d.properties.income_category}`,
+      tip: true
     })
   ]
 })
@@ -333,7 +365,8 @@ Plot.plot({
 <div class="observablehq observablehq--block"><!--:39c585a4:--></div>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:b064eb7b:--></div>
 <p>This map shows where campaign events were held across NYC. Larger dots represent higher estimated attendance, and colors show different event types. Some areas appear to have higher comunity engagement such as Manhattan, Bronx and part of Brooklyn (Faro Rockaway being a major exception), where as Queens seems somewhat active. Staten Island on the other hand shows the lowest engagement, hinting to a disconnect in this city's role in the broader NYC community.</p>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:13405618:--></div>
+<div class="observablehq observablehq--block"><!--:1c21ba66:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:edc7aa15:--></div>
 <p>This choropleth map shows the candidate's vote share across NYC districts. Darker districts indicate stronger electoral performance, while lighter districts indicate weaker support. Viewing vote share geographically helps identify clusters of support and reveals whether the campaign performed consistently across boroughs or relied heavily on a few strong districts.</p>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:c4bcfa19:--></div>
 <p>This chart shows vote margin by district. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better. While the candidate dominated the district count (36), the oponent had an overwhelming majority of voter suport int he fewer districts that supported him (23), showing the importance of voter's power.</p>
@@ -342,7 +375,7 @@ Plot.plot({
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a><a rel="next" href="../lab_4/readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T09:17:52">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T09:23:42">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
