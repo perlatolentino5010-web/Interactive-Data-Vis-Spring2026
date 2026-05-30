@@ -61,11 +61,11 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780128967684,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780128967684,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780128967684,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780128967684,"size":26191});
-registerFile("./docs/Lake-Clearwater-Image.png", {"name":"./docs/Lake-Clearwater-Image.png","mimeType":"image/png","path":"../_file/lab_4/docs/Lake-Clearwater-Image.0473b1c3.png","lastModified":1780128967686,"size":1697706});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780129294568,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780129294568,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780129294568,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780129294568,"size":26191});
+registerFile("./docs/Lake-Clearwater-Image.png", {"name":"./docs/Lake-Clearwater-Image.png","mimeType":"image/png","path":"../_file/lab_4/docs/Lake-Clearwater-Image.0473b1c3.png","lastModified":1780129294569,"size":1697706});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -463,6 +463,172 @@ display(html`
 `)
 }});
 
+define({id: "4b1640c4", inputs: ["d3","html","display"], body: (d3,html,display) => {
+{
+  const suspects = [
+    "ChemTech Manufacturing",
+    "Riverside Plastics",
+    "NorthWest Chemicals",
+    "Delta Processing",
+    "Apex Industrial"
+  ];
+
+  const intensityColor = { Low: '#93c5fd', Medium: '#3b82f6', High: '#1e3a8a' };
+
+  const rawData = [
+    { suspect: "ChemTech Manufacturing", date: new Date("2024-01-12"), intensity: "High" },
+    { suspect: "ChemTech Manufacturing", date: new Date("2024-02-28"), intensity: "High" },
+    { suspect: "ChemTech Manufacturing", date: new Date("2024-03-15"), intensity: "Medium" },
+    { suspect: "ChemTech Manufacturing", date: new Date("2024-04-15"), intensity: "High" },
+    { suspect: "ChemTech Manufacturing", date: new Date("2024-05-10"), intensity: "Medium" },
+    { suspect: "ChemTech Manufacturing", date: new Date("2024-06-03"), intensity: "High" },
+    { suspect: "ChemTech Manufacturing", date: new Date("2024-07-20"), intensity: "High" },
+    { suspect: "Riverside Plastics",     date: new Date("2024-01-20"), intensity: "Low" },
+    { suspect: "Riverside Plastics",     date: new Date("2024-03-05"), intensity: "Medium" },
+    { suspect: "Riverside Plastics",     date: new Date("2024-05-18"), intensity: "Low" },
+    { suspect: "Riverside Plastics",     date: new Date("2024-06-22"), intensity: "Medium" },
+    { suspect: "NorthWest Chemicals",    date: new Date("2024-02-10"), intensity: "Medium" },
+    { suspect: "NorthWest Chemicals",    date: new Date("2024-04-02"), intensity: "Low" },
+    { suspect: "NorthWest Chemicals",    date: new Date("2024-06-14"), intensity: "Medium" },
+    { suspect: "NorthWest Chemicals",    date: new Date("2024-07-08"), intensity: "Low" },
+    { suspect: "Delta Processing",       date: new Date("2024-01-28"), intensity: "Low" },
+    { suspect: "Delta Processing",       date: new Date("2024-03-22"), intensity: "Medium" },
+    { suspect: "Delta Processing",       date: new Date("2024-05-30"), intensity: "Low" },
+    { suspect: "Apex Industrial",        date: new Date("2024-02-14"), intensity: "Low" },
+    { suspect: "Apex Industrial",        date: new Date("2024-04-28"), intensity: "Medium" },
+    { suspect: "Apex Industrial",        date: new Date("2024-07-01"), intensity: "Low" },
+  ];
+
+  const suspectList = [...suspects].reverse();
+  const dateExtent = [new Date("2024-01-01"), new Date("2024-08-15")];
+
+  const W = 820, H = 320;
+  const ML = 180, MR = 30, MT = 40, MB = 50;
+  const plotW = W - ML - MR, plotH = H - MT - MB;
+
+  const xScale = d3.scaleTime().domain(dateExtent).range([0, plotW]);
+  const yScale = d3.scaleBand().domain(suspectList).range([0, plotH]).padding(0.3);
+
+  const svg = d3.create("svg")
+    .attr("viewBox", `0 0 ${W} ${H}`)
+    .attr("width", "100%")
+    .style("font-family", "system-ui, sans-serif")
+    .style("background", "#f7fbff");
+
+  const g = svg.append("g").attr("transform", `translate(${ML},${MT})`);
+
+  g.append("g")
+    .call(d3.axisBottom(xScale).ticks(7).tickSize(plotH).tickFormat(""))
+    .call(ax => ax.select(".domain").remove())
+    .call(ax => ax.selectAll("line").attr("stroke", "#cbd5e1").attr("stroke-opacity", 0.5));
+
+  g.append("g")
+    .attr("transform", `translate(0,${plotH})`)
+    .call(d3.axisBottom(xScale).ticks(7).tickFormat(d3.timeFormat("%b %Y")))
+    .call(ax => ax.select(".domain").attr("stroke", "#cbd5e1"))
+    .call(ax => ax.selectAll("text")
+      .attr("fill", "#6b7280").attr("font-size", 11)
+      .attr("transform", "rotate(-25)").attr("text-anchor", "end"));
+
+  g.append("text")
+    .attr("x", plotW / 2).attr("y", plotH + 46)
+    .attr("text-anchor", "middle")
+    .attr("font-size", 11).attr("fill", "#6b7280")
+    .text("Date →");
+
+  g.append("g")
+    .call(d3.axisLeft(yScale).tickSize(0))
+    .call(ax => ax.select(".domain").remove())
+    .call(ax => ax.selectAll("text")
+      .attr("fill", d => d === "ChemTech Manufacturing" ? "#1e3a8a" : "#6b7280")
+      .attr("font-size", 12)
+      .attr("font-weight", d => d === "ChemTech Manufacturing" ? 600 : 400)
+      .attr("x", -10));
+
+  const chemData = rawData
+    .filter(d => d.suspect === "ChemTech Manufacturing")
+    .sort((a, b) => a.date - b.date);
+
+  g.append("path")
+    .datum(chemData)
+    .attr("fill", "none")
+    .attr("stroke", "#1e3a8a")
+    .attr("stroke-width", 2.5)
+    .attr("stroke-opacity", 0.5)
+    .attr("d", d3.line()
+      .x(d => xScale(d.date))
+      .y(d => yScale(d.suspect) + yScale.bandwidth() / 2));
+
+  const tooltip = d3.select("body").append("div")
+    .style("position", "absolute")
+    .style("background", "white")
+    .style("border", "1px solid #e2e8f0")
+    .style("border-radius", "8px")
+    .style("padding", "8px 12px")
+    .style("font-size", "12px")
+    .style("pointer-events", "none")
+    .style("opacity", 0);
+
+  g.selectAll("circle")
+    .data(rawData)
+    .join("circle")
+    .attr("cx", d => xScale(d.date))
+    .attr("cy", d => yScale(d.suspect) + yScale.bandwidth() / 2)
+    .attr("r", d => d.intensity === "High" ? 8 : d.intensity === "Medium" ? 6 : 5)
+    .attr("fill", d => intensityColor[d.intensity])
+    .attr("stroke", "white").attr("stroke-width", 1.5)
+    .attr("fill-opacity", d => d.suspect === "ChemTech Manufacturing" ? 1 : 0.75)
+    .style("cursor", "pointer")
+    .on("mouseover", (event, d) => {
+      tooltip.style("opacity", 1)
+        .html(`<b>${d.suspect}</b><br>${d.date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}<br>Intensity: <b>${d.intensity}</b>`);
+    })
+    .on("mousemove", (event) => {
+      tooltip.style("left", (event.pageX + 12) + "px").style("top", (event.pageY - 28) + "px");
+    })
+    .on("mouseout", () => tooltip.style("opacity", 0));
+
+  g.selectAll("text.high-label")
+    .data(rawData.filter(d => d.suspect === "ChemTech Manufacturing" && d.intensity === "High"))
+    .join("text")
+    .attr("class", "high-label")
+    .attr("x", d => xScale(d.date))
+    .attr("y", d => yScale(d.suspect) + yScale.bandwidth() / 2 - 14)
+    .attr("text-anchor", "middle")
+    .attr("font-size", 9).attr("font-weight", 700).attr("fill", "#1e3a8a")
+    .text("High");
+
+  const legend = svg.append("g").attr("transform", `translate(${ML}, 14)`);
+  [{ label: "Low", color: "#93c5fd" }, { label: "Medium", color: "#3b82f6" }, { label: "High", color: "#1e3a8a" }]
+    .forEach((item, i) => {
+      legend.append("rect").attr("x", 130 + i * 75).attr("y", 1).attr("width", 12).attr("height", 12)
+        .attr("fill", item.color).attr("rx", 2);
+      legend.append("text").attr("x", 146 + i * 75).attr("y", 11)
+        .attr("font-size", 11).attr("fill", "#374151").text(item.label);
+    });
+
+  const infoBox = html`<div style="border-left:3px solid #93c5fd;background:#eff6ff;padding:9px 13px;border-radius:0 6px 6px 0;font-size:12px;color:#374151;line-height:1.5;margin-bottom:10px;">
+    <b>What this shows:</b> This timeline compares documented suspect activities during the crisis period.
+    High-intensity activity does not automatically mean heavy metal waste, but ChemTech matters most
+    because it is the suspect closest to the damaged West station and is connected to heavy metal discharge.
+  </div>`;
+
+  const keyFinding = html`<div style="background:white;border:1px solid #dbeafe;border-radius:6px;padding:9px 13px;font-size:12px;color:#374151;line-height:1.5;margin-top:10px;">
+    <b>Key Finding:</b> ChemTech Manufacturing shows repeated high-intensity activity across the study period.
+    Because ChemTech is also closest to the damaged West station, this timing strengthens the case
+    that it had both geographic opportunity and repeated activity during the crisis.
+  </div>`;
+
+  const wrapper = html`<div style="background:#f7fbff;padding:16px 18px;border-radius:10px;max-width:880px;font-family:system-ui,sans-serif;">
+    ${infoBox}
+    ${svg.node()}
+    ${keyFinding}
+  </div>`;
+
+  display(wrapper);
+}
+}});
+
 define({id: "b19f2d49", inputs: ["FileAttachment","display","html"], outputs: ["lakeImage"], body: async (FileAttachment,display,html) => {
 const lakeImage = await FileAttachment("./docs/Lake-Clearwater-Image.png").url();
 
@@ -607,9 +773,7 @@ return {lakeImage};
 <p>ChemTech Manufacturing is closest to the West station, the same station where the strongest heavy metal spikes and trout decline appear. This spatial pattern strengthens the case that ChemTech had the clearest geographic opportunity to affect the most damaged part of the lake.</p>
 <h2 id="evidence-5-suspect-activity-timeline" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-5-suspect-activity-timeline">Evidence 5: Suspect Activity Timeline</a></h2>
 <p>This timeline helps compare documented suspect activities against the pollution story.</p>
-<div class="observablehq observablehq--block">
-  <div class="observablehq--inspect observablehq--error">SyntaxError: 'return' outside of function (205:2)</div>
-</div>
+<div class="observablehq observablehq--block"><!--:4b1640c4:--></div>
 <p>ChemTech has repeated high-intensity maintenance shutdowns across the study period. Because ChemTech is also the closest suspect to the West station and is associated with heavy metal discharge, its activity pattern strengthens the case against it.</p>
 <h2 id="alternative-suspects-considered" tabindex="-1"><a class="observablehq-header-anchor" href="#alternative-suspects-considered">Alternative Suspects Considered</a></h2>
 <p><strong>Riverside Farm</strong> is closest to the North station and would more likely explain nitrogen or phosphorus problems. However, the most severe heavy metal spikes and trout collapse occur at the West station, not the North station.</p>
@@ -624,7 +788,7 @@ return {lakeImage};
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T08:16:14">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T08:21:42">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
