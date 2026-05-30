@@ -353,35 +353,26 @@ If heavy metals are driving the collapse, the most sensitive species should be a
 ```js
 display(html`
   <div style="
-    background: linear-gradient(180deg, #fff8f3 0%, #ffffff 100%);
+    background: white;
     padding: 18px;
-    border-radius: 12px;
+    border-radius: 10px;
     max-width: 920px;
-    box-shadow: 0 8px 22px rgba(156, 47, 54, 0.12);
   ">
     ${Plot.plot({
-      width: Math.min(width * 0.78, 920),
-      height: 380,
-      marginLeft: 70,
-      marginBottom: 70,
+      width: Math.min(width * 0.82, 920),
+      height: 350,
 
-      style: {
-        background: "transparent",
-        color: "#555",
-        fontSize: "13px"
-      },
+      marginLeft: 65,
+      marginBottom: 60,
 
       x: {
         label: "Date",
-        grid: true,
-        tickRotate: -45,
-        tickSize: 6
+        tickRotate: -45
       },
 
       y: {
         label: "Fish Count",
-        grid: true,
-        tickSize: 6
+        grid: true
       },
 
       color: {
@@ -391,54 +382,19 @@ display(html`
         range: ["#f6b26b", "#e76f51", "#9c2f36"]
       },
 
+      fx: {
+        label: null
+      },
+
       marks: [
-        Plot.gridY({
-          stroke: "#e8d6cc",
-          strokeOpacity: 0.9
-        }),
-
-        Plot.gridX({
-          stroke: "#d9b8aa",
-          strokeOpacity: 0.25,
-          strokeDasharray: "4,4"
-        }),
-
-        Plot.barY(
-          fish.filter(d => d.station_id === "West"),
-          {
-            x: d => new Date(+d.date + 4 * 24 * 60 * 60 * 1000),
-            y: "count",
-            fill: "#5a2a2a",
-            fillOpacity: 0.18,
-            insetLeft: 3,
-            insetRight: 3
-          }
-        ),
-
-        Plot.barY(
-          fish.filter(d => d.station_id === "West"),
-          {
-            x: "date",
-            y: d => d.count + 1.2,
-            fill: "species",
-            fillOpacity: 0.38,
-            insetLeft: 3,
-            insetRight: 3
-          }
-        ),
-
         Plot.barY(
           fish.filter(d => d.station_id === "West"),
           {
             x: "date",
             y: "count",
             fill: "species",
-            stroke: "#6b2d2d",
-            strokeOpacity: 0.3,
-            strokeWidth: 1,
-            fillOpacity: 0.9,
-            insetLeft: 4,
-            insetRight: 4,
+            fx: "species",
+            inset: 1,
             tip: true
           }
         )
