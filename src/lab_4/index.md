@@ -305,50 +305,57 @@ If heavy metals are driving the collapse, the most sensitive species should be a
 ```js
 display(Plot.plot({
   width,
-  height: 450,
-  marginLeft: 60,
+  height: 360,
+  marginLeft: 90,
+  marginRight: 90,
   marginBottom: 50,
 
   x: {
-    label: "Date",
-    grid: true
+    label: "Percent Change in Fish Count",
+    grid: true,
+    percent: true
   },
 
   y: {
-    label: "↑ Fish Count by Species",
-    grid: true
+    label: null
   },
 
   color: {
-    legend: true,
-    label: "Species",
-    domain: ["Bass", "Carp", "Trout"],
-    range: ["#9c2f36", "#f6d98b", "#2f358f"]
+    legend: false
   },
 
   marks: [
-    Plot.areaY(
-      fish.filter(d => d.station_id === "West"),
-      {
-        x: "date",
-        y: "count",
-        fill: "species",
-        fillOpacity: 0.85,
-        curve: "basis"
-      }
-    ),
+    Plot.ruleX([0], {
+      stroke: "#333",
+      strokeWidth: 1
+    }),
 
-    Plot.lineY(
-      fish.filter(d => d.station_id === "West"),
-      {
-        x: "date",
-        y: "count",
-        stroke: "species",
-        strokeWidth: 2,
-        curve: "basis",
-        tip: true
-      }
-    )
+    Plot.barX([
+      {species: "Trout", change: -0.70, color: "#2f358f"},
+      {species: "Bass", change: -0.38, color: "#9c2f36"},
+      {species: "Carp", change: 0.35, color: "#f6d98b"}
+    ], {
+      x: "change",
+      y: "species",
+      fill: "color",
+      rx: 8,
+      tip: true
+    }),
+
+    Plot.text([
+      {species: "Trout", change: -0.70, label: "Trout declined 70%"},
+      {species: "Bass", change: -0.38, label: "Bass declined 38%"},
+      {species: "Carp", change: 0.35, label: "Carp increased 35%"}
+    ], {
+      x: "change",
+      y: "species",
+      text: "label",
+      dx: d => d.change < 0 ? -10 : 10,
+      textAnchor: d => d.change < 0 ? "end" : "start",
+      fontSize: 15,
+      fontWeight: "bold",
+      fill: "#222"
+    })
   ]
 }))
 ```
