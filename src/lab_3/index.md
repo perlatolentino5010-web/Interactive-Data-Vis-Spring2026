@@ -212,46 +212,41 @@ Income category: ${d.income_category}`
 
 This chart shows vote margin by district. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better. While the candidate dominated the district count (36), the oponent had an overwhelming majority of voter suport int he fewer districts that supported him (23), showing the importance of voter's power.
 
+
 ```js
 Plot.plot({
   width: 900,
   height: 420,
   marginLeft: 60,
   marginBottom: 60,
-
   x: {
     label: "Income Category",
     domain: ["High", "Middle", "Low"]
   },
-
   y: {
     label: "Candidate Vote Share (%)",
     percent: true,
     grid: true,
     domain: [0.24, 0.62]
   },
-
   color: {
     legend: true,
     label: "Income Category",
-    domain: ["Low", "Middle", "High"],
-    range: ["#fdc086", "#7fc97f", "#386cb0"]
+    domain: ["High", "Middle", "Low"],
+    range: ["#386cb0", "#7fc97f", "#fdc086"]
   },
-
   marks: [
     Plot.ruleY([overallShare], {
       stroke: "black",
       strokeDasharray: "4,4",
       strokeWidth: 1.5
     }),
-
     Plot.boxY(resultsWithShare, {
       x: "income_category",
       y: "candidate_vote_share",
       fill: "income_category",
       fillOpacity: 0.35
     }),
-
     Plot.dot(resultsWithShare, {
       x: "income_category",
       y: "candidate_vote_share",
@@ -269,6 +264,7 @@ Income category: ${d.income_category}`,
   ]
 })
 ```
+
 
 This chart compares candidate vote share across low-, middle-, and high-income districts. The candidate performed strongest in low-income districts, where vote share was consistently above the citywide average. Middle-income districts showed more mixed results, with some districts strongly supporting the candidate and others providing weaker support. High-income districts had the lowest levels of support overall, with most districts falling below the citywide average. These patterns suggest that income may have influenced voting behavior and that the campaign was more successful in lower-income communities than in wealthier areas.
 
