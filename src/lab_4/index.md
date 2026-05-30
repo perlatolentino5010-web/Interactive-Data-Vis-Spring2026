@@ -203,10 +203,10 @@ display(html`
         </h3>
 
         ${[
-          ["#3366cc", "East Shore"],
-          ["#f39c12", "North Shore"],
-          ["#e74c3c", "South Shore"],
-          ["#16a085", "West Shore"]
+          ["#080897", "East Shore"],
+          ["#e9fc70", "North Shore"],
+          ["#2b5ffc", "South Shore"],
+          ["#6ffa7b", "West Shore"]
         ].map(([color, title]) => html`
           <div style="display: flex; gap: 8px; margin-bottom: 14px; align-items: center;">
             <div style="
@@ -318,7 +318,7 @@ display(Plot.plot({
     legend: true,
     label: "Species",
     domain: ["Bass", "Carp", "Trout"],
-    range: ["#f99b30", "#d7fb95", "#8fdbfb"]
+    range: ["#f99b30", "#9cde22", "#8fdbfb"]
   },
 
   marks: [
