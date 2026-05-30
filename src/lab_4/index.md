@@ -475,109 +475,97 @@ const westDistances = stationDistances
 ```js
 display(html`
   <div style="
-    background: #f4eadf;
-    padding: 16px 18px;
-    border-radius: 12px;
-    max-width: 760px;
-    font-family: system-ui, sans-serif;
+    background:#f4eadf;
+    padding:18px 20px;
+    border-radius:12px;
+    max-width:820px;
+    font-family:system-ui, sans-serif;
   ">
     <h2 style="
-      margin: 0 0 4px 0;
-      font-size: 1rem;
-      white-space: nowrap;
+      margin:0 0 6px 0;
+      font-size:1rem;
+      white-space:nowrap;
     ">
-      Who Is Closest to the Damaged West Station?
+      Distance from the Damaged West Station to Each Suspect
     </h2>
 
     <div style="
-      font-size: 0.82rem;
-      margin-bottom: 10px;
-      line-height: 1.35;
+      font-size:0.84rem;
+      margin-bottom:14px;
+      line-height:1.4;
+      max-width:760px;
     ">
-      Since the strongest heavy metal spikes and trout decline appear at the West station,
-      this chart narrows the distance evidence to the most important location.
+      The West station is the monitoring location with the strongest heavy metal spikes and trout decline.
+      This diagram starts from the West station and shows how far each possible suspect is from that damaged site.
     </div>
 
-    ${Plot.plot({
-      width: 700,
-      height: 250,
-      marginLeft: 165,
-      marginRight: 25,
-      marginBottom: 40,
+    <svg width="780" height="330" style="background:#f4eadf; overflow:visible;">
+      <!-- West Station starting point -->
+      <circle cx="80" cy="165" r="22" fill="#084081" stroke="#08304f" stroke-width="3"></circle>
+      <text x="80" y="120" text-anchor="middle" font-size="14" font-weight="700" fill="#222">
+        West Station
+      </text>
+      <text x="80" y="140" text-anchor="middle" font-size="11" fill="#555">
+        damaged site
+      </text>
 
-      style: {
-        background: "#f4eadf",
-        color: "#333",
-        fontSize: "12px"
-      },
+      ${westDistances.map((d, i) => {
+        const xScale = 80 + (d.distance_m / 5600) * 600;
+        const y = 65 + i * 70;
 
-      x: {
-        label: "Distance to West Station (meters) →",
-        grid: true,
-        tickSize: 6
-      },
+        return html`
+          <line
+            x1="105"
+            y1="165"
+            x2="${xScale}"
+            y2="${y}"
+            stroke="#888"
+            stroke-width="3"
+            stroke-opacity="0.55"
+          ></line>
 
-      y: {
-        label: null,
-        domain: westDistances.map(d => d.suspect)
-      },
+          <circle
+            cx="${xScale}"
+            cy="${y}"
+            r="${d.suspect === "ChemTech Manufacturing" ? 18 : 15}"
+            fill="#084081"
+            fill-opacity="${d.suspect === "ChemTech Manufacturing" ? 0.95 : 0.55}"
+            stroke="#08304f"
+            stroke-width="2"
+          ></circle>
 
-      color: {
-        legend: false,
-        domain: ["West"],
-        range: ["#084081"]
-      },
+          <text
+            x="${xScale + 26}"
+            y="${y - 5}"
+            font-size="13"
+            font-weight="${d.suspect === "ChemTech Manufacturing" ? 700 : 500}"
+            fill="#222"
+          >
+            ${d.suspect}
+          </text>
 
-      marks: [
-        Plot.gridX({
-          stroke: "#888",
-          strokeOpacity: 0.35,
-          strokeDasharray: "3,4"
-        }),
-
-        Plot.ruleX([0], {
-          stroke: "#333",
-          strokeOpacity: 0.35
-        }),
-
-        Plot.barX(westDistances, {
-          x: "distance_m",
-          y: "suspect",
-          fill: "#084081",
-          fillOpacity: 0.75,
-          rx: 6,
-          tip: true
-        }),
-
-        Plot.dot(westDistances, {
-          x: "distance_m",
-          y: "suspect",
-          fill: "#084081",
-          stroke: "#08304f",
-          strokeWidth: 1.2,
-          r: 6,
-          tip: true
-        }),
-
-        Plot.text(westDistances, {
-          x: "distance_m",
-          y: "suspect",
-          text: d => `${d.distance_m} m`,
-          dx: 10,
-          fill: "#333",
-          fontSize: 12,
-          fontWeight: 600
-        })
-      ]
-    })}
+          <text
+            x="${xScale + 26}"
+            y="${y + 13}"
+            font-size="12"
+            font-weight="700"
+            fill="#333"
+          >
+            ${d.distance_m} m from West
+          </text>
+        `;
+      })}
+    </svg>
 
     <div style="
-      font-size: 11px;
-      text-align: center;
-      margin-top: 6px;
-      color: #555;
+      font-size:12px;
+      line-height:1.4;
+      margin-top:8px;
+      color:#444;
+      max-width:760px;
     ">
-      Dark blue represents the West station, the location with the strongest evidence of contamination and trout decline.
+      <b>Key Finding:</b>
+      ChemTech Manufacturing is the closest suspect to the West station. Since the West station is where the strongest contamination and trout decline appear, this gives ChemTech the strongest geographic opportunity in the case.
     </div>
   </div>
 `)
