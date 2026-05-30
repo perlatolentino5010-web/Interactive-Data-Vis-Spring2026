@@ -462,19 +462,19 @@ The worst contamination and trout decline appear at the West station. This graph
 ```js
 {
   const suspects = [
-    { name: "ChemTech Manufacturing",     icon: "🏭", distance_m: 410  },
-    { name: "Riverside Farm",             icon: "🌽", distance_m: 890  },
-    { name: "Lakeview Resort",            icon: "🏨", distance_m: 1340 },
-    { name: "Clearwater Fishing Lodge",   icon: "🎣", distance_m: 1750 },
+    { name: "ChemTech Manufacturing",   icon: "🏭", distance_m: 410  },
+    { name: "Riverside Farm",           icon: "🌽", distance_m: 890  },
+    { name: "Lakeview Resort",          icon: "🏨", distance_m: 1340 },
+    { name: "Clearwater Fishing Lodge", icon: "🎣", distance_m: 1750 },
   ];
 
-  const W = 900, H = 380;
+  const W = 900, H = 300;
   const originX = 90, originY = H / 2;
-  const trackLeft = 180, trackRight = W - 40;
+  const trackLeft = 180, trackRight = 620;
   const trackLen = trackRight - trackLeft;
   const maxDist = Math.max(...suspects.map(d => d.distance_m));
 
-  const rowH = 72;
+  const rowH = 58;
   const rowStart = originY - ((suspects.length - 1) * rowH) / 2;
 
   const svg = d3.create("svg")
@@ -494,46 +494,45 @@ The worst contamination and trout decline appear at the West station. This graph
   // West Station circle
   svg.append("circle")
     .attr("cx", originX).attr("cy", originY)
-    .attr("r", 28)
+    .attr("r", 26)
     .attr("fill", "#084081")
     .attr("stroke", "#08304f")
     .attr("stroke-width", 3);
 
   // West Station labels
   svg.append("text")
-    .attr("x", originX).attr("y", originY - 44)
+    .attr("x", originX).attr("y", originY - 38)
     .attr("text-anchor", "middle")
-    .attr("font-size", 14).attr("font-weight", 700).attr("fill", "#1a1a1a")
+    .attr("font-size", 13).attr("font-weight", 700).attr("fill", "#1a1a1a")
     .text("West Station");
 
   svg.append("text")
-    .attr("x", originX).attr("y", originY - 28)
+    .attr("x", originX).attr("y", originY - 24)
     .attr("text-anchor", "middle")
-    .attr("font-size", 11).attr("fill", "#666")
+    .attr("font-size", 10).attr("fill", "#666")
     .text("damaged site");
 
-  // Each suspect node
   suspects.forEach((d, i) => {
     const isChemTech = d.name === "ChemTech Manufacturing";
     const nx = trackLeft + (d.distance_m / maxDist) * trackLen;
     const ny = rowStart + i * rowH;
-    const nodeR = isChemTech ? 26 : 22;
+    const nodeR = isChemTech ? 24 : 20;
 
-    // Connecting line from West Station edge to node
+    // Connecting line
     svg.append("line")
-      .attr("x1", originX + 28).attr("y1", originY)
+      .attr("x1", originX + 26).attr("y1", originY)
       .attr("x2", nx - nodeR).attr("y2", ny)
       .attr("stroke", isChemTech ? "#084081" : "#b0a090")
       .attr("stroke-width", isChemTech ? 3.5 : 2)
       .attr("stroke-opacity", isChemTech ? 0.9 : 0.55);
 
-    // Distance label along the line midpoint
+    // Distance label along the line
     svg.append("text")
-      .attr("x", (originX + 28 + nx) / 2 + 6)
-      .attr("y", (originY + ny) / 2 - 8)
+      .attr("x", (originX + 26 + nx) / 2 + 4)
+      .attr("y", (originY + ny) / 2 - 7)
       .attr("text-anchor", "middle")
-      .attr("font-size", 11).attr("font-weight", 700)
-      .attr("fill", isChemTech ? "#084081" : "#555")
+      .attr("font-size", 10).attr("font-weight", 700)
+      .attr("fill", isChemTech ? "#084081" : "#666")
       .text(`${d.distance_m} m`);
 
     // Node circle
@@ -545,58 +544,57 @@ The worst contamination and trout decline appear at the West station. This graph
       .attr("stroke", "#08304f")
       .attr("stroke-width", isChemTech ? 3 : 2);
 
-    // Emoji icon inside node
+    // Emoji
     svg.append("text")
-      .attr("x", nx).attr("y", ny + 8)
+      .attr("x", nx).attr("y", ny + 7)
       .attr("text-anchor", "middle")
-      .attr("font-size", isChemTech ? 20 : 17)
+      .attr("font-size", isChemTech ? 18 : 15)
       .text(d.icon);
 
-    // Suspect name
+    // Suspect name — to the right of node
     svg.append("text")
-      .attr("x", nx + nodeR + 10).attr("y", ny - 4)
-      .attr("font-size", 13)
+      .attr("x", nx + nodeR + 8).attr("y", ny - 3)
+      .attr("font-size", 12)
       .attr("font-weight", isChemTech ? 700 : 500)
       .attr("fill", isChemTech ? "#084081" : "#222")
       .text(d.name);
 
     // Distance sub-label
     svg.append("text")
-      .attr("x", nx + nodeR + 10).attr("y", ny + 13)
-      .attr("font-size", 11)
-      .attr("fill", "#666")
+      .attr("x", nx + nodeR + 8).attr("y", ny + 12)
+      .attr("font-size", 10).attr("fill", "#666")
       .text(`${d.distance_m} m from West`);
 
-    // ChemTech "CLOSEST" badge
+    // CLOSEST badge for ChemTech
     if (isChemTech) {
       svg.append("rect")
-        .attr("x", nx + nodeR + 10).attr("y", ny + 18)
-        .attr("width", 58).attr("height", 16)
+        .attr("x", nx + nodeR + 8).attr("y", ny + 17)
+        .attr("width", 54).attr("height", 14)
         .attr("fill", "#084081").attr("rx", 3);
       svg.append("text")
-        .attr("x", nx + nodeR + 39).attr("y", ny + 30)
+        .attr("x", nx + nodeR + 35).attr("y", ny + 28)
         .attr("text-anchor", "middle")
-        .attr("font-size", 10).attr("font-weight", 700).attr("fill", "white")
+        .attr("font-size", 9).attr("font-weight", 700).attr("fill", "white")
         .text("CLOSEST");
     }
   });
 
   const wrapper = html`<div style="
     background: #f4eadf;
-    padding: 18px 20px;
+    padding: 16px 20px;
     border-radius: 12px;
     max-width: 960px;
     font-family: system-ui, sans-serif;
   ">
-    <h2 style="margin:0 0 6px;font-size:1rem;color:#1a1a1a;">
+    <h2 style="margin:0 0 5px;font-size:1rem;color:#1a1a1a;">
       Distance from the Damaged West Station to Each Suspect
     </h2>
-    <p style="margin:0 0 14px;font-size:0.84rem;color:#555;line-height:1.4;max-width:860px;">
+    <p style="margin:0 0 10px;font-size:0.83rem;color:#555;line-height:1.4;max-width:860px;">
       The West station is the monitoring location with the strongest heavy metal spikes and trout decline.
       This diagram connects the damaged West station to each suspect and places them according to distance.
     </p>
     ${svg.node()}
-    <div style="font-size:12px;color:#444;line-height:1.5;margin-top:10px;max-width:860px;">
+    <div style="font-size:12px;color:#444;line-height:1.5;margin-top:8px;max-width:860px;">
       <b>Key Finding:</b> ChemTech Manufacturing is closest to the West station, the same station where
       the strongest heavy metal spikes and trout decline appear. This spatial pattern strengthens the
       case that ChemTech had the clearest geographic opportunity to affect the most damaged part of the lake.
@@ -616,19 +614,20 @@ This timeline helps compare documented suspect activities against the pollution 
 ```js
 display(html`
   <div style="
-    background:#07111f;
+    background:#fafaf7;
     padding:18px;
     border-radius:14px;
     max-width:880px;
     font-family:system-ui, sans-serif;
-    box-shadow:0 0 18px rgba(0, 255, 255, 0.16);
+    border:1px solid #e5e7eb;
+    box-shadow:0 3px 10px rgba(0,0,0,0.05);
   ">
     <div style="
-      color:#d7f7ff;
+      color:#333;
       font-size:13px;
       line-height:1.45;
       margin-bottom:14px;
-      border-left:4px solid #38bdf8;
+      border-left:4px solid #9c2f36;
       padding-left:12px;
     ">
       <b>What this shows:</b><br>
@@ -640,15 +639,15 @@ display(html`
       display:flex;
       gap:14px;
       align-items:center;
-      color:#d7f7ff;
+      color:#333;
       font-size:13px;
       margin-bottom:12px;
       flex-wrap:wrap;
     ">
       <b>Activity Intensity:</b>
-      <span><span style="display:inline-block;width:12px;height:12px;background:#93c5fd;border-radius:50%;margin-right:5px;"></span>Low</span>
-      <span><span style="display:inline-block;width:16px;height:16px;background:#3b82f6;border-radius:50%;margin-right:5px;"></span>Medium</span>
-      <span><span style="display:inline-block;width:20px;height:20px;background:#1e3a8a;border-radius:50%;margin-right:5px;"></span>High</span>
+      <span><span style="display:inline-block;width:12px;height:12px;background:#f6d28b;border-radius:50%;margin-right:5px;"></span>Low</span>
+      <span><span style="display:inline-block;width:16px;height:16px;background:#e67e22;border-radius:50%;margin-right:5px;"></span>Medium</span>
+      <span><span style="display:inline-block;width:20px;height:20px;background:#9c2f36;border-radius:50%;margin-right:5px;"></span>High</span>
     </div>
 
     ${Plot.plot({
@@ -659,8 +658,8 @@ display(html`
       marginBottom: 55,
 
       style: {
-        background: "#07111f",
-        color: "#d7f7ff",
+        background: "#fafaf7",
+        color: "#333",
         fontSize: "13px"
       },
 
@@ -677,31 +676,32 @@ display(html`
       color: {
         legend: false,
         domain: ["Low", "Medium", "High"],
-        range: ["#93c5fd", "#3b82f6", "#1e3a8a"]
+        range: ["#f6d28b", "#e67e22", "#9c2f36"]
       },
 
       marks: [
         Plot.gridX({
-          stroke: "rgba(215,247,255,0.12)"
+          stroke: "#d9d9d9",
+          strokeOpacity: 0.65
         }),
 
         Plot.ruleY(activities, {
           y: "suspect",
-          stroke: d => d.suspect === "ChemTech Manufacturing" ? "#38bdf8" : "rgba(215,247,255,0.22)",
+          stroke: d => d.suspect === "ChemTech Manufacturing" ? "#9c2f36" : "#bdbdbd",
           strokeWidth: d => d.suspect === "ChemTech Manufacturing" ? 4 : 2,
-          strokeOpacity: d => d.suspect === "ChemTech Manufacturing" ? 0.65 : 0.35
+          strokeOpacity: d => d.suspect === "ChemTech Manufacturing" ? 0.75 : 0.45
         }),
 
         Plot.dot(activities, {
           x: "date",
           y: "suspect",
           fill: "intensity",
-          stroke: d => d.suspect === "ChemTech Manufacturing" ? "#d7f7ff" : "#07111f",
+          stroke: d => d.suspect === "ChemTech Manufacturing" ? "#9c2f36" : "#ffffff",
           strokeWidth: d => d.suspect === "ChemTech Manufacturing" ? 2.2 : 1.4,
           r: d =>
             d.intensity === "High" ? 10 :
             d.intensity === "Medium" ? 7 : 5,
-          fillOpacity: d => d.suspect === "ChemTech Manufacturing" ? 1 : 0.7,
+          fillOpacity: d => d.suspect === "ChemTech Manufacturing" ? 1 : 0.78,
           tip: true
         }),
 
@@ -711,7 +711,7 @@ display(html`
             x: "date",
             y: "suspect",
             r: 16,
-            stroke: "#38bdf8",
+            stroke: "#9c2f36",
             strokeWidth: 2,
             strokeOpacity: 0.75,
             fill: "none"
@@ -725,7 +725,7 @@ display(html`
             y: "suspect",
             text: "HIGH",
             dy: -22,
-            fill: "#d7f7ff",
+            fill: "#9c2f36",
             fontSize: 10,
             fontWeight: 700
           }
@@ -736,10 +736,10 @@ display(html`
     <div style="
       margin-top:12px;
       padding:10px 14px;
-      background:#0f1b2d;
-      border:1px solid rgba(56,189,248,0.45);
+      background:white;
+      border:1px solid #d9d9d9;
       border-radius:8px;
-      color:#d7f7ff;
+      color:#333;
       font-size:13px;
       line-height:1.45;
     ">
