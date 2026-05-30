@@ -604,252 +604,220 @@ This timeline helps compare documented suspect activities against the pollution 
 
 ```js
 {
-  const W = 860, H = 500;
-
-  const outcomes = [
-    { label: "Rich adult",               pct_white: 0.25, pct_black: 0.11, y: 80  },
-    { label: "Upper-middle-class adult", pct_white: 0.20, pct_black: 0.17, y: 170 },
-    { label: "Middle-class adult",       pct_white: 0.23, pct_black: 0.25, y: 260 },
-    { label: "Lower-middle-class adult", pct_white: 0.08, pct_black: 0.25, y: 350 },
-    { label: "Poor adult",               pct_white: 0.24, pct_black: 0.22, y: 440 },
+  const suspects = [
+    "ChemTech Manufacturing",
+    "Riverside Plastics",
+    "NorthWest Chemicals",
+    "Delta Processing",
+    "Apex Industrial"
   ];
 
-  const TOTAL = 100; // 100 dots total: 50 white, 50 black
+  const intensityColor = { Low: '#93c5fd', Medium: '#3b82f6', High: '#1e3a8a' };
 
-  // Build dot list: assign outcome by probability
-  function makeDots(n, pcts, race) {
-    const list = [];
-    let remaining = n;
-    pcts.forEach((p, i) => {
-      const count = i === pcts.length - 1 ? remaining : Math.round(p * n);
-      for (let j = 0; j < count; j++) list.push({ race, outcomeIdx: i });
-      remaining -= count;
-    });
-    return list;
-  }
+  const rawData = [
+    { suspect: "ChemTech Manufacturing", date: new Date("2024-01-12"), intensity: "High" },
+    { suspect: "ChemTech Manufacturing", date: new Date("2024-02-28"), intensity: "High" },
+    { suspect: "ChemTech Manufacturing", date: new Date("2024-03-15"), intensity: "Medium" },
+    { suspect: "ChemTech Manufacturing", date: new Date("2024-04-15"), intensity: "High" },
+    { suspect: "ChemTech Manufacturing", date: new Date("2024-05-10"), intensity: "Medium" },
+    { suspect: "ChemTech Manufacturing", date: new Date("2024-06-03"), intensity: "High" },
+    { suspect: "ChemTech Manufacturing", date: new Date("2024-07-20"), intensity: "High" },
+    { suspect: "Riverside Plastics",     date: new Date("2024-01-20"), intensity: "Low" },
+    { suspect: "Riverside Plastics",     date: new Date("2024-03-05"), intensity: "Medium" },
+    { suspect: "Riverside Plastics",     date: new Date("2024-05-18"), intensity: "Low" },
+    { suspect: "Riverside Plastics",     date: new Date("2024-06-22"), intensity: "Medium" },
+    { suspect: "NorthWest Chemicals",    date: new Date("2024-02-10"), intensity: "Medium" },
+    { suspect: "NorthWest Chemicals",    date: new Date("2024-04-02"), intensity: "Low" },
+    { suspect: "NorthWest Chemicals",    date: new Date("2024-06-14"), intensity: "Medium" },
+    { suspect: "NorthWest Chemicals",    date: new Date("2024-07-08"), intensity: "Low" },
+    { suspect: "Delta Processing",       date: new Date("2024-01-28"), intensity: "Low" },
+    { suspect: "Delta Processing",       date: new Date("2024-03-22"), intensity: "Medium" },
+    { suspect: "Delta Processing",       date: new Date("2024-05-30"), intensity: "Low" },
+    { suspect: "Apex Industrial",        date: new Date("2024-02-14"), intensity: "Low" },
+    { suspect: "Apex Industrial",        date: new Date("2024-04-28"), intensity: "Medium" },
+    { suspect: "Apex Industrial",        date: new Date("2024-07-01"), intensity: "Low" },
+  ];
 
-  const whiteDots = makeDots(50, outcomes.map(o => o.pct_white), "white");
-  const blackDots = makeDots(50, outcomes.map(o => o.pct_black), "black");
-  const allDots = [...whiteDots, ...blackDots];
+  const suspectList = [...suspects].reverse();
+  const dateExtent = [new Date("2024-01-01"), new Date("2024-08-15")];
 
-  // Shuffle so white and black dots interleave during cascade
-  for (let i = allDots.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [allDots[i], allDots[j]] = [allDots[j], allDots[i]];
-  }
+  const W = 820, H = 320;
+  const ML = 180, MR = 30, MT = 40, MB = 50;
+  const plotW = W - ML - MR, plotH = H - MT - MB;
 
-  // Track landing slot per outcome per race
-  const slots = outcomes.map(() => ({ white: 0, black: 0 }));
+  const xScale = d3.scaleTime().domain(dateExtent).range([0, plotW]);
+  const yScale = d3.scaleBand().domain(suspectList).range([0, plotH]).padding(0.3);
 
-  // Pre-compute each dot's start and end positions
-  const START_X_MIN = 30, START_X_MAX = 300, START_Y = 30;
-  const DOT_R = 5, DOT_GAP = 13;
-  const DEST_X_BASE = 420;
-
-  allDots.forEach((d, i) => {
-    d.id = i;
-    d.x0 = START_X_MIN + Math.random() * (START_X_MAX - START_X_MIN);
-    d.y0 = START_Y + Math.random() * 28;
-
-    const slot = slots[d.outcomeIdx][d.race]++;
-    const col = slot % 12;
-    const row = Math.floor(slot / 12);
-    const raceOffset = d.race === "white" ? 0 : 160;
-    d.x1 = DEST_X_BASE + raceOffset + col * DOT_GAP;
-    d.y1 = outcomes[d.outcomeIdx].y + row * DOT_GAP - 10;
-  });
-
-  // ── SVG ─────────────────────────────────────────────────────
   const svg = d3.create("svg")
     .attr("viewBox", `0 0 ${W} ${H}`)
     .attr("width", "100%")
-    .style("background", "#fafaf8")
-    .style("font-family", "system-ui, sans-serif");
+    .style("font-family", "system-ui, sans-serif")
+    .style("background", "#f7fbff");
 
-  // Background stripe for "Grew up rich" area
-  svg.append("rect")
-    .attr("x", 0).attr("y", 10)
-    .attr("width", 340).attr("height", 60)
-    .attr("fill", "#f0ede8").attr("rx", 6);
+  const g = svg.append("g").attr("transform", `translate(${ML},${MT})`);
 
-  svg.append("text")
-    .attr("x", 16).attr("y", 32)
-    .attr("font-size", 12).attr("fill", "#777")
-    .text("Grew up rich");
+  // Grid lines
+  g.append("g")
+    .attr("class", "grid")
+    .call(d3.axisBottom(xScale).ticks(7).tickSize(plotH).tickFormat(""))
+    .call(ax => ax.select(".domain").remove())
+    .call(ax => ax.selectAll("line").attr("stroke", "#cbd5e1").attr("stroke-opacity", 0.5))
+    .attr("transform", "translate(0,0)");
 
-  // Horizontal separator lines per outcome row
-  outcomes.forEach(o => {
-    svg.append("line")
-      .attr("x1", 410).attr("y1", o.y - 22)
-      .attr("x2", W - 20).attr("y2", o.y - 22)
-      .attr("stroke", "#ddd").attr("stroke-width", 0.5);
-  });
+  // X axis
+  g.append("g")
+    .attr("transform", `translate(0,${plotH})`)
+    .call(d3.axisBottom(xScale).ticks(7).tickFormat(d3.timeFormat("%b %Y")))
+    .call(ax => ax.select(".domain").attr("stroke", "#cbd5e1"))
+    .call(ax => ax.selectAll("text").attr("fill", "#6b7280").attr("font-size", 11).attr("transform", "rotate(-25)").attr("text-anchor", "end"));
 
-  // Outcome row labels
-  outcomes.forEach(o => {
-    svg.append("text")
-      .attr("x", W - 20).attr("y", o.y + 4)
-      .attr("text-anchor", "end")
-      .attr("font-size", 12).attr("fill", "#333")
-      .text(o.label);
-  });
-
-  // Column headers
-  svg.append("text").attr("x", 430).attr("y", 52)
-    .attr("font-size", 11).attr("fill", "#e8a820").attr("font-weight", 700)
-    .text("WHITE MEN");
-  svg.append("text").attr("x", 590).attr("y", 52)
-    .attr("font-size", 11).attr("fill", "#5b9bd5").attr("font-weight", 700)
-    .text("BLACK MEN");
-
-  // Live percentage counters — one per outcome per race
-  const counters = {};
-  const landed = outcomes.map(() => ({ white: 0, black: 0 }));
-
-  outcomes.forEach((o, oi) => {
-    counters[`${oi}-white`] = svg.append("text")
-      .attr("x", 530).attr("y", o.y + 4)
-      .attr("text-anchor", "middle")
-      .attr("font-size", 15).attr("font-weight", 700).attr("fill", "#e8a820")
-      .text("0%");
-
-    counters[`${oi}-black`] = svg.append("text")
-      .attr("x", 690).attr("y", o.y + 4)
-      .attr("text-anchor", "middle")
-      .attr("font-size", 15).attr("font-weight", 700).attr("fill", "#5b9bd5")
-      .text("0%");
-  });
-
-  // Narrative annotation (fades in after animation)
-  const narrative = svg.append("text")
-    .attr("x", 20).attr("y", 240)
-    .attr("font-size", 13).attr("fill", "#222")
-    .attr("opacity", 0);
-
-  [
-    "Most white boys ■ raised in wealthy",
-    "families will stay rich or upper middle",
-    "class as adults, but black boys ■ raised",
-    "in similarly rich households will not."
-  ].forEach((line, i) => {
-    narrative.append("tspan")
-      .attr("x", 20).attr("dy", i === 0 ? 0 : 20)
-      .text(line);
-  });
-
-  // Dots layer
-  const dotGroup = svg.append("g");
-
-  // Draw all dots at start position (invisible)
-  const circles = dotGroup.selectAll("circle")
-    .data(allDots)
-    .join("circle")
-    .attr("r", DOT_R)
-    .attr("cx", d => d.x0)
-    .attr("cy", d => d.y0)
-    .attr("fill", d => d.race === "white" ? "#e8a820" : "#5b9bd5")
-    .attr("fill-opacity", 0.9)
-    .attr("opacity", 0);
-
-  // ── Animation ───────────────────────────────────────────────
-  let running = false;
-  let timeouts = [];
-
-  function clearAll() {
-    timeouts.forEach(clearTimeout);
-    timeouts = [];
-  }
-
-  function resetViz() {
-    clearAll();
-    running = false;
-    circles
-      .attr("cx", d => d.x0).attr("cy", d => d.y0)
-      .attr("opacity", 0).interrupt();
-    outcomes.forEach((o, oi) => {
-      landed[oi].white = 0;
-      landed[oi].black = 0;
-      counters[`${oi}-white`].text("0%");
-      counters[`${oi}-black`].text("0%");
-    });
-    narrative.attr("opacity", 0);
-    playIcon.text("▶");
-  }
-
-  function runAnimation() {
-    running = true;
-    playIcon.text("⏸");
-
-    allDots.forEach((d, i) => {
-      const t = timeouts[i] = setTimeout(() => {
-
-        // 1. Make dot visible at origin
-        d3.select(circles.nodes()[i])
-          .attr("opacity", 1)
-          .attr("cx", d.x0)
-          .attr("cy", d.y0)
-          // 2. Cascade: fall straight down first, then arc to destination
-          .transition().duration(220).ease(d3.easeQuadIn)
-          .attr("cy", d.y1 - 40)  // drop toward row level
-          .transition().duration(180).ease(d3.easeBounceOut)
-          .attr("cx", d.x1)
-          .attr("cy", d.y1)
-          .on("end", () => {
-            // Update counter
-            landed[d.outcomeIdx][d.race]++;
-            const pct = Math.round((landed[d.outcomeIdx][d.race] / 50) * 100);
-            counters[`${d.outcomeIdx}-${d.race}`].text(pct + "%");
-          });
-
-      }, i * 60);
-    });
-
-    // Fade in narrative after all dots land
-    const t = setTimeout(() => {
-      narrative.transition().duration(800).attr("opacity", 1);
-      playIcon.text("▶");
-      running = false;
-    }, allDots.length * 60 + 600);
-    timeouts.push(t);
-  }
-
-  // ── Play button ─────────────────────────────────────────────
-  const btnGroup = svg.append("g")
-    .attr("transform", `translate(185, 55)`)
-    .style("cursor", "pointer")
-    .on("click", () => {
-      if (running) {
-        resetViz();
-      } else {
-        resetViz();
-        setTimeout(runAnimation, 50);
-      }
-    });
-
-  btnGroup.append("circle")
-    .attr("r", 22).attr("fill", "#333").attr("fill-opacity", 0.75);
-
-  const playIcon = btnGroup.append("text")
+  // X axis label
+  g.append("text")
+    .attr("x", plotW / 2).attr("y", plotH + 46)
     .attr("text-anchor", "middle")
-    .attr("dominant-baseline", "central")
-    .attr("font-size", 18).attr("fill", "white")
-    .text("▶");
+    .attr("font-size", 11).attr("fill", "#6b7280")
+    .text("Date →");
+
+  // Y axis
+  g.append("g")
+    .call(d3.axisLeft(yScale).tickSize(0))
+    .call(ax => ax.select(".domain").remove())
+    .call(ax => ax.selectAll("text")
+      .attr("fill", d => d === "ChemTech Manufacturing" ? "#1e3a8a" : "#6b7280")
+      .attr("font-size", 12)
+      .attr("font-weight", d => d === "ChemTech Manufacturing" ? 600 : 400)
+      .attr("x", -10));
+
+  // ChemTech connecting line
+  const chemData = rawData
+    .filter(d => d.suspect === "ChemTech Manufacturing")
+    .sort((a, b) => a.date - b.date);
+
+  g.append("path")
+    .datum(chemData)
+    .attr("fill", "none")
+    .attr("stroke", "#1e3a8a")
+    .attr("stroke-width", 2.5)
+    .attr("stroke-opacity", 0.5)
+    .attr("d", d3.line()
+      .x(d => xScale(d.date))
+      .y(d => yScale(d.suspect) + yScale.bandwidth() / 2)
+    );
+
+  // Tooltip div
+  const tooltip = d3.select("body").append("div")
+    .style("position", "absolute")
+    .style("background", "white")
+    .style("border", "1px solid #e2e8f0")
+    .style("border-radius", "8px")
+    .style("padding", "8px 12px")
+    .style("font-size", "12px")
+    .style("color", "#111")
+    .style("pointer-events", "none")
+    .style("opacity", 0)
+    .style("box-shadow", "0 2px 8px rgba(0,0,0,0.08)");
+
+  // Dots
+  g.selectAll("circle")
+    .data(rawData)
+    .join("circle")
+    .attr("cx", d => xScale(d.date))
+    .attr("cy", d => yScale(d.suspect) + yScale.bandwidth() / 2)
+    .attr("r", d => d.intensity === "High" ? 8 : d.intensity === "Medium" ? 6 : 5)
+    .attr("fill", d => intensityColor[d.intensity])
+    .attr("stroke", "white")
+    .attr("stroke-width", 1.5)
+    .attr("fill-opacity", d => d.suspect === "ChemTech Manufacturing" ? 1 : 0.75)
+    .style("cursor", "pointer")
+    .on("mouseover", (event, d) => {
+      tooltip
+        .style("opacity", 1)
+        .html(`<b>${d.suspect}</b><br>${d.date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}<br>Intensity: <b>${d.intensity}</b>`);
+    })
+    .on("mousemove", (event) => {
+      tooltip
+        .style("left", (event.pageX + 12) + "px")
+        .style("top", (event.pageY - 28) + "px");
+    })
+    .on("mouseout", () => tooltip.style("opacity", 0));
+
+  // High label above ChemTech high dots
+  g.selectAll("text.high-label")
+    .data(rawData.filter(d => d.suspect === "ChemTech Manufacturing" && d.intensity === "High"))
+    .join("text")
+    .attr("class", "high-label")
+    .attr("x", d => xScale(d.date))
+    .attr("y", d => yScale(d.suspect) + yScale.bandwidth() / 2 - 14)
+    .attr("text-anchor", "middle")
+    .attr("font-size", 9)
+    .attr("font-weight", 700)
+    .attr("fill", "#1e3a8a")
+    .text("High");
+
+  // ── Legend ──────────────────────────────────────────────────
+  const legend = svg.append("g").attr("transform", `translate(${ML}, 14)`);
+  const legendItems = [
+    { label: "Low",    color: "#93c5fd" },
+    { label: "Medium", color: "#3b82f6" },
+    { label: "High",   color: "#1e3a8a" },
+  ];
+  legend.append("text")
+    .attr("x", 0).attr("y", 10)
+    .attr("font-size", 11).attr("fill", "#374151").attr("font-weight", 600)
+    .text("Activity Intensity:");
+  legendItems.forEach((item, i) => {
+    const gx = 130 + i * 75;
+    legend.append("rect")
+      .attr("x", gx).attr("y", 1).attr("width", 12).attr("height", 12)
+      .attr("fill", item.color).attr("rx", 2);
+    legend.append("text")
+      .attr("x", gx + 16).attr("y", 11)
+      .attr("font-size", 11).attr("fill", "#374151")
+      .text(item.label);
+  });
 
   // ── Wrapper ─────────────────────────────────────────────────
-  const container = html`<div style="
-    background:#fafaf8; padding:16px 20px; border-radius:10px;
-    max-width:900px; border:1px solid #e5e7eb;
+  const infoBox = html`<div style="
+    border-left: 3px solid #93c5fd;
+    background: #eff6ff;
+    padding: 9px 13px;
+    border-radius: 0 6px 6px 0;
+    font-size: 12px;
+    color: #374151;
+    line-height: 1.5;
+    margin-bottom: 10px;
   ">
-    <h2 style="margin:0 0 2px;font-size:0.95rem;font-family:system-ui,sans-serif;color:#111;">
-      Applications of Interactive Data Visualization
-    </h2>
-    <p style="margin:0 0 10px;font-size:0.78rem;color:#888;font-family:system-ui,sans-serif;">
-      Click ▶ to animate · click again to reset
-    </p>
-    ${svg.node()}
+    <b>What this shows:</b> This timeline compares documented suspect activities during the crisis period.
+    High-intensity activity does not automatically mean heavy metal waste, but ChemTech matters most
+    because it is the suspect closest to the damaged West station and is connected to heavy metal discharge.
   </div>`;
 
-  return container;
+  const keyFinding = html`<div style="
+    background: white;
+    border: 1px solid #dbeafe;
+    border-radius: 6px;
+    padding: 9px 13px;
+    font-size: 12px;
+    color: #374151;
+    line-height: 1.5;
+    margin-top: 10px;
+  ">
+    <b>Key Finding:</b> ChemTech Manufacturing shows repeated high-intensity activity across the study period.
+    Because ChemTech is also closest to the damaged West station, this timing strengthens the case
+    that it had both geographic opportunity and repeated activity during the crisis.
+  </div>`;
+
+  return html`<div style="
+    background: #f7fbff;
+    padding: 16px 18px;
+    border-radius: 10px;
+    max-width: 880px;
+    font-family: system-ui, sans-serif;
+  ">
+    ${infoBox}
+    ${svg.node()}
+    ${keyFinding}
+  </div>`;
 }
 ```
 
