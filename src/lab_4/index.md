@@ -252,13 +252,14 @@ Trout are highly sensitive to pollution and serve as an early warning indicator 
 display(html`
   <div style="
     background: #07111f;
-    padding: 22px;
+    padding: 18px;
     border-radius: 14px;
     box-shadow: 0 0 18px rgba(0, 255, 255, 0.18);
+    max-width: 1050px;
   ">
     ${Plot.plot({
-      width,
-      height: 470,
+      width: Math.min(width * 0.88, 1050),
+      height: 410,
       marginLeft: 70,
       marginBottom: 55,
 
@@ -282,12 +283,15 @@ display(html`
 
       color: {
         legend: true,
-        label: "Monitoring Site",
+        label: "Trout Monitoring Sites",
         domain: ["East", "North", "South", "West"],
         range: ["#38bdf8", "#a7f3d0", "#ff4fd8", "#b7ff4a"]
       },
 
       marks: [
+        Plot.gridX({stroke: "rgba(215, 247, 255, 0.12)"}),
+        Plot.gridY({stroke: "rgba(215, 247, 255, 0.12)"}),
+
         Plot.lineY(
           fish.filter(d => d.species === "Trout"),
           {
