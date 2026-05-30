@@ -672,3 +672,30 @@ Taken together, the temporal, biological, and spatial evidence support ChemTech 
 **"When you have eliminated the impossible, whatever remains, however improbable, must be the truth." ~ Sherlock Holmes**
 
 # The End
+
+```js
+<div style="margin-top:40px; text-align:center;">
+  <img
+    src="https://midcanterbury.co.nz/location/lake-clearwater"
+    alt="Lake Clearwater"
+    style="
+      width:100%;
+      max-width:1000px;
+      border-radius:12px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    "
+  >
+
+  <div style="
+    margin-top:8px;
+    font-size:12px;
+    color:#666;
+    font-style:italic;
+  ">
+    Lake Clearwater, Canterbury, New Zealand. Image source:
+    <a href="https://midcanterbury.co.nz/location/lake-clearwater" target="_blank">
+      Mid Canterbury NZ
+    </a>
+  </div>
+</div>
+```
