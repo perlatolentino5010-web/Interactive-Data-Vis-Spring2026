@@ -437,31 +437,83 @@ const stationDistances = stations.flatMap(d => [
 ```
 
 ```js
-display(Plot.plot({
-  width,
-  height: 450,
-  marginLeft: 160,
-  x: {
-    label: "Distance to Station (meters)",
-    grid: true
-  },
-  y: {
-    label: "Suspect"
-  },
-  color: {
-    legend: true,
-    label: "Station"
-  },
-  marks: [
-    Plot.dot(stationDistances, {
-      x: "distance_m",
-      y: "suspect",
-      fill: "station_id",
-      r: 7,
-      tip: true
-    })
-  ]
-}))
+display(html`
+  <div style="
+    background: #f4eadf;
+    padding: 18px;
+    border-radius: 18px;
+    border-right: 12px solid #333;
+    border-left: 12px solid #333;
+    max-width: 980px;
+  ">
+    <h2 style="margin: 0 0 4px 0; font-family: system-ui, sans-serif;">
+      Suspect Distance to Lake Clearwater Monitoring Stations
+    </h2>
+
+    <div style="font-family: system-ui, sans-serif; margin-bottom: 12px;">
+      Shorter distances may indicate stronger geographic opportunity for contamination.
+    </div>
+
+    ${Plot.plot({
+      width: Math.min(width * 0.85, 940),
+      height: 430,
+      marginLeft: 170,
+      marginRight: 40,
+      marginBottom: 55,
+
+      style: {
+        background: "#f4eadf",
+        color: "#333",
+        fontSize: "13px"
+      },
+
+      x: {
+        label: "Distance to Monitoring Station (meters)",
+        grid: true,
+        tickSize: 6
+      },
+
+      y: {
+        label: "Suspect",
+        grid: true
+      },
+
+      color: {
+        legend: true,
+        label: "Monitoring Station",
+        domain: ["East", "North", "South", "West"],
+        range: ["#c7d8f2", "#8fb9d9", "#4f8fb8", "#1f5f8b"]
+      },
+
+      marks: [
+        Plot.ruleX([0], {
+          stroke: "#333",
+          strokeOpacity: 0.35
+        }),
+
+        Plot.dot(stationDistances, {
+          x: "distance_m",
+          y: "suspect",
+          fill: "station_id",
+          stroke: "#1f3f5b",
+          strokeWidth: 1,
+          r: 8,
+          fillOpacity: 0.85,
+          tip: true
+        })
+      ]
+    })}
+
+    <div style="
+      font-family: system-ui, sans-serif;
+      font-size: 12px;
+      text-align: center;
+      margin-top: 8px;
+    ">
+      Darker blues represent monitoring stations in the Lake Clearwater system.
+    </div>
+  </div>
+`)
 ```
 
 **Interpretation:** ChemTech Manufacturing is only 800 meters from the West station. Other suspects are much farther from the West station. This makes ChemTech the strongest spatial match for the area with the worst contamination and the steepest trout decline.
