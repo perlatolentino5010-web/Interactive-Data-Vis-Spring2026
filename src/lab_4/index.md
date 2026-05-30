@@ -451,7 +451,7 @@ display(html`
 `)
 ```
 
-Trout populations decline most sharply at the West station, dropping from more than 40 fish per survey to approximately 13 by the end of the study period. This matches the scientific reference, which shows that trout are especially vulnerable to heavy metal contamination and exposes the west as the most unhabitable location.
+Trout populations decline most sharply at the West station, dropping from more than 40 fish per survey to approximately 13 by the end of the study period. This matches the scientific reference, which shows that trout are especially vulnerable to heavy metal contamination and exposes the west as the most uninhabitable location.
 
 <h2 style="white-space: nowrap; font-size: 1.6rem;">
   Evidence 4: Suspect Distance to Each Monitoring Station
