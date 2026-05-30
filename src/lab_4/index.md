@@ -319,7 +319,7 @@ display(Plot.plot({
     legend: true,
     label: "Species",
     domain: ["Bass", "Carp", "Trout"],
-    range: ["#f99b30", "#d7fb95", "#8fa6fb"]
+    range: ["#f99b30", "#d7fb95", "#8fdbfb"]
   },
 
   marks: [
