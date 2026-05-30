@@ -61,10 +61,11 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780117592598,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780117592598,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780117592598,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780117592598,"size":26191});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780118430113,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780118430114,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780118430114,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780118430114,"size":26191});
+registerFile("./docs/Lake-Clearwater-Image.png", {"name":"./docs/Lake-Clearwater-Image.png","mimeType":"image/png","path":"../_file/lab_4/docs/Lake-Clearwater-Image.0473b1c3.png","lastModified":1780118430114,"size":1697706});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -624,11 +625,13 @@ display(html`
 `)
 }});
 
-define({id: "c7f21b43", inputs: ["display","html"], body: (display,html) => {
+define({id: "b19f2d49", inputs: ["FileAttachment","display","html"], outputs: ["lakeImage"], body: async (FileAttachment,display,html) => {
+const lakeImage = await FileAttachment("./docs/Lake-Clearwater-Image.png").url();
+
 display(html`
   <div style="margin-top:40px; text-align:center;">
     <img
-      src="./Lake-Clearwater-Image.png"
+      src="${lakeImage}"
       alt="Lake Clearwater"
       style="
         width:100%;
@@ -648,6 +651,7 @@ display(html`
     </div>
   </div>
 `)
+return {lakeImage};
 }});
 
 </script>
@@ -770,11 +774,11 @@ display(html`
 <p>Taken together, the temporal, biological, and spatial evidence support ChemTech Manufacturing as the most likely contributor to the ecological collapse of Lake Clearwater. Case closed... unless ChemTech has a very good lawyer.</p>
 <p><strong>"When you have eliminated the impossible, whatever remains, however improbable, must be the truth." ~ Sherlock Holmes</strong></p>
 <h1 id="the-end" tabindex="-1"><a class="observablehq-header-anchor" href="#the-end">The End</a></h1>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:c7f21b43:--></div>
+<div class="observablehq observablehq--block"><!--:b19f2d49:--></div>
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T05:06:40">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T05:20:40">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
