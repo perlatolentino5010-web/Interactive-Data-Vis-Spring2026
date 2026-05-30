@@ -61,11 +61,11 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780126943754,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780126943754,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780126943754,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780126943754,"size":26191});
-registerFile("./docs/Lake-Clearwater-Image.png", {"name":"./docs/Lake-Clearwater-Image.png","mimeType":"image/png","path":"../_file/lab_4/docs/Lake-Clearwater-Image.0473b1c3.png","lastModified":1780126943756,"size":1697706});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780127466611,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780127466612,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780127466612,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780127466612,"size":26191});
+registerFile("./docs/Lake-Clearwater-Image.png", {"name":"./docs/Lake-Clearwater-Image.png","mimeType":"image/png","path":"../_file/lab_4/docs/Lake-Clearwater-Image.0473b1c3.png","lastModified":1780127466613,"size":1697706});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -597,6 +597,163 @@ display(html`
 `)
 }});
 
+define({id: "40457cd4", inputs: ["view","Inputs","activities"], outputs: ["evidence5Filter","evidence5Activities"], body: (view,Inputs,activities) => {
+const evidence5Filter = view(Inputs.radio(
+  ["All suspects", "ChemTech only", "High intensity only"],
+  {
+    label: "Filter activity timeline",
+    value: "All suspects"
+  }
+));
+
+const evidence5Activities = activities.filter(d =>
+  evidence5Filter === "ChemTech only"
+    ? d.suspect === "ChemTech Manufacturing"
+    : evidence5Filter === "High intensity only"
+      ? d.intensity === "High"
+      : true
+);
+return {evidence5Filter,evidence5Activities};
+}});
+
+define({id: "dd86962c", inputs: ["display","html","Plot","width","evidence5Filter","evidence5Activities"], body: (display,html,Plot,width,evidence5Filter,evidence5Activities) => {
+display(html`
+  <div style="
+    background:#f7fbff;
+    padding:16px;
+    border-radius:10px;
+    max-width:860px;
+    font-family:system-ui, sans-serif;
+  ">
+    <div style="
+      background:#eef6ff;
+      border-left:4px solid #1e3a8a;
+      padding:10px 14px;
+      margin-bottom:12px;
+      color:#374151;
+      font-size:13px;
+      line-height:1.5;
+      border-radius:0 8px 8px 0;
+    ">
+      <b>What this shows:</b><br>
+      This timeline compares documented suspect activities during the crisis period.
+      High-intensity activity does not automatically mean heavy metal waste, but ChemTech matters most because it is closest to the damaged West station and is connected to heavy metal discharge.
+    </div>
+
+    <div style="
+      display:flex;
+      gap:14px;
+      align-items:center;
+      margin-bottom:12px;
+      font-size:13px;
+      color:#374151;
+      flex-wrap:wrap;
+    ">
+      <b>Activity Intensity:</b>
+      <span><span style="display:inline-block;width:14px;height:14px;background:#93c5fd;margin-right:5px;"></span>Low</span>
+      <span><span style="display:inline-block;width:14px;height:14px;background:#3b82f6;margin-right:5px;"></span>Medium</span>
+      <span><span style="display:inline-block;width:14px;height:14px;background:#1e3a8a;margin-right:5px;"></span>High</span>
+    </div>
+
+    ${Plot.plot({
+      width: Math.min(width * 0.72, 840),
+      height: evidence5Filter === "ChemTech only" ? 180 : 350,
+      marginLeft: 165,
+      marginBottom: 55,
+
+      style: {
+        background: "#f7fbff",
+        color: "#374151",
+        fontSize: "13px"
+      },
+
+      x: {
+        label: "Date →",
+        grid: true,
+        tickSize: 6
+      },
+
+      y: {
+        label: null
+      },
+
+      color: {
+        legend: false,
+        domain: ["Low", "Medium", "High"],
+        range: ["#93c5fd", "#3b82f6", "#1e3a8a"]
+      },
+
+      marks: [
+        Plot.gridX({
+          stroke: "#cbd5e1",
+          strokeOpacity: 0.55
+        }),
+
+        Plot.line(evidence5Activities, {
+          x: "date",
+          y: "suspect",
+          z: "suspect",
+          stroke: "#111827",
+          strokeWidth: 2.5,
+          strokeOpacity: 0.35
+        }),
+
+        Plot.line(
+          evidence5Activities.filter(d => d.suspect === "ChemTech Manufacturing"),
+          {
+            x: "date",
+            y: "suspect",
+            z: "suspect",
+            stroke: "#1e3a8a",
+            strokeWidth: 4,
+            strokeOpacity: 0.75
+          }
+        ),
+
+        Plot.barX(evidence5Activities, {
+          x1: "date",
+          x2: d => new Date(+d.date + 35 * 24 * 60 * 60 * 1000),
+          y: "suspect",
+          fill: "intensity",
+          rx: 10,
+          insetTop: 8,
+          insetBottom: 8,
+          fillOpacity: d => d.suspect === "ChemTech Manufacturing" ? 1 : 0.72,
+          tip: true
+        }),
+
+        Plot.dot(evidence5Activities, {
+          x: "date",
+          y: "suspect",
+          fill: "intensity",
+          stroke: "white",
+          strokeWidth: 1.8,
+          r: d =>
+            d.intensity === "High" ? 5.5 :
+            d.intensity === "Medium" ? 4.8 : 4,
+          tip: true
+        })
+      ]
+    })}
+
+    <div style="
+      margin-top:10px;
+      padding:10px 14px;
+      background:white;
+      border:1px solid #dbeafe;
+      border-radius:8px;
+      color:#374151;
+      font-size:13px;
+      line-height:1.5;
+    ">
+      <b>Key Finding:</b>
+      ChemTech Manufacturing shows repeated high-intensity activity across the study period.
+      Because ChemTech is also closest to the damaged West station, this timing strengthens the case that it had both geographic opportunity and repeated activity during the crisis.
+    </div>
+  </div>
+`)
+}});
+
 define({id: "b19f2d49", inputs: ["FileAttachment","display","html"], outputs: ["lakeImage"], body: async (FileAttachment,display,html) => {
 const lakeImage = await FileAttachment("./docs/Lake-Clearwater-Image.png").url();
 
@@ -740,9 +897,8 @@ return {lakeImage};
 <p>ChemTech Manufacturing is closest to the West station, the same station where the strongest heavy metal spikes and trout decline appear. This spatial pattern strengthens the case that ChemTech had the clearest geographic opportunity to affect the most damaged part of the lake.</p>
 <h2 id="evidence-5-suspect-activity-timeline" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-5-suspect-activity-timeline">Evidence 5: Suspect Activity Timeline</a></h2>
 <p>This timeline helps compare documented suspect activities against the pollution story.</p>
-<div class="observablehq observablehq--block">
-  <div class="observablehq--inspect observablehq--error">SyntaxError: Unexpected token (1:0)</div>
-</div>
+<div class="observablehq observablehq--block"><!--:40457cd4:--></div>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:dd86962c:--></div>
 <p>ChemTech has repeated high-intensity maintenance shutdowns across the study period. Because ChemTech is also the closest suspect to the West station and is associated with heavy metal discharge, its activity pattern strengthens the case against it.</p>
 <h2 id="alternative-suspects-considered" tabindex="-1"><a class="observablehq-header-anchor" href="#alternative-suspects-considered">Alternative Suspects Considered</a></h2>
 <p><strong>Riverside Farm</strong> is closest to the North station and would more likely explain nitrogen or phosphorus problems. However, the most severe heavy metal spikes and trout collapse occur at the West station, not the North station.</p>
@@ -757,7 +913,7 @@ return {lakeImage};
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T07:42:31">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T07:51:13">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
