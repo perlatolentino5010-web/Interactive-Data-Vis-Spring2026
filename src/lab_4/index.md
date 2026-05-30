@@ -11,7 +11,7 @@ author: "Perla Holmes 🕵🏻‍♀️"
 </p>
 
 <p>
-  <strong>Case File:</strong> The Crisis on Lake Clearwater
+  <strong>Case File:</strong> The Contaminated Water & Species Decline Crisis
 </p>
 
 <div style="white-space: nowrap; width: 1200px; margin-bottom: 24px;">
