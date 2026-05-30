@@ -203,10 +203,10 @@ display(html`
         </h3>
 
         ${[
-          ["#080897", "East Shore"],
-          ["#e9fc70", "North Shore"],
-          ["#2b5ffc", "South Shore"],
-          ["#6ffa7b", "West Shore"]
+          ["#7648f6", "East Shore"],
+          ["#f39c12", "North Shore"],
+          ["#e74c3c", "South Shore"],
+          ["#16a085", "West Shore"]
         ].map(([color, title]) => html`
           <div style="display: flex; gap: 8px; margin-bottom: 14px; align-items: center;">
             <div style="
@@ -288,7 +288,7 @@ display(Plot.plot({
       }
     )
   ]
-}))
+})
 ```
 
 Trout populations decline most sharply at the West station, dropping from more than 40 fish per survey to approximately 13 by the end of the study period. This matches the scientific reference, which shows that trout are especially vulnerable to heavy metal contamination.
@@ -318,7 +318,7 @@ display(Plot.plot({
     legend: true,
     label: "Species",
     domain: ["Bass", "Carp", "Trout"],
-    range: ["#f99b30", "#9cde22", "#8fdbfb"]
+    range: ["#f99b30", "#9be118", "#8fdbfb"]
   },
 
   marks: [
