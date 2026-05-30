@@ -579,7 +579,7 @@ Taken together, the temporal, biological, and spatial evidence support ChemTech 
 display(html`
 <div style="margin-top:40px; text-align:center;">
   <img
-    src="./images/1744260072-lake-clearwater.avif"
+    src="./images/Lake Clearwater Image.png"
     alt="Lake Clearwater"
     style="
       width:100%;
