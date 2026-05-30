@@ -351,41 +351,73 @@ Trout populations decline most sharply at the West station, dropping from more t
 If heavy metals are driving the collapse, the most sensitive species should be affected first and most severely.
 
 ```js
-const speciesOffsetDays = {
-  Bass: -8,
-  Carp: 0,
-  Trout: 8
-};
+display(html`
+  <div style="
+    background: white;
+    padding: 18px;
+    border-radius: 8px;
+    max-width: 920px;
+  ">
+    ${Plot.plot({
+      width: Math.min(width * 0.78, 920),
+      height: 380,
+      marginLeft: 70,
+      marginBottom: 70,
 
-const speciesColors = {
-  Bass: "#f6b26b",
-  Carp: "#e76f51",
-  Trout: "#9c2f36"
-};
+      style: {
+        background: "white",
+        color: "#555",
+        fontSize: "13px"
+      },
 
-const speciesDarkColors = {
-  Bass: "#b86d2d",
-  Carp: "#a94733",
-  Trout: "#5f1d24"
-};
+      x: {
+        label: "Date",
+        grid: true,
+        tickRotate: -45,
+        tickSize: 6
+      },
 
-const speciesLightColors = {
-  Bass: "#ffd6a3",
-  Carp: "#ff9b7f",
-  Trout: "#c85a63"
-};
+      y: {
+        label: "Fish Count",
+        grid: true,
+        tickSize: 6
+      },
 
-const evidence3Bars = fish
-  .filter(d => d.station_id === "West")
-  .map(d => ({
-    ...d,
-    shifted_date: new Date(+d.date + speciesOffsetDays[d.species] * 24 * 60 * 60 * 1000),
-    side_date: new Date(+d.date + (speciesOffsetDays[d.species] + 3) * 24 * 60 * 60 * 1000),
-    top_count: d.count + 1.5,
-    color: speciesColors[d.species],
-    darkColor: speciesDarkColors[d.species],
-    lightColor: speciesLightColors[d.species]
-  }));
+      color: {
+        legend: true,
+        label: "Species",
+        domain: ["Bass", "Carp", "Trout"],
+        range: ["#f6b26b", "#e76f51", "#9c2f36"]
+      },
+
+      marks: [
+        Plot.gridY({
+          stroke: "#ddd",
+          strokeOpacity: 0.75
+        }),
+
+        Plot.gridX({
+          stroke: "#aaa",
+          strokeOpacity: 0.25,
+          strokeDasharray: "4,4"
+        }),
+
+        Plot.barY(
+          fish.filter(d => d.station_id === "West"),
+          {
+            x: "date",
+            y: "count",
+            fill: "species",
+            fillOpacity: 0.85,
+            insetLeft: 3,
+            insetRight: 3,
+            tip: true
+          }
+        )
+      ]
+    })}
+  </div>
+`)
 ```
 
 At the West station, trout show the most dramatic decline compared with bass and carp. This matters because the scientific reference identifies trout as the most sensitive species, bass as moderately sensitive, and carp as the most tolerant. The biological pattern therefore matches heavy metal contamination more than general overfishing or ordinary seasonal change.
