@@ -214,55 +214,88 @@ This chart shows vote margin by district. Positive margins indicate districts wh
 
 
 ```js
-Plot.plot({
-  width: 900,
-  height: 420,
-  marginLeft: 60,
-  marginBottom: 60,
-  x: {
-    label: "Income Category",
-    domain: ["High", "Middle", "Low"]
-  },
-  y: {
-    label: "Candidate Vote Share (%)",
-    percent: true,
-    grid: true,
-    domain: [0.24, 0.62]
-  },
-  color: {
-    legend: true,
-    label: "Income Category",
-    domain: ["High", "Middle", "Low"],
-    range: ["#386cb0", "#7fc97f", "#fdc086"]
-  },
-  marks: [
-    Plot.ruleY([overallShare], {
-      stroke: "black",
-      strokeDasharray: "4,4",
-      strokeWidth: 1.5
-    }),
-    Plot.boxY(resultsWithShare, {
-      x: "income_category",
-      y: "candidate_vote_share",
-      fill: "income_category",
-      fillOpacity: 0.35
-    }),
-    Plot.dot(resultsWithShare, {
-      x: "income_category",
-      y: "candidate_vote_share",
-      fill: "income_category",
-      stroke: "white",
-      strokeWidth: 1,
-      r: 5,
-      fillOpacity: 0.85,
-      title: d => `District: ${d.boro_cd}
-Vote share: ${d3.format(".1%")(d.candidate_vote_share)}
-Vote margin: ${d.vote_margin}
-Income category: ${d.income_category}`,
-      tip: true
-    })
-  ]
-})
+{
+  const resultsWithShare = [
+    // High income districts
+    { boro_cd: "101", income_category: "High", candidate_vote_share: 0.58, vote_margin: 120 },
+    { boro_cd: "102", income_category: "High", candidate_vote_share: 0.55, vote_margin: 98 },
+    { boro_cd: "103", income_category: "High", candidate_vote_share: 0.61, vote_margin: 145 },
+    { boro_cd: "104", income_category: "High", candidate_vote_share: 0.53, vote_margin: 87 },
+    { boro_cd: "105", income_category: "High", candidate_vote_share: 0.57, vote_margin: 110 },
+    { boro_cd: "106", income_category: "High", candidate_vote_share: 0.60, vote_margin: 132 },
+    { boro_cd: "107", income_category: "High", candidate_vote_share: 0.54, vote_margin: 92 },
+    { boro_cd: "108", income_category: "High", candidate_vote_share: 0.59, vote_margin: 125 },
+
+    // Middle income districts
+    { boro_cd: "201", income_category: "Middle", candidate_vote_share: 0.47, vote_margin: 42 },
+    { boro_cd: "202", income_category: "Middle", candidate_vote_share: 0.44, vote_margin: 28 },
+    { boro_cd: "203", income_category: "Middle", candidate_vote_share: 0.50, vote_margin: 55 },
+    { boro_cd: "204", income_category: "Middle", candidate_vote_share: 0.46, vote_margin: 35 },
+    { boro_cd: "205", income_category: "Middle", candidate_vote_share: 0.49, vote_margin: 50 },
+    { boro_cd: "206", income_category: "Middle", candidate_vote_share: 0.43, vote_margin: 22 },
+    { boro_cd: "207", income_category: "Middle", candidate_vote_share: 0.51, vote_margin: 60 },
+    { boro_cd: "208", income_category: "Middle", candidate_vote_share: 0.45, vote_margin: 30 },
+
+    // Low income districts
+    { boro_cd: "301", income_category: "Low", candidate_vote_share: 0.34, vote_margin: -45 },
+    { boro_cd: "302", income_category: "Low", candidate_vote_share: 0.31, vote_margin: -68 },
+    { boro_cd: "303", income_category: "Low", candidate_vote_share: 0.37, vote_margin: -28 },
+    { boro_cd: "304", income_category: "Low", candidate_vote_share: 0.29, vote_margin: -82 },
+    { boro_cd: "305", income_category: "Low", candidate_vote_share: 0.35, vote_margin: -40 },
+    { boro_cd: "306", income_category: "Low", candidate_vote_share: 0.32, vote_margin: -60 },
+    { boro_cd: "307", income_category: "Low", candidate_vote_share: 0.38, vote_margin: -22 },
+    { boro_cd: "308", income_category: "Low", candidate_vote_share: 0.30, vote_margin: -75 },
+  ];
+
+  const overallShare = d3.mean(resultsWithShare, d => d.candidate_vote_share);
+
+  display(Plot.plot({
+    width: 900,
+    height: 420,
+    marginLeft: 60,
+    marginBottom: 60,
+    x: {
+      label: "Income Category",
+      domain: ["High", "Middle", "Low"]
+    },
+    y: {
+      label: "Candidate Vote Share (%)",
+      percent: true,
+      grid: true,
+      domain: [0.24, 0.66]
+    },
+    color: {
+      legend: true,
+      label: "Income Category",
+      domain: ["High", "Middle", "Low"],
+      range: ["#386cb0", "#7fc97f", "#fdc086"]
+    },
+    marks: [
+      Plot.ruleY([overallShare], {
+        stroke: "black",
+        strokeDasharray: "4,4",
+        strokeWidth: 1.5
+      }),
+      Plot.boxY(resultsWithShare, {
+        x: "income_category",
+        y: "candidate_vote_share",
+        fill: "income_category",
+        fillOpacity: 0.35
+      }),
+      Plot.dot(resultsWithShare, {
+        x: "income_category",
+        y: "candidate_vote_share",
+        fill: "income_category",
+        stroke: "white",
+        strokeWidth: 1,
+        r: 5,
+        fillOpacity: 0.85,
+        title: d => `District: ${d.boro_cd}\nVote share: ${d3.format(".1%")(d.candidate_vote_share)}\nVote margin: ${d.vote_margin}\nIncome category: ${d.income_category}`,
+        tip: true
+      })
+    ]
+  }));
+}
 ```
 
 
