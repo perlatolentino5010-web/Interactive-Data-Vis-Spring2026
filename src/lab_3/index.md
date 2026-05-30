@@ -213,25 +213,21 @@ Income category: ${d.income_category}`
 This chart shows vote margin by district. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better. While the candidate dominated the district count (36), the oponent had an overwhelming majority of voter suport int he fewer districts that supported him (23), showing the importance of voter's power.
 
 ```js
-// Vote margin by district, colored by income category
+// Candidate vote share by income category
 Plot.plot({
-  width: 1100,
-  height: 850,
+  width: 800,
+  height: 450,
   marginLeft: 70,
-  marginRight: 40,
-  marginBottom: 50,
+  marginBottom: 60,
 
   x: {
-    label: "Vote Margin →",
-    grid: true
+    label: "Income Category"
   },
 
   y: {
-    label: "District",
-    domain: resultsWithShare
-      .slice()
-      .sort((a, b) => a.vote_margin - b.vote_margin)
-      .map(d => d.boro_cd)
+    label: "Candidate Vote Share",
+    grid: true,
+    percent: true
   },
 
   color: {
@@ -242,20 +238,34 @@ Plot.plot({
   },
 
   marks: [
-    Plot.barX(resultsWithShare, {
-      y: "boro_cd",
-      x: "vote_margin",
+    Plot.ruleY([overallShare], {
+      stroke: "black",
+      strokeDasharray: "4,4",
+      strokeWidth: 1.5
+    }),
+
+    Plot.dot(resultsWithShare, {
+      x: "income_category",
+      y: "candidate_vote_share",
       fill: "income_category",
+      stroke: "white",
+      strokeWidth: 1.2,
+      r: 5,
+      fillOpacity: 0.85,
       title: d => `District: ${d.boro_cd}
-Vote margin: ${d.vote_margin}
 Candidate vote share: ${d3.format(".1%")(d.candidate_vote_share)}
+Vote margin: ${d.vote_margin}
 Income category: ${d.income_category}`,
       tip: true
     }),
 
-    Plot.ruleX([0], {
-      stroke: "black",
-      strokeWidth: 1
+    Plot.text([{income_category: "High", candidate_vote_share: overallShare}], {
+      x: "income_category",
+      y: "candidate_vote_share",
+      text: "Overall citywide share",
+      dy: -8,
+      fill: "black",
+      fontSize: 11
     })
   ]
 })
