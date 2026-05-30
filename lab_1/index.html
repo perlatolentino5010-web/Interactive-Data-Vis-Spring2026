@@ -15,11 +15,13 @@
 <link rel="modulepreload" href="../_observablehq/client.cc6eb6fe.js">
 <link rel="modulepreload" href="../_observablehq/runtime.e080113b.js">
 <link rel="modulepreload" href="../_observablehq/stdlib.73a8ec5a.js">
-<link rel="modulepreload" href="../_npm/d3@7.9.0/66d82917.js">
 <link rel="modulepreload" href="../_observablehq/stdlib/inputs.e6c672de.js">
 <link rel="modulepreload" href="../_npm/@observablehq/plot@0.6.17/a96a6bbb.js">
+<link rel="modulepreload" href="../_npm/d3-dsv@3.0.1/9cffc2bd.js">
 <link rel="modulepreload" href="../_npm/htl@1.0.0/87d6f6ef.js">
 <link rel="modulepreload" href="../_npm/isoformat@0.2.1/18cbf477.js">
+<link rel="modulepreload" href="../_npm/d3@7.9.0/66d82917.js">
+<link rel="modulepreload" href="../_npm/interval-tree-1d@1.0.4/53fe8176.js">
 <link rel="modulepreload" href="../_npm/d3-array@3.2.4/e93ca09f.js">
 <link rel="modulepreload" href="../_npm/d3-axis@3.0.0/0f2de24d.js">
 <link rel="modulepreload" href="../_npm/d3-brush@3.0.0/65eb105b.js">
@@ -29,7 +31,6 @@
 <link rel="modulepreload" href="../_npm/d3-delaunay@6.0.4/87adea64.js">
 <link rel="modulepreload" href="../_npm/d3-dispatch@3.0.1/9ba9c7f3.js">
 <link rel="modulepreload" href="../_npm/d3-drag@3.0.0/4202580c.js">
-<link rel="modulepreload" href="../_npm/d3-dsv@3.0.1/9cffc2bd.js">
 <link rel="modulepreload" href="../_npm/d3-ease@3.0.1/cdd7e898.js">
 <link rel="modulepreload" href="../_npm/d3-fetch@3.0.1/b4e2ad9a.js">
 <link rel="modulepreload" href="../_npm/d3-force@3.0.0/5e804d15.js">
@@ -50,28 +51,29 @@
 <link rel="modulepreload" href="../_npm/d3-timer@3.0.1/b58a267d.js">
 <link rel="modulepreload" href="../_npm/d3-transition@3.0.1/004da2ac.js">
 <link rel="modulepreload" href="../_npm/d3-zoom@3.0.0/b5786b3f.js">
-<link rel="modulepreload" href="../_npm/interval-tree-1d@1.0.4/53fe8176.js">
+<link rel="modulepreload" href="../_npm/binary-search-bounds@2.0.5/cbf6ba23.js">
 <link rel="modulepreload" href="../_npm/internmap@2.0.3/e08981d9.js">
 <link rel="modulepreload" href="../_npm/delaunator@5.1.0/d4ec0aa1.js">
-<link rel="modulepreload" href="../_npm/binary-search-bounds@2.0.5/cbf6ba23.js">
 <link rel="modulepreload" href="../_npm/robust-predicates@3.0.3/42820bfa.js">
 <link rel="icon" href="../_file/observable.1af93621.png" type="image/png" sizes="32x32">
 <script type="module">
 
 import {define} from "../_observablehq/client.cc6eb6fe.js";
+import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-define({id: "6a6d8c6c", inputs: ["d3"], outputs: ["data"], body: async (d3) => {
-const data = await d3.csv(
-  "https://raw.githubusercontent.com/InteractiveDataVis/Interactive-Data-Vis-Spring2026/main/src/lab_1/data/pollinator_activity_data.csv",
-  d => ({
+registerFile("./data/pollinator_activity_data.csv", {"name":"./data/pollinator_activity_data.csv","mimeType":"text/csv","path":"../_file/lab_1/data/pollinator_activity_data.172590cd.csv","lastModified":1780137151092,"size":29868});
+
+define({id: "f75ec02a", inputs: ["FileAttachment"], outputs: ["data"], body: (FileAttachment) => {
+const data = FileAttachment("./data/pollinator_activity_data.csv")
+  .csv({ typed: true })
+  .then(data => data.map(d => ({
     ...d,
     body_mass: +d.avg_body_mass_g,
     wing_span: +d.avg_wing_span_mm,
     species: d.pollinator_species,
     temperature: +d.temperature,
     nectar_production: +d.nectar_production
-  })
-)
+  })));
 return {data};
 }});
 
@@ -81,15 +83,18 @@ Inputs.table(data)
 ))
 }});
 
-define({id: "51e35ca1", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
+define({id: "cba48a85", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
 display(await(
 Plot.plot({
   title: "Body Mass Distribution by Species",
+  x: { label: "Average Body Mass (g)" },
+  y: { label: "Count" },
+  color: { legend: true },
   marks: [
     Plot.rectY(
       data,
       Plot.binX(
-        {y: "count"},
+        { y: "count" },
         {
           x: "body_mass",
           fill: "species"
@@ -101,15 +106,18 @@ Plot.plot({
 ))
 }});
 
-define({id: "58df10cd", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
+define({id: "ffe09735", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
 display(await(
 Plot.plot({
   title: "Wing Span Distribution by Species",
+  x: { label: "Average Wing Span (mm)" },
+  y: { label: "Count" },
+  color: { legend: true },
   marks: [
     Plot.rectY(
       data,
       Plot.binX(
-        {y: "count"},
+        { y: "count" },
         {
           x: "wing_span",
           fill: "species"
@@ -121,38 +129,86 @@ Plot.plot({
 ))
 }});
 
-define({id: "dd05aa13", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
+define({id: "6c23fb3a", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
+display(await(
+Plot.plot({
+  title: "Pollinator Visits by Weather Condition",
+  x: { label: "Weather Condition" },
+  y: { label: "Number of Visits" },
+  color: {
+    legend: true,
+    label: "Weather Condition",
+    domain: ["Sunny", "Cloudy", "Rainy"],
+    range: ["#f6c85f", "#9ca3af", "#60a5fa"]
+  },
+  marks: [
+    Plot.barY(
+      data,
+      Plot.groupX(
+        { y: "count" },
+        {
+          x: "weather_condition",
+          fill: "weather_condition"
+        }
+      )
+    )
+  ]
+})
+))
+}});
+
+define({id: "dab37115", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
 display(await(
 Plot.plot({
   title: "Temperature vs Nectar Production",
+  x: { label: "Temperature" },
+  y: { label: "Nectar Production" },
+  color: {
+    legend: true,
+    label: "Pollinator Species"
+  },
   marks: [
     Plot.dot(data, {
       x: "temperature",
       y: "nectar_production",
       fill: "species",
       r: 4,
-      opacity: 0.7
+      opacity: 0.7,
+      tip: true
     })
   ]
 })
 ))
 }});
 
-define({id: "4fefe5fe", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
+define({id: "72c144bd", inputs: ["Plot","data","display"], body: async (Plot,data,display) => {
 display(await(
 Plot.plot({
   title: "Average Nectar Production by Flower",
+  x: { label: "Flower Species" },
+  y: { label: "Average Nectar Production" },
+  color: {
+    legend: true,
+    label: "Flower Species",
+    domain: ["Lavender", "Sunflower", "Rose", "Tulip", "Daisy"],
+    range: ["#b57edc", "#f6c85f", "#e76f91", "#f4a6b8", "#ffffff"]
+  },
   marks: [
     Plot.barY(
       data,
       Plot.groupX(
-        {y: "mean"},
+        { y: "mean" },
         {
           x: "flower_species",
-          y: "nectar_production"
+          y: "nectar_production",
+          fill: "flower_species"
         }
       )
-    )
+    ),
+
+    Plot.ruleY([0], {
+      stroke: "#333"
+    })
   ]
 })
 ))
@@ -220,27 +276,47 @@ Plot.plot({
 <div id="observablehq-center">
 <aside id="observablehq-toc" data-selector="h1:not(:first-of-type)[id], h2:first-child[id], :not(h1) + h2[id]">
 <nav>
+<div>Contents</div>
+<ol>
+<li class="observablehq-secondary-link"><a href="#body-mass-distribution-by-species">Body Mass Distribution by Species</a></li>
+<li class="observablehq-secondary-link"><a href="#wing-span-distribution-by-species">Wing Span Distribution by Species</a></li>
+<li class="observablehq-secondary-link"><a href="#weather-conditions-and-pollinator-visits">Weather Conditions and Pollinator Visits</a></li>
+<li class="observablehq-secondary-link"><a href="#temperature-vs-nectar-production">Temperature vs Nectar Production</a></li>
+<li class="observablehq-secondary-link"><a href="#average-nectar-production-by-flower">Average Nectar Production by Flower</a></li>
+<li class="observablehq-secondary-link"><a href="#conclusion">Conclusion</a></li>
+</ol>
 </nav>
 </aside>
 <main id="observablehq-main" class="observablehq">
-<p>This page is where you can iterate. Follow the lab instructions in the <a href="./README">readme.md</a>.</p>
 <h1 id="lab-1-passing-pollinators" tabindex="-1"><a class="observablehq-header-anchor" href="#lab-1-passing-pollinators">Lab 1: Passing Pollinators</a></h1>
-<div class="observablehq observablehq--block"><!--:6a6d8c6c:--></div>
+<div class="observablehq observablehq--block"><!--:f75ec02a:--></div>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:73b79a41:--></div>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:51e35ca1:--></div>
-<p><strong>What is the body mass and wing span distribution of each pollinator species observed?</strong>
-Different species show different body mass distributions, indicating variation in size across pollinators.</p>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:58df10cd:--></div>
-<p><strong>What is the ideal weather (conditions, temperature, etc) for pollinating?</strong>
-Wing span varies by species and may influence flight patterns and pollination behavior.</p>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:dd05aa13:--></div>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:4fefe5fe:--></div>
-<p><strong>Which flower has the most nectar production?</strong>
-Some flower species produce more nectar on average, making them more attractive to pollinators. Nectar production appears to increase within certain temperature ranges, suggesting optimal environmental conditions for pollination.</p>
+<h2 id="body-mass-distribution-by-species" tabindex="-1"><a class="observablehq-header-anchor" href="#body-mass-distribution-by-species">Body Mass Distribution by Species</a></h2>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:cba48a85:--></div>
+<p><strong>What is the body mass distribution of each pollinator species observed?</strong></p>
+<p>Different pollinator species show different body mass distributions, which means they vary in physical size. This matters because body size can affect how pollinators move between flowers, how much energy they need, and which flowers they are most likely to visit.</p>
+<h2 id="wing-span-distribution-by-species" tabindex="-1"><a class="observablehq-header-anchor" href="#wing-span-distribution-by-species">Wing Span Distribution by Species</a></h2>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:ffe09735:--></div>
+<p><strong>What is the wing span distribution of each pollinator species observed?</strong></p>
+<p>Wing span also varies by pollinator species. Larger wing spans may support different flight patterns than smaller wing spans, which could influence how efficiently pollinators move through the garden. Looking at body mass and wing span together helps describe the physical differences among the pollinators in the dataset.</p>
+<h2 id="weather-conditions-and-pollinator-visits" tabindex="-1"><a class="observablehq-header-anchor" href="#weather-conditions-and-pollinator-visits">Weather Conditions and Pollinator Visits</a></h2>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:6c23fb3a:--></div>
+<p><strong>What weather conditions seem best for pollinator activity?</strong></p>
+<p>This chart helps compare how often pollinators were observed under different weather conditions. Cloudy conditions should not automatically be dismissed as bad for pollination. In this dataset, cloudy weather may still support strong pollinator activity, especially if temperatures remain warm enough for bee movement and flower nectar production.</p>
+<h2 id="temperature-vs-nectar-production" tabindex="-1"><a class="observablehq-header-anchor" href="#temperature-vs-nectar-production">Temperature vs Nectar Production</a></h2>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:dab37115:--></div>
+<p><strong>What is the ideal weather for pollinating?</strong></p>
+<p>The scatterplot suggests that temperature and nectar production may be connected. Higher temperatures appear to be associated with stronger nectar production in some observations, which may help explain why pollinators visit more often under certain weather conditions. This means the ideal pollination conditions may not simply be “sunny,” but rather a combination of suitable temperature, nectar availability, and weather conditions that still allow pollinators to move safely.</p>
+<h2 id="average-nectar-production-by-flower" tabindex="-1"><a class="observablehq-header-anchor" href="#average-nectar-production-by-flower">Average Nectar Production by Flower</a></h2>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:72c144bd:--></div>
+<p><strong>Which flower has the most nectar production?</strong></p>
+<p>This chart compares average nectar production by flower species. Flowers with higher average nectar production may be more attractive to pollinators because they provide a stronger food reward. Matching the bar colors to the flower names also makes the chart easier to read because the visual design connects directly to the subject of the graph.</p>
+<h2 id="conclusion" tabindex="-1"><a class="observablehq-header-anchor" href="#conclusion">Conclusion</a></h2>
+<p>Overall, this lab shows that pollinator activity is shaped by several connected factors: pollinator body size, wing span, weather conditions, temperature, and nectar production. The strongest insight is that pollination conditions are not only about whether the day is sunny or cloudy. Cloudy conditions and warmer temperatures may still support bee visits and nectar production, making them important parts of the pollination story.</p>
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a><a rel="next" href="../lab_2/readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T10:26:35">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T10:32:38">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
