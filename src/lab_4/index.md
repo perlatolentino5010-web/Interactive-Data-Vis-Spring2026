@@ -346,61 +346,78 @@ Trout populations decline most sharply at the West station, dropping from more t
 If heavy metals are driving the collapse, the most sensitive species should be affected first and most severely.
 
 ```js
-display(Plot.plot({
-  width,
-  height: 360,
-  marginLeft: 90,
-  marginRight: 90,
-  marginBottom: 50,
+display(html`
+  <div style="
+    background: #07111f;
+    padding: 16px;
+    border-radius: 14px;
+    box-shadow: 0 0 18px rgba(0, 255, 255, 0.18);
+    max-width: 920px;
+  ">
+    ${Plot.plot({
+      width: Math.min(width * 0.78, 920),
+      height: 330,
+      marginLeft: 90,
+      marginRight: 110,
+      marginBottom: 50,
 
-  x: {
-    label: "Percent Change in Fish Count",
-    grid: true,
-    percent: true
-  },
+      style: {
+        background: "#07111f",
+        color: "#d7f7ff",
+        fontSize: "13px"
+      },
 
-  y: {
-    label: null
-  },
+      x: {
+        label: "Percent Change in Fish Count",
+        grid: true,
+        percent: true,
+        tickSize: 6
+      },
 
-  color: {
-    legend: false
-  },
+      y: {
+        label: null
+      },
 
-  marks: [
-    Plot.ruleX([0], {
-      stroke: "#333",
-      strokeWidth: 1
-    }),
+      marks: [
+        Plot.gridX({stroke: "rgba(215, 247, 255, 0.08)"}),
 
-    Plot.barX([
-      {species: "Trout", change: -0.70, color: "#2f358f"},
-      {species: "Bass", change: -0.38, color: "#9c2f36"},
-      {species: "Carp", change: 0.35, color: "#f6d98b"}
-    ], {
-      x: "change",
-      y: "species",
-      fill: "color",
-      rx: 8,
-      tip: true
-    }),
+        Plot.ruleX([0], {
+          stroke: "#d7f7ff",
+          strokeWidth: 1,
+          strokeOpacity: 0.7
+        }),
 
-    Plot.text([
-      {species: "Trout", change: -0.70, label: "Trout declined 70%"},
-      {species: "Bass", change: -0.38, label: "Bass declined 38%"},
-      {species: "Carp", change: 0.35, label: "Carp increased 35%"}
-    ], {
-      x: "change",
-      y: "species",
-      text: "label",
-      dx: d => d.change < 0 ? -10 : 10,
-      textAnchor: d => d.change < 0 ? "end" : "start",
-      fontSize: 15,
-      fontWeight: "bold",
-      fill: "#222"
-    })
-  ]
-}))
+        Plot.barX([
+          {species: "Trout", change: -0.70, color: "#2f358f"},
+          {species: "Bass", change: -0.38, color: "#9c2f36"},
+          {species: "Carp", change: 0.35, color: "#f6d98b"}
+        ], {
+          x: "change",
+          y: "species",
+          fill: "color",
+          fillOpacity: 0.78,
+          rx: 8,
+          tip: true
+        }),
+
+        Plot.text([
+          {species: "Trout", change: -0.70, label: "Trout declined 70%"},
+          {species: "Bass", change: -0.38, label: "Bass declined 38%"},
+          {species: "Carp", change: 0.35, label: "Carp increased 35%"}
+        ], {
+          x: "change",
+          y: "species",
+          text: "label",
+          dx: d => d.change < 0 ? -10 : 10,
+          textAnchor: d => d.change < 0 ? "end" : "start",
+          fontSize: 14,
+          fontWeight: "bold",
+          fill: "#d7f7ff"
+        })
+      ]
+    })}
+  </div>
+`)
 ```
 
 At the West station, trout show the most dramatic decline compared with bass and carp. This matters because the scientific reference identifies trout as the most sensitive species, bass as moderately sensitive, and carp as the most tolerant. The biological pattern therefore matches heavy metal contamination more than general overfishing or ordinary seasonal change.
