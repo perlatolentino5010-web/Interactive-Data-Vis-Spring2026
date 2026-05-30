@@ -656,29 +656,25 @@ This timeline helps compare documented suspect activities against the pollution 
 
   const g = svg.append("g").attr("transform", `translate(${ML},${MT})`);
 
-  // Grid lines
   g.append("g")
-    .attr("class", "grid")
     .call(d3.axisBottom(xScale).ticks(7).tickSize(plotH).tickFormat(""))
     .call(ax => ax.select(".domain").remove())
-    .call(ax => ax.selectAll("line").attr("stroke", "#cbd5e1").attr("stroke-opacity", 0.5))
-    .attr("transform", "translate(0,0)");
+    .call(ax => ax.selectAll("line").attr("stroke", "#cbd5e1").attr("stroke-opacity", 0.5));
 
-  // X axis
   g.append("g")
     .attr("transform", `translate(0,${plotH})`)
     .call(d3.axisBottom(xScale).ticks(7).tickFormat(d3.timeFormat("%b %Y")))
     .call(ax => ax.select(".domain").attr("stroke", "#cbd5e1"))
-    .call(ax => ax.selectAll("text").attr("fill", "#6b7280").attr("font-size", 11).attr("transform", "rotate(-25)").attr("text-anchor", "end"));
+    .call(ax => ax.selectAll("text")
+      .attr("fill", "#6b7280").attr("font-size", 11)
+      .attr("transform", "rotate(-25)").attr("text-anchor", "end"));
 
-  // X axis label
   g.append("text")
     .attr("x", plotW / 2).attr("y", plotH + 46)
     .attr("text-anchor", "middle")
     .attr("font-size", 11).attr("fill", "#6b7280")
     .text("Date →");
 
-  // Y axis
   g.append("g")
     .call(d3.axisLeft(yScale).tickSize(0))
     .call(ax => ax.select(".domain").remove())
@@ -688,7 +684,6 @@ This timeline helps compare documented suspect activities against the pollution 
       .attr("font-weight", d => d === "ChemTech Manufacturing" ? 600 : 400)
       .attr("x", -10));
 
-  // ChemTech connecting line
   const chemData = rawData
     .filter(d => d.suspect === "ChemTech Manufacturing")
     .sort((a, b) => a.date - b.date);
@@ -701,10 +696,8 @@ This timeline helps compare documented suspect activities against the pollution 
     .attr("stroke-opacity", 0.5)
     .attr("d", d3.line()
       .x(d => xScale(d.date))
-      .y(d => yScale(d.suspect) + yScale.bandwidth() / 2)
-    );
+      .y(d => yScale(d.suspect) + yScale.bandwidth() / 2));
 
-  // Tooltip div
   const tooltip = d3.select("body").append("div")
     .style("position", "absolute")
     .style("background", "white")
@@ -712,12 +705,9 @@ This timeline helps compare documented suspect activities against the pollution 
     .style("border-radius", "8px")
     .style("padding", "8px 12px")
     .style("font-size", "12px")
-    .style("color", "#111")
     .style("pointer-events", "none")
-    .style("opacity", 0)
-    .style("box-shadow", "0 2px 8px rgba(0,0,0,0.08)");
+    .style("opacity", 0);
 
-  // Dots
   g.selectAll("circle")
     .data(rawData)
     .join("circle")
@@ -725,23 +715,18 @@ This timeline helps compare documented suspect activities against the pollution 
     .attr("cy", d => yScale(d.suspect) + yScale.bandwidth() / 2)
     .attr("r", d => d.intensity === "High" ? 8 : d.intensity === "Medium" ? 6 : 5)
     .attr("fill", d => intensityColor[d.intensity])
-    .attr("stroke", "white")
-    .attr("stroke-width", 1.5)
+    .attr("stroke", "white").attr("stroke-width", 1.5)
     .attr("fill-opacity", d => d.suspect === "ChemTech Manufacturing" ? 1 : 0.75)
     .style("cursor", "pointer")
     .on("mouseover", (event, d) => {
-      tooltip
-        .style("opacity", 1)
+      tooltip.style("opacity", 1)
         .html(`<b>${d.suspect}</b><br>${d.date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}<br>Intensity: <b>${d.intensity}</b>`);
     })
     .on("mousemove", (event) => {
-      tooltip
-        .style("left", (event.pageX + 12) + "px")
-        .style("top", (event.pageY - 28) + "px");
+      tooltip.style("left", (event.pageX + 12) + "px").style("top", (event.pageY - 28) + "px");
     })
     .on("mouseout", () => tooltip.style("opacity", 0));
 
-  // High label above ChemTech high dots
   g.selectAll("text.high-label")
     .data(rawData.filter(d => d.suspect === "ChemTech Manufacturing" && d.intensity === "High"))
     .join("text")
@@ -749,75 +734,37 @@ This timeline helps compare documented suspect activities against the pollution 
     .attr("x", d => xScale(d.date))
     .attr("y", d => yScale(d.suspect) + yScale.bandwidth() / 2 - 14)
     .attr("text-anchor", "middle")
-    .attr("font-size", 9)
-    .attr("font-weight", 700)
-    .attr("fill", "#1e3a8a")
+    .attr("font-size", 9).attr("font-weight", 700).attr("fill", "#1e3a8a")
     .text("High");
 
-  // ── Legend ──────────────────────────────────────────────────
   const legend = svg.append("g").attr("transform", `translate(${ML}, 14)`);
-  const legendItems = [
-    { label: "Low",    color: "#93c5fd" },
-    { label: "Medium", color: "#3b82f6" },
-    { label: "High",   color: "#1e3a8a" },
-  ];
-  legend.append("text")
-    .attr("x", 0).attr("y", 10)
-    .attr("font-size", 11).attr("fill", "#374151").attr("font-weight", 600)
-    .text("Activity Intensity:");
-  legendItems.forEach((item, i) => {
-    const gx = 130 + i * 75;
-    legend.append("rect")
-      .attr("x", gx).attr("y", 1).attr("width", 12).attr("height", 12)
-      .attr("fill", item.color).attr("rx", 2);
-    legend.append("text")
-      .attr("x", gx + 16).attr("y", 11)
-      .attr("font-size", 11).attr("fill", "#374151")
-      .text(item.label);
-  });
+  [{ label: "Low", color: "#93c5fd" }, { label: "Medium", color: "#3b82f6" }, { label: "High", color: "#1e3a8a" }]
+    .forEach((item, i) => {
+      legend.append("rect").attr("x", 130 + i * 75).attr("y", 1).attr("width", 12).attr("height", 12)
+        .attr("fill", item.color).attr("rx", 2);
+      legend.append("text").attr("x", 146 + i * 75).attr("y", 11)
+        .attr("font-size", 11).attr("fill", "#374151").text(item.label);
+    });
 
-  // ── Wrapper ─────────────────────────────────────────────────
-  const infoBox = html`<div style="
-    border-left: 3px solid #93c5fd;
-    background: #eff6ff;
-    padding: 9px 13px;
-    border-radius: 0 6px 6px 0;
-    font-size: 12px;
-    color: #374151;
-    line-height: 1.5;
-    margin-bottom: 10px;
-  ">
+  const infoBox = html`<div style="border-left:3px solid #93c5fd;background:#eff6ff;padding:9px 13px;border-radius:0 6px 6px 0;font-size:12px;color:#374151;line-height:1.5;margin-bottom:10px;">
     <b>What this shows:</b> This timeline compares documented suspect activities during the crisis period.
     High-intensity activity does not automatically mean heavy metal waste, but ChemTech matters most
     because it is the suspect closest to the damaged West station and is connected to heavy metal discharge.
   </div>`;
 
-  const keyFinding = html`<div style="
-    background: white;
-    border: 1px solid #dbeafe;
-    border-radius: 6px;
-    padding: 9px 13px;
-    font-size: 12px;
-    color: #374151;
-    line-height: 1.5;
-    margin-top: 10px;
-  ">
+  const keyFinding = html`<div style="background:white;border:1px solid #dbeafe;border-radius:6px;padding:9px 13px;font-size:12px;color:#374151;line-height:1.5;margin-top:10px;">
     <b>Key Finding:</b> ChemTech Manufacturing shows repeated high-intensity activity across the study period.
     Because ChemTech is also closest to the damaged West station, this timing strengthens the case
     that it had both geographic opportunity and repeated activity during the crisis.
   </div>`;
 
-  return html`<div style="
-    background: #f7fbff;
-    padding: 16px 18px;
-    border-radius: 10px;
-    max-width: 880px;
-    font-family: system-ui, sans-serif;
-  ">
+  const wrapper = html`<div style="background:#f7fbff;padding:16px 18px;border-radius:10px;max-width:880px;font-family:system-ui,sans-serif;">
     ${infoBox}
     ${svg.node()}
     ${keyFinding}
   </div>`;
+
+  display(wrapper);
 }
 ```
 
