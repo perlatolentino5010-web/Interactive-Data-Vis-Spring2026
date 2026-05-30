@@ -466,27 +466,26 @@ display(html`
     background: #f4eadf;
     padding: 12px 16px;
     border-radius: 12px;
-    max-width: 900px;
+    max-width: 760px;
     font-family: system-ui, sans-serif;
   ">
     <h2 style="
       margin: 0 0 4px 0;
-      font-size: 1.1rem;
-      white-space: nowrap;
-      overflow: visible;
+      font-size: 0.95rem;
+      white-space: nowrap;"
     ">
       Suspect Distance to Lake Clearwater Monitoring Stations
     </h2>
 
     <div style="
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       margin-bottom: 8px;
     ">
       Shorter distances may indicate stronger geographic opportunity for contamination.
     </div>
 
     ${Plot.plot({
-      width: Math.min(width * 0.62, 720),
+      width: 700,
       height: 250,
 
       marginLeft: 150,
