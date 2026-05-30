@@ -249,51 +249,72 @@ The West station shows the most severe heavy metal spikes. Several readings exce
 Trout are highly sensitive to pollution and serve as an early warning indicator of ecosystem stress.
 
 ```js
-display(Plot.plot({
-  width,
-  height: 450,
-  marginLeft: 60,
+display(html`
+  <div style="
+    background: #07111f;
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 0 18px rgba(0, 255, 255, 0.18);
+  ">
+    ${Plot.plot({
+      width,
+      height: 470,
+      marginLeft: 70,
+      marginBottom: 55,
 
-  x: {
-    label: "Date",
-    grid: true
-  },
+      style: {
+        background: "#07111f",
+        color: "#d7f7ff",
+        fontSize: "14px"
+      },
 
-  y: {
-    label: "Fish Count",
-    grid: true
-  },
+      x: {
+        label: "Date",
+        grid: true,
+        tickSize: 6
+      },
 
-  color: {
-    legend: true,
-    label: "Species",
-    range: ["#0e3cbc", "#fa701a", "#109947"]
-  },
+      y: {
+        label: "↑ Trout Population Decline",
+        grid: true,
+        tickSize: 6
+      },
 
-  marks: [
-    Plot.dot(
-      fish.filter(d => d.station_id === "West"),
-      {
-        x: "date",
-        y: "count",
-        fill: "species",
-        r: 7,
-        tip: true
-      }
-    ),
+      color: {
+        legend: true,
+        label: "Monitoring Site",
+        domain: ["East", "North", "South", "West"],
+        range: ["#38bdf8", "#a7f3d0", "#ff4fd8", "#b7ff4a"]
+      },
 
-    Plot.lineY(
-      fish.filter(d => d.station_id === "West"),
-      {
-        x: "date",
-        y: "count",
-        stroke: "species",
-        strokeOpacity: 0.35,
-        strokeWidth: 2
-      }
-    )
-  ]
-}))
+      marks: [
+        Plot.lineY(
+          fish.filter(d => d.species === "Trout"),
+          {
+            x: "date",
+            y: "count",
+            stroke: "station_id",
+            strokeWidth: 3,
+            tip: true
+          }
+        ),
+
+        Plot.dot(
+          fish.filter(d => d.species === "Trout"),
+          {
+            x: "date",
+            y: "count",
+            fill: "station_id",
+            stroke: "#07111f",
+            strokeWidth: 1,
+            r: 4,
+            tip: true
+          }
+        )
+      ]
+    })}
+  </div>
+`)
 ```
 
 Trout populations decline most sharply at the West station, dropping from more than 40 fish per survey to approximately 13 by the end of the study period. This matches the scientific reference, which shows that trout are especially vulnerable to heavy metal contamination.
