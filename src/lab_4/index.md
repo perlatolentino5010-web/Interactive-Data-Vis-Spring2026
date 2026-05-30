@@ -25,6 +25,7 @@ const stations = await FileAttachment("data/monitoring_stations.csv").csv({ type
 const activities = await FileAttachment("data/suspect_activities.csv").csv({ typed: true });
 ```
 
+
 ## Background
 
 Lake Clearwater was once a healthy recreational lake known for clear water and thriving fish populations. Over the last two years, however, the ecosystem has experienced a dramatic decline. Sensitive fish species, particularly trout, have suffered major population losses, while water quality measurements suggest that pollution may be affecting parts of the lake.
