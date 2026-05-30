@@ -253,42 +253,47 @@ display(Plot.plot({
   width,
   height: 450,
   marginLeft: 60,
+
   x: {
     label: "Date",
     grid: true
   },
+
   y: {
-    label: "↑ Fish Count Decline",
+    label: "Fish Count",
     grid: true
   },
+
   color: {
     legend: true,
-    label: "Station"
+    label: "Species",
+    range: ["#7b2cbf", "#c77dff", "#ff66c4"]
   },
+
   marks: [
-    Plot.lineY(
-      fish.filter(d => d.species === "Trout"),
+    Plot.dot(
+      fish.filter(d => d.station_id === "West"),
       {
         x: "date",
         y: "count",
-        stroke: "station_id",
-        strokeWidth: 2.5,
+        fill: "species",
+        r: 7,
         tip: true
       }
     ),
 
-    Plot.dot(
-      fish.filter(d => d.species === "Trout"),
+    Plot.lineY(
+      fish.filter(d => d.station_id === "West"),
       {
         x: "date",
         y: "count",
-        fill: "station_id",
-        r: 3,
-        tip: true
+        stroke: "species",
+        strokeOpacity: 0.35,
+        strokeWidth: 2
       }
     )
   ]
-})
+}))
 ```
 
 Trout populations decline most sharply at the West station, dropping from more than 40 fish per survey to approximately 13 by the end of the study period. This matches the scientific reference, which shows that trout are especially vulnerable to heavy metal contamination.
@@ -318,7 +323,7 @@ display(Plot.plot({
     legend: true,
     label: "Species",
     domain: ["Bass", "Carp", "Trout"],
-    range: ["#f99b30", "#9be118", "#8fdbfb"]
+    range: ["#9c2f36", "#f6d98b", "#2f358f"]
   },
 
   marks: [
@@ -328,9 +333,8 @@ display(Plot.plot({
         x: "date",
         y: "count",
         fill: "species",
-        fillOpacity: 0.25,
-        curve: "basis",
-        tip: true
+        fillOpacity: 0.85,
+        curve: "basis"
       }
     ),
 
@@ -340,7 +344,7 @@ display(Plot.plot({
         x: "date",
         y: "count",
         stroke: "species",
-        strokeWidth: 2.5,
+        strokeWidth: 2,
         curve: "basis",
         tip: true
       }
