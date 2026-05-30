@@ -453,31 +453,32 @@ const stationDistances = stations.flatMap(d => [
 display(html`
   <div style="
     background: #f4eadf;
-    padding: 18px;
-    border-radius: 18px;
-    border-right: 12px solid #333;
-    border-left: 12px solid #333;
+    padding: 14px 18px;
+    border-radius: 14px;
+    border-left: 10px solid #333;
+    border-right: 10px solid #333;
     max-width: 980px;
+    font-family: system-ui, sans-serif;
   ">
-    <h2 style="margin: 0 0 4px 0; font-family: system-ui, sans-serif;">
+    <h2 style="margin: 0 0 4px 0; font-size: 1.3rem;">
       Suspect Distance to Lake Clearwater Monitoring Stations
     </h2>
 
-    <div style="font-family: system-ui, sans-serif; margin-bottom: 12px;">
+    <div style="font-size: 0.95rem; margin-bottom: 8px;">
       Shorter distances may indicate stronger geographic opportunity for contamination.
     </div>
 
     ${Plot.plot({
-      width: Math.min(width * 0.85, 940),
-      height: 430,
-      marginLeft: 170,
-      marginRight: 40,
-      marginBottom: 55,
+      width: Math.min(width * 0.86, 940),
+      height: 300,
+      marginLeft: 165,
+      marginRight: 35,
+      marginBottom: 45,
 
       style: {
         background: "#f4eadf",
         color: "#333",
-        fontSize: "13px"
+        fontSize: "12px"
       },
 
       x: {
@@ -487,7 +488,7 @@ display(html`
       },
 
       y: {
-        label: "Suspect",
+        label: null,
         grid: true
       },
 
@@ -495,22 +496,28 @@ display(html`
         legend: true,
         label: "Monitoring Station",
         domain: ["East", "North", "South", "West"],
-        range: ["#c7d8f2", "#8fb9d9", "#4f8fb8", "#1f5f8b"]
+        range: ["#b9c9e6", "#74a9cf", "#2b8cbe", "#084081"]
       },
 
       marks: [
-        Plot.ruleX([0], {
-          stroke: "#333",
-          strokeOpacity: 0.35
+        Plot.gridX({
+          stroke: "#777",
+          strokeOpacity: 0.45,
+          strokeDasharray: "3,4"
+        }),
+
+        Plot.gridY({
+          stroke: "#ffffff",
+          strokeOpacity: 0.45
         }),
 
         Plot.dot(stationDistances, {
           x: "distance_m",
           y: "suspect",
           fill: "station_id",
-          stroke: "#1f3f5b",
-          strokeWidth: 1,
-          r: 8,
+          stroke: "#08304f",
+          strokeWidth: 1.2,
+          r: 9,
           fillOpacity: 0.85,
           tip: true
         })
@@ -518,12 +525,11 @@ display(html`
     })}
 
     <div style="
-      font-family: system-ui, sans-serif;
       font-size: 12px;
       text-align: center;
-      margin-top: 8px;
+      margin-top: 6px;
     ">
-      Darker blues represent monitoring stations in the Lake Clearwater system.
+      Blue tones represent Lake Clearwater monitoring stations.
     </div>
   </div>
 `)
