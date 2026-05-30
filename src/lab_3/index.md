@@ -159,6 +159,7 @@ Income category: ${d.properties.income_category}`,
 })
 ```
 
+
 This choropleth map shows the candidate's vote share across NYC districts. Darker districts indicate stronger electoral performance, while lighter districts indicate weaker support. Viewing vote share geographically helps identify clusters of support and reveals whether the campaign performed consistently across boroughs or relied heavily on a few strong districts.
 
 
@@ -210,6 +211,57 @@ Income category: ${d.income_category}`
 
 
 This chart shows vote margin by district. Positive margins indicate districts where the candidate received more votes than the opponent, while negative margins show districts where the opponent performed better. While the candidate dominated the district count (36), the oponent had an overwhelming majority of voter suport int he fewer districts that supported him (23), showing the importance of voter's power.
+
+```js
+// Vote margin by district, colored by income category
+Plot.plot({
+  width: 1100,
+  height: 850,
+  marginLeft: 70,
+  marginRight: 40,
+  marginBottom: 50,
+
+  x: {
+    label: "Vote Margin →",
+    grid: true
+  },
+
+  y: {
+    label: "District",
+    domain: resultsWithShare
+      .slice()
+      .sort((a, b) => a.vote_margin - b.vote_margin)
+      .map(d => d.boro_cd)
+  },
+
+  color: {
+    legend: true,
+    label: "Income Category",
+    domain: ["Low", "Middle", "High"],
+    range: ["#fdc086", "#7fc97f", "#386cb0"]
+  },
+
+  marks: [
+    Plot.barX(resultsWithShare, {
+      y: "boro_cd",
+      x: "vote_margin",
+      fill: "income_category",
+      title: d => `District: ${d.boro_cd}
+Vote margin: ${d.vote_margin}
+Candidate vote share: ${d3.format(".1%")(d.candidate_vote_share)}
+Income category: ${d.income_category}`,
+      tip: true
+    }),
+
+    Plot.ruleX([0], {
+      stroke: "black",
+      strokeWidth: 1
+    })
+  ]
+})
+```
+
+This chart keeps districts sorted by vote margin but colors them by income category. This helps show whether the candidate's strongest and weakest districts were concentrated among low-, middle-, or high-income areas.
 
 
 ```js
