@@ -57,10 +57,10 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/incidents.csv", {"name":"./data/incidents.csv","mimeType":"text/csv","path":"../_file/lab_2/data/incidents.d0fdb64d.csv","lastModified":1780136140097,"size":21148});
-registerFile("./data/local_events.csv", {"name":"./data/local_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/local_events.0539ac0d.csv","lastModified":1780136140097,"size":2714});
-registerFile("./data/ridership.csv", {"name":"./data/ridership.csv","mimeType":"text/csv","path":"../_file/lab_2/data/ridership.fa14f202.csv","lastModified":1780136140097,"size":64867});
-registerFile("./data/upcoming_events.csv", {"name":"./data/upcoming_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/upcoming_events.4724e73a.csv","lastModified":1780136140097,"size":2514});
+registerFile("./data/incidents.csv", {"name":"./data/incidents.csv","mimeType":"text/csv","path":"../_file/lab_2/data/incidents.d0fdb64d.csv","lastModified":1780136790568,"size":21148});
+registerFile("./data/local_events.csv", {"name":"./data/local_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/local_events.0539ac0d.csv","lastModified":1780136790568,"size":2714});
+registerFile("./data/ridership.csv", {"name":"./data/ridership.csv","mimeType":"text/csv","path":"../_file/lab_2/data/ridership.fa14f202.csv","lastModified":1780136790568,"size":64867});
+registerFile("./data/upcoming_events.csv", {"name":"./data/upcoming_events.csv","mimeType":"text/csv","path":"../_file/lab_2/data/upcoming_events.4724e73a.csv","lastModified":1780136790568,"size":2514});
 
 define({id: "3675e32c", inputs: ["FileAttachment"], outputs: ["incidents","local_events","upcoming_events","ridership"], body: (FileAttachment) => {
 const incidents = FileAttachment("./data/incidents.csv").csv({ typed: true })
@@ -101,11 +101,12 @@ const currentStaffing = {
 return {currentStaffing};
 }});
 
-define({id: "a20e05a1", inputs: ["ridership"], outputs: ["ridershipWithTraffic","ridershipWithFare"], body: (ridership) => {
+define({id: "fd567f76", inputs: ["ridership"], outputs: ["ridershipWithTraffic","ridershipWithFare"], body: (ridership) => {
 const ridershipWithTraffic = ridership.map(d => ({
   ...d,
   traffic: d.entrances + d.exits
 }))
+
 const ridershipWithFare = ridershipWithTraffic.map(d => ({
   ...d,
   fare_period: d.date < new Date("2025-07-15") ? "Before Fare Increase" : "After Fare Increase"
@@ -135,25 +136,49 @@ Plot.plot({
 ))
 }});
 
-define({id: "8b29cacf", inputs: ["Plot","ridershipWithTraffic","display"], body: async (Plot,ridershipWithTraffic,display) => {
+define({id: "8a3f4317", inputs: ["Plot","ridershipWithTraffic","display"], body: async (Plot,ridershipWithTraffic,display) => {
 display(await(
 Plot.plot({
-  title: "Daily Subway Traffic with Fare Increase Marker",
-  y: { label: "Traffic" },
-  x: { label: "Date" },
+  title: "Daily Subway Traffic by Station with Fare Increase Marker",
+  width: 900,
+  height: 500,
+
+  y: {
+    label: "Daily Traffic"
+  },
+
+  x: {
+    label: "Date"
+  },
+
+  color: {
+    legend: true,
+    label: "Station"
+  },
+
   marks: [
     Plot.lineY(ridershipWithTraffic, {
       x: "date",
       y: "traffic",
-      stroke: "steelblue"
+      z: "station",
+      stroke: "station",
+      strokeOpacity: 0.55,
+      strokeWidth: 1.4,
+      tip: true
     }),
-    Plot.ruleX(["2025-07-15"], { stroke: "red" }),
-    Plot.text(["2025-07-15"], {
+
+    Plot.ruleX([new Date("2025-07-15")], {
+      stroke: "red",
+      strokeWidth: 2
+    }),
+
+    Plot.text([new Date("2025-07-15")], {
       x: d => d,
       y: 25000,
       text: "Fare Increase",
       fill: "red",
-      dy: -10
+      dy: -10,
+      fontWeight: "bold"
     })
   ]
 })
@@ -292,12 +317,12 @@ Plot.plot({
 <div class="observablehq observablehq--block"><!--:3675e32c:--></div>
 <!-- Include current staffing counts from the prompt -->
 <div class="observablehq observablehq--block"><!--:cfda57c0:--></div>
-<div class="observablehq observablehq--block"><!--:a20e05a1:--></div>
+<div class="observablehq observablehq--block"><!--:fd567f76:--></div>
 <h2 id="1-how-did-local-events-impact-ridership-in-summer-2025-what-effect-did-the-july-15-fare-increase-have" tabindex="-1"><a class="observablehq-header-anchor" href="#1-how-did-local-events-impact-ridership-in-summer-2025-what-effect-did-the-july-15-fare-increase-have">1. How did local events impact ridership in summer 2025? What effect did the July 15 fare increase have?</a></h2>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:4164aa51:--></div>
 <p>This bar chart compares average subway traffic before and after the July 15 fare increase. The data shows the average ridership slightly decreased after July 15, suggesting that the fare increase may have had a small negative impact on subway usage among locals, although overall demand remained relatively high. The subway system still remains essential despite the increase. This suggests that subway demand is relatively stable and not highly sensitive to fare changes, indicating that many riders rely on it regardless of price.</p>
-<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:8b29cacf:--></div>
-<p>Local events appear to contribute to noticeable spikes in ridership at nearby stations during summer 2025. Periods of increased traffic often align with likely event activity, suggesting that scheduled events play a meaningful role in driving short-term demand, even alongside broader policy changes like the fare increase. The presence of multiple spikes throughout the timeline supports the idea that local events contribute to short-term increases in ridership, while the fare increase does not appear to cause a clear or immediate drop in usage.</p>
+<div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:8a3f4317:--></div>
+<p>This revised line chart separates ridership trends by station instead of combining all station traffic into one line. Each station now has its own line, making it easier to see where traffic spikes occur and whether certain stations respond differently around local events or the July 15 fare increase. The fare increase marker is also treated as a real date, so the x-axis stays continuous over time instead of turning into date strings.</p>
 <h2 id="2-how-do-the-stations-compare-when-it-comes-to-response-time-which-are-the-best-which-are-the-worst" tabindex="-1"><a class="observablehq-header-anchor" href="#2-how-do-the-stations-compare-when-it-comes-to-response-time-which-are-the-best-which-are-the-worst">2. How do the stations compare when it comes to response time? Which are the best, which are the worst?</a></h2>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:4bd4ac0d:--></div>
 <p>This chart ranks stations by average incident response time, showing clear differences in performance across locations. Stations with lower response times are more efficient, while those with higher response times may face operational challenges such as higher traffic, staffing limitations, or more complex incidents. For example, stations toward the top of the chart demonstrate faster response times, while those toward the bottom may require operational improvements or additional resources.</p>
@@ -310,7 +335,7 @@ Plot.plot({
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a><a rel="next" href="../lab_3/readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T10:15:45">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T10:26:35">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
