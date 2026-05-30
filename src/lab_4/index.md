@@ -353,10 +353,11 @@ If heavy metals are driving the collapse, the most sensitive species should be a
 ```js
 display(html`
   <div style="
-    background: white;
+    background: linear-gradient(180deg, #fff8f3 0%, #ffffff 100%);
     padding: 18px;
-    border-radius: 8px;
+    border-radius: 12px;
     max-width: 920px;
+    box-shadow: 0 8px 22px rgba(156, 47, 54, 0.12);
   ">
     ${Plot.plot({
       width: Math.min(width * 0.78, 920),
@@ -365,7 +366,7 @@ display(html`
       marginBottom: 70,
 
       style: {
-        background: "white",
+        background: "transparent",
         color: "#555",
         fontSize: "13px"
       },
@@ -392,12 +393,12 @@ display(html`
 
       marks: [
         Plot.gridY({
-          stroke: "#ddd",
-          strokeOpacity: 0.75
+          stroke: "#e8d6cc",
+          strokeOpacity: 0.9
         }),
 
         Plot.gridX({
-          stroke: "#aaa",
+          stroke: "#d9b8aa",
           strokeOpacity: 0.25,
           strokeDasharray: "4,4"
         }),
@@ -405,12 +406,39 @@ display(html`
         Plot.barY(
           fish.filter(d => d.station_id === "West"),
           {
+            x: d => new Date(+d.date + 4 * 24 * 60 * 60 * 1000),
+            y: "count",
+            fill: "#5a2a2a",
+            fillOpacity: 0.18,
+            insetLeft: 3,
+            insetRight: 3
+          }
+        ),
+
+        Plot.barY(
+          fish.filter(d => d.station_id === "West"),
+          {
+            x: "date",
+            y: d => d.count + 1.2,
+            fill: "species",
+            fillOpacity: 0.38,
+            insetLeft: 3,
+            insetRight: 3
+          }
+        ),
+
+        Plot.barY(
+          fish.filter(d => d.station_id === "West"),
+          {
             x: "date",
             y: "count",
             fill: "species",
-            fillOpacity: 0.85,
-            insetLeft: 3,
-            insetRight: 3,
+            stroke: "#6b2d2d",
+            strokeOpacity: 0.3,
+            strokeWidth: 1,
+            fillOpacity: 0.9,
+            insetLeft: 4,
+            insetRight: 4,
             tip: true
           }
         )
