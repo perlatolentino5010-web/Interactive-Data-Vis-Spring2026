@@ -271,7 +271,8 @@ Income category: ${d.income_category}`,
 })
 ```
 
-This chart keeps districts sorted by vote margin but colors them by income category. This helps show whether the candidate's strongest and weakest districts were concentrated among low-, middle-, or high-income areas.
+
+This scatter plot shows each district's candidate vote share by income category. Each dot is one district. The dashed line shows the candidate's overall citywide vote share, making it easier to see whether low-, middle-, or high-income districts tended to fall above or below the campaign's overall performance.
 
 
 ```js
