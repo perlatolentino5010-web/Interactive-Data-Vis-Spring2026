@@ -11,7 +11,7 @@ author: "Perla Holmes 🕵🏻‍♀️"
 </p>
 
 <p>
-  <strong>Case File:</strong> The Contaminated Water & Species Decline Mistery
+  <strong>Case File:</strong> The Mystery of the Contaminated Lake
 </p>
 
 <div style="white-space: nowrap; width: 1200px; margin-bottom: 24px;">
