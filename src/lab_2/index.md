@@ -2,6 +2,7 @@
 title: "Lab 2: Subway Staffing"
 toc: true
 ---
+
 # Lab 2: Subway Staffing
 
 By Perla Tolentino
@@ -44,11 +45,13 @@ const currentStaffing = {
   "Astor Pl": 7
 }
 ```
+
 ```js
 const ridershipWithTraffic = ridership.map(d => ({
   ...d,
   traffic: d.entrances + d.exits
 }))
+
 const ridershipWithFare = ridershipWithTraffic.map(d => ({
   ...d,
   fare_period: d.date < new Date("2025-07-15") ? "Before Fare Increase" : "After Fare Increase"
@@ -79,31 +82,54 @@ Plot.plot({
 
 This bar chart compares average subway traffic before and after the July 15 fare increase. The data shows the average ridership slightly decreased after July 15, suggesting that the fare increase may have had a small negative impact on subway usage among locals, although overall demand remained relatively high. The subway system still remains essential despite the increase. This suggests that subway demand is relatively stable and not highly sensitive to fare changes, indicating that many riders rely on it regardless of price.
 
-
 ```js
 Plot.plot({
-  title: "Daily Subway Traffic with Fare Increase Marker",
-  y: { label: "Traffic" },
-  x: { label: "Date" },
+  title: "Daily Subway Traffic by Station with Fare Increase Marker",
+  width: 900,
+  height: 500,
+
+  y: {
+    label: "Daily Traffic"
+  },
+
+  x: {
+    label: "Date"
+  },
+
+  color: {
+    legend: true,
+    label: "Station"
+  },
+
   marks: [
     Plot.lineY(ridershipWithTraffic, {
       x: "date",
       y: "traffic",
-      stroke: "steelblue"
+      z: "station",
+      stroke: "station",
+      strokeOpacity: 0.55,
+      strokeWidth: 1.4,
+      tip: true
     }),
-    Plot.ruleX(["2025-07-15"], { stroke: "red" }),
-    Plot.text(["2025-07-15"], {
+
+    Plot.ruleX([new Date("2025-07-15")], {
+      stroke: "red",
+      strokeWidth: 2
+    }),
+
+    Plot.text([new Date("2025-07-15")], {
       x: d => d,
       y: 25000,
       text: "Fare Increase",
       fill: "red",
-      dy: -10
+      dy: -10,
+      fontWeight: "bold"
     })
   ]
 })
 ```
 
- Local events appear to contribute to noticeable spikes in ridership at nearby stations during summer 2025. Periods of increased traffic often align with likely event activity, suggesting that scheduled events play a meaningful role in driving short-term demand, even alongside broader policy changes like the fare increase. The presence of multiple spikes throughout the timeline supports the idea that local events contribute to short-term increases in ridership, while the fare increase does not appear to cause a clear or immediate drop in usage.
+This revised line chart separates ridership trends by station instead of combining all station traffic into one line. Each station now has its own line, making it easier to see where traffic spikes occur and whether certain stations respond differently around local events or the July 15 fare increase. The fare increase marker is also treated as a real date, so the x-axis stays continuous over time instead of turning into date strings.
 
 ## 2. How do the stations compare when it comes to response time? Which are the best, which are the worst?
 
