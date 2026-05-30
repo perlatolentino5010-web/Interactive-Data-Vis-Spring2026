@@ -6,22 +6,16 @@ author: "Perla Holmes 🕵🏻‍♀️"
 
 # Lab 4: Clearwater Crisis
 
-<p style="font-size:1.4rem;">
+<p>
   <strong>Investigator:</strong> Perla Holmes 🕵🏻‍♀️
 </p>
 
-<p style="font-size:1.4rem;">
+<p>
   <strong>Case File:</strong> The Crisis on Lake Clearwater
 </p>
 
-<p style="
-  font-size:1.8rem;
-  line-height:1.2;
-  max-width:1200px;
-  margin-bottom:1.5rem;
-">
-  <strong>Main Question:</strong>
-  Who is responsible for the ecological collapse of Lake Clearwater?
+<p>
+  <strong>Main Question:</strong> Who is responsible for the ecological collapse of Lake Clearwater?
 </p>
 
 ```js
