@@ -61,10 +61,10 @@
 import {define} from "../_observablehq/client.cc6eb6fe.js";
 import {registerFile} from "../_observablehq/stdlib.73a8ec5a.js";
 
-registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780109928086,"size":4158});
-registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780109928086,"size":278});
-registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780109928086,"size":1975});
-registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780109928086,"size":26191});
+registerFile("./data/fish_surveys.csv", {"name":"./data/fish_surveys.csv","mimeType":"text/csv","path":"../_file/lab_4/data/fish_surveys.5513fd48.csv","lastModified":1780110227170,"size":4158});
+registerFile("./data/monitoring_stations.csv", {"name":"./data/monitoring_stations.csv","mimeType":"text/csv","path":"../_file/lab_4/data/monitoring_stations.7c081a44.csv","lastModified":1780110227170,"size":278});
+registerFile("./data/suspect_activities.csv", {"name":"./data/suspect_activities.csv","mimeType":"text/csv","path":"../_file/lab_4/data/suspect_activities.957f2509.csv","lastModified":1780110227170,"size":1975});
+registerFile("./data/water_quality.csv", {"name":"./data/water_quality.csv","mimeType":"text/csv","path":"../_file/lab_4/data/water_quality.8d7d698b.csv","lastModified":1780110227170,"size":26191});
 
 define({id: "4550bdcc", inputs: ["FileAttachment"], outputs: ["water","fish","stations","activities"], body: async (FileAttachment) => {
 const water = await FileAttachment("./data/water_quality.csv").csv({ typed: true });
@@ -743,7 +743,7 @@ display(html`
 <p>Heavy metals are a leading suspect because they directly affect sensitive fish species such as trout. The orange line marks the EPA concern threshold of 20 ppb, and the red line marks the regulatory limit of 30 ppb.</p>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:7d755035:--></div>
 <p>The West station shows the most severe heavy metal spikes. Several readings exceed the EPA concern threshold, and some exceed the regulatory limit. This suggests the crisis is not evenly spread across the lake. The pollution pattern is concentrated near the West station.</p>
-<h2 id="evidence-2-trout-population-trends" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-2-trout-population-trends">Evidence 2: Trout Population Trends</a></h2>
+<h2 id="evidence-2-trends-in-trout-population-over-time" tabindex="-1"><a class="observablehq-header-anchor" href="#evidence-2-trends-in-trout-population-over-time">Evidence 2: Trends in Trout Population Over Time</a></h2>
 <p>Trout are highly sensitive to pollution and serve as an early warning indicator of ecosystem stress.</p>
 <div class="observablehq observablehq--block"><observablehq-loading></observablehq-loading><!--:82657fe8:--></div>
 <p>Trout populations decline most sharply at the West station, dropping from more than 40 fish per survey to approximately 13 by the end of the study period. This matches the scientific reference, which shows that trout are especially vulnerable to heavy metal contamination.</p>
@@ -767,10 +767,12 @@ display(html`
 <h2 id="final-conclusion" tabindex="-1"><a class="observablehq-header-anchor" href="#final-conclusion">Final Conclusion</a></h2>
 <p>The evidence most strongly implicates <strong>ChemTech Manufacturing</strong> as the source of the ecological crisis in Lake Clearwater. The heavy metals analysis shows repeated spikes at the West monitoring station, with concentrations exceeding both the EPA concern threshold and, at times, the regulatory limit. The biological evidence shows that trout populations declined most dramatically at the West station, which matches the scientific reference showing that trout are highly sensitive to heavy metal contamination. The species comparison further supports this pattern because trout decline more sharply than more tolerant species. Finally, the spatial evidence shows that the West station is only 800 meters from ChemTech Manufacturing, making it the closest suspect by a substantial margin.</p>
 <p>Taken together, the temporal, biological, and spatial evidence support ChemTech Manufacturing as the most likely contributor to the ecological collapse of Lake Clearwater. Case closed... unless ChemTech has a very good lawyer.</p>
+<p><strong>"When you have eliminated the impossible, whatever remains, however improbable, must be the truth." ~ Sherlock Holmes</strong></p>
+<h1 id="the-end" tabindex="-1"><a class="observablehq-header-anchor" href="#the-end">The End</a></h1>
 </main>
 <footer id="observablehq-footer">
 <nav><a rel="prev" href="./readme"><span>Instructions</span></a></nav>
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T02:58:52">May 30, 2026</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2026-05-30T03:03:52">May 30, 2026</a>.</div>
 </footer>
 </div>
 </body>
