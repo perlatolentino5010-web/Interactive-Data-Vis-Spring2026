@@ -476,31 +476,33 @@ const westDistances = stationDistances
 display(html`
   <div style="
     background: #f4eadf;
-    padding: 12px 16px;
+    padding: 16px 18px;
     border-radius: 12px;
     max-width: 760px;
     font-family: system-ui, sans-serif;
   ">
     <h2 style="
       margin: 0 0 4px 0;
-      font-size: 0.95rem;
+      font-size: 1rem;
       white-space: nowrap;
     ">
-      Suspect Distance to Lake Clearwater Monitoring Stations
+      Who Is Closest to the Damaged West Station?
     </h2>
 
     <div style="
-      font-size: 0.8rem;
-      margin-bottom: 8px;
+      font-size: 0.82rem;
+      margin-bottom: 10px;
+      line-height: 1.35;
     ">
-      Shorter distances may indicate stronger geographic opportunity for contamination.
+      Since the strongest heavy metal spikes and trout decline appear at the West station,
+      this chart narrows the distance evidence to the most important location.
     </div>
 
     ${Plot.plot({
       width: 700,
       height: 250,
-      marginLeft: 150,
-      marginRight: 20,
+      marginLeft: 165,
+      marginRight: 25,
       marginBottom: 40,
 
       style: {
@@ -510,21 +512,20 @@ display(html`
       },
 
       x: {
-        label: "Distance to Monitoring Station (meters)",
+        label: "Distance to West Station (meters) →",
         grid: true,
         tickSize: 6
       },
 
       y: {
         label: null,
-        grid: true
+        domain: westDistances.map(d => d.suspect)
       },
 
       color: {
-        legend: true,
-        label: "Monitoring Station",
-        domain: ["East", "North", "South", "West"],
-        range: ["#b9c9e6", "#74a9cf", "#2b8cbe", "#084081"]
+        legend: false,
+        domain: ["West"],
+        range: ["#084081"]
       },
 
       marks: [
@@ -534,20 +535,38 @@ display(html`
           strokeDasharray: "3,4"
         }),
 
-        Plot.gridY({
-          stroke: "#ffffff",
+        Plot.ruleX([0], {
+          stroke: "#333",
           strokeOpacity: 0.35
         }),
 
-        Plot.dot(stationDistances, {
+        Plot.barX(westDistances, {
           x: "distance_m",
           y: "suspect",
-          fill: "station_id",
+          fill: "#084081",
+          fillOpacity: 0.75,
+          rx: 6,
+          tip: true
+        }),
+
+        Plot.dot(westDistances, {
+          x: "distance_m",
+          y: "suspect",
+          fill: "#084081",
           stroke: "#08304f",
           strokeWidth: 1.2,
-          r: 8,
-          fillOpacity: 0.85,
+          r: 6,
           tip: true
+        }),
+
+        Plot.text(westDistances, {
+          x: "distance_m",
+          y: "suspect",
+          text: d => `${d.distance_m} m`,
+          dx: 10,
+          fill: "#333",
+          fontSize: 12,
+          fontWeight: 600
         })
       ]
     })}
@@ -555,10 +574,10 @@ display(html`
     <div style="
       font-size: 11px;
       text-align: center;
-      margin-top: 4px;
+      margin-top: 6px;
       color: #555;
     ">
-      Blue tones represent Lake Clearwater monitoring stations.
+      Dark blue represents the West station, the location with the strongest evidence of contamination and trout decline.
     </div>
   </div>
 `)
