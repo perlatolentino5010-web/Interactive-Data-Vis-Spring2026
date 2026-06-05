@@ -99,30 +99,38 @@ const weatherData = data.map(d => ({
 ```
 ```js
 Plot.plot({
-  title: "Pollinator Visits by Weather Condition",
+  title: "Pollinator Visits by Weather Condition and Flower Species",
 
-  x: { label: "Weather Condition" },
+  marginLeft: 90,
 
-  y: { label: "Number of Visits" },
+  x: {
+    label: "Number of Visits"
+  },
+
+  y: {
+    label: "Weather Condition"
+  },
 
   color: {
     legend: true,
-    label: "Weather Condition",
-    domain: ["Sunny", "Cloudy", "Rainy"],
-    range: ["#f6c85f", "#9ca3af", "#60a5fa"]
+    label: "Flower Species"
   },
 
   marks: [
-    Plot.barY(
+    Plot.barX(
       weatherData,
-      Plot.groupX(
-        { y: "count" },
+      Plot.groupY(
+        { x: "count" },
         {
-          x: "weather_condition",
-          fill: "weather_condition"
+          y: "weather_condition",
+          fill: "flower_species"
         }
       )
-    )
+    ),
+
+    Plot.ruleX([0], {
+      stroke: "#333"
+    })
   ]
 })
 ```
