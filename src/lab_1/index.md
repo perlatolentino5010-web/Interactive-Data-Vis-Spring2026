@@ -99,7 +99,7 @@ const weatherData = data.map(d => ({
 ```
 ```js
 Plot.plot({
-  title: "Pollinator Visits by Weather Condition and Flower Species",
+  title: "Pollinator Visits by Weather Condition",
 
   marginLeft: 90,
 
@@ -108,12 +108,15 @@ Plot.plot({
   },
 
   y: {
-    label: "Weather Condition"
+    label: "Weather Condition",
+    domain: ["Sunny", "Cloudy", "Rainy"]
   },
 
   color: {
     legend: true,
-    label: "Flower Species"
+    label: "Weather Condition",
+    domain: ["Sunny", "Cloudy", "Rainy"],
+    range: ["#f6c85f", "#9ca3af", "#60a5fa"]
   },
 
   marks: [
@@ -123,7 +126,7 @@ Plot.plot({
         { x: "count" },
         {
           y: "weather_condition",
-          fill: "flower_species"
+          fill: "weather_condition"
         }
       )
     ),
