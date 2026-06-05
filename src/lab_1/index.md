@@ -5,6 +5,8 @@ toc: true
 
 # Lab 1: Passing Pollinators
 
+By Perla Tolentino
+
 ```js
 const data = FileAttachment("./data/pollinator_activity_data.csv")
   .csv({ typed: true })
